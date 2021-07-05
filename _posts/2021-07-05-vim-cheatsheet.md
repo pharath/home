@@ -15,7 +15,7 @@ tags:
 | :h | 
 | :h i_CTRL-R	| lookup meaning of CTRL-R in insert mode (deshalb das i_ prefix; v_ prefix für visual mode usw. s. Tabelle unten drunter) |
 
-![a](https://i.ibb.co/jw1X1nH/Screen-Shot-2021-06-10-at-3-51-04-AM-2.png)
+![Screenshot_table](https://i.ibb.co/jw1X1nH/Screen-Shot-2021-06-10-at-3-51-04-AM-2.png)
 
 | command | description |
 | :---: | :---: |
@@ -26,7 +26,7 @@ tags:
 |ctrl + e, d, y, u 
 
 # regexp:
-(Achtung: in Windows manchmal bisschen anders s. https://superuser.com/a/518231)
+(Achtung: in Windows manchmal bisschen anders s. [https://superuser.com/a/518231](https://superuser.com/a/518231)
 
 | command | description |
 | :---: | :---: |
@@ -71,7 +71,7 @@ ctrl + g | show current file name
 1 + ctrl + g | show current file name + path
 
 ## Mehrere Zeilen auskommentieren: 
-(https://discuss.devopscube.com/t/how-to-comment-and-uncomment-multiple-line-vi-terminal-editor/64)
+[how-to-comment-and-uncomment-multiple-line-vi-terminal-editor](https://discuss.devopscube.com/t/how-to-comment-and-uncomment-multiple-line-vi-terminal-editor/64)
 
 | command | description |
 | :---: | :---: |
@@ -171,7 +171,7 @@ ctrl + g | show current file name
 Esc | gehe in command mode
 
 ## Avoid the escape key: 
-(https://vim.fandom.com/wiki/Avoid_the_escape_key#Avoiding_the_Esc_key)
+[vim.fandom.com](https://vim.fandom.com/wiki/Avoid_the_escape_key#Avoiding_the_Esc_key)
 
 | command | description |
 | :---: | :---: |
@@ -180,6 +180,7 @@ alt + normal mode command | führt "normal mode command" im INSERT mode aus
 ctrl + o + (cmd)	|	switch to command mode for one command (gut für zB ctrl + o + $ oder andere Jump-commands) **<span style="color:red">Note:</span>** cmd nur bei Mac
 
 ## Schreiben
+
 | command | description |
 | :---: | :---: |
 ctrl + x und danach ctrl + o	|	Omnicompletion (navigiere in Dropdown hoch/runter mit ctrl + p/ctrl + n)
