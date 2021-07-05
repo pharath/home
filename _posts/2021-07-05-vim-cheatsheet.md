@@ -14,6 +14,7 @@ tags:
 | :---: | :---: |
 | :h | 
 | :h i_CTRL-R	| lookup meaning of CTRL-R in insert mode (deshalb das i_ prefix; v_ prefix für visual mode usw. s. Tabelle unten drunter) |
+|help :u	|		Manual zu ‘:u’ Befehl (im Manual kann man zB via Befehl ’:v’ zu dem ‘:v’ springen; Ganz oben im Manual steht wie man im Manual navigiert)
 
 ![Screenshot_table](https://i.ibb.co/jw1X1nH/Screen-Shot-2021-06-10-at-3-51-04-AM-2.png)
 
@@ -100,6 +101,18 @@ ctrl + g | show current file name
 -|-
 |?irgend_ein_wort|	suche irgend_ein_wort rückwärts
 -|-
+|:e /path/to/other/file	|öffne anderen file in vim
+-|-
+|:!g++ -g -Wall % |	compile current file (% steht für current file)
+|:!./a.out	|		(after :!g++ -g -Wall %) execute compiled file a.out
+-|-
+|:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
+
+
+## Navigation
+
+| command | description |
+| :---: | :---: |
 |h j k l |			links hoch runter rechts
 -|-
 |line number + shift + g|	spring zu Zeile line number
@@ -140,33 +153,18 @@ ctrl + g | show current file name
 |shift + g | 		Jump to end of file
 |g + g |			Jump to first line of file
 -|-
-|help :u	|		Manual zu ‘:u’ Befehl (im Manual kann man zB via Befehl ’:v’ zu dem ‘:v’ springen; Ganz oben im Manual steht wie man im Manual navigiert)
--|-
 |vi -o /path/to/file1 /path/to/file2	|	öffne 2 files in split screen
 -|-
 |ctrl + w, s	|	öffne neuen split window horizontal
-|ctrl + w, v	|	öffne neuen split window vertical
+|ctrl + w, v	|	öffne neuen split window vertical (oder besser: `:Lexplore`)
 |ctrl + w, &lt;h j k l&gt;|	change active viewport
--|-
-|:Lexplore|
--|-
 |ctrl + r		|	rotate viewport (zum Anordnen der viewports)
 |ctrl + R|
--|-
 |ctrl + w, q	|	schließe aktiven split window
--|-
 |ctrl + w, =	|	resize viewports to be of equal size
 |ctrl + w, &lt;	|	decrease active viewport size (für 8 Einheiten Verkleinerung: ctrl + w, 8, &lt;)
--|-
 |ctrl + 	|		zoom in (anschließend ctrl + w, =)
 |ctrl -		|	zoom out (anschließend ctrl + w, =)
--|-
-|:e /path/to/other/file	|öffne anderen file in vim
--|-
-|:!g++ -g -Wall % |	compile current file (% steht für current file)
-|:!./a.out	|		(after :!g++ -g -Wall %) execute compiled file a.out
--|-
-|:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
 
 # In INSERT mode
 
