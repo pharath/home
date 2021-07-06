@@ -200,3 +200,4 @@ ctrl + r dann % | insert current file name
 Swap files store changes you've made to the buffer. If Vim or your computer crashes, they allow you to recover those changes.
 Swap files also provide a way to avoid multiple instances of Vim from editing the same file. This can be useful on multi-user systems or just to know if you have another Vim already editing a file.
 [s. stackexcange question](https://vi.stackexchange.com/questions/177/what-is-the-purpose-of-swap-files)
+
