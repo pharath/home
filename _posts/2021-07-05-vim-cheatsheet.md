@@ -20,11 +20,11 @@ tags:
 
 | command | description |
 | :---: | :---: |
-:h Q_<tab> | 
-:h quickref	|							und dann eg /_sc um auf Q_sc tag zu springen
+|:h Q_<tab> 
+|:h quickref	|							und dann eg /_sc um auf Q_sc tag zu springen
 |ctrl + ] (während cursor auf einem tag)	|		springe zu selected tag
 |/pattern |	zB /^i springt zur nächsten Zeile, die mit i anfängt
-ctrl + e, d, y, u |
+|ctrl + e, d, y, u 
 
 # regexp:
 (Achtung: in Windows manchmal bisschen anders s. [https://superuser.com/a/518231](https://superuser.com/a/518231)
@@ -38,7 +38,7 @@ ctrl + e, d, y, u |
 
 | command | description |
 | :---: | :---: |
-|vim . |			öffne netrw in current dir
+|vim .			öffne netrw in current dir
 
 # In netrw:
 
@@ -80,11 +80,7 @@ ctrl + g | show current file name
 2. Shift + i	|		enter Insert mode (while in Block mode)
 3. “		|		Kommentarsymbol am Anfang der ersten Zeile eingeben (while in Block mode)
 4. Esc		|		drücken und 1 sec warten (bis das Kommentarsymbol vor allen Zeilen im Block auftaucht)
-
-## Vim command line commands:
-
-| command | description |
-| :---: | :---: |
+-|-
 |:terminal|
 -|-
 |:syntax on|
