@@ -288,6 +288,7 @@ cat /proc/partitions |
 sudo hdparm -i /dev/sda |
 
 # Retrieval commands curl und wget:
+
 | command | description |
 | :---: | :---: |
 wget -O output_file -q https://checkip.amazonaws.com	|	-O output_file: benutze Minuszeichen “-“ statt output_file wenn output direkt in Terminal erscheinen soll; -q für quiet
