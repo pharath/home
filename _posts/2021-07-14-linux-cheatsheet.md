@@ -2,7 +2,7 @@
 title: "Linux Cheatsheet"
 excerpt_separator: "<!--more-->"
 categories:
-  - Blog
+  - Cheatsheet
 tags:
   - linux
   - cheatsheet

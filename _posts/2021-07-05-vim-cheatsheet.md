@@ -1,8 +1,9 @@
 ---
 title: "Vim Cheatsheet"
+site.read_time: false
 excerpt_separator: "<!--more-->"
 categories:
-  - Blog
+  - Cheatsheet
 tags:
   - vim
   - cheatsheet
