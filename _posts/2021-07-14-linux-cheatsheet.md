@@ -117,9 +117,10 @@ sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
 
 ## dpkg
+
 | command | description |
 | :---: | :---: |
-sudo dpkg -l \| less	|			list all installed dpkg packages
+sudo dpkg -l \| less	| list all installed dpkg packages
 -|-
 |**Tipp:**|AM BESTEN DIE FOLGENDEN 3 ALLE AUSFÜHREN, DA JEDER EINEN ANDEREN OUTPUT HAT !
 sudo dpkg -l package	|		confirm whether package is already installed (wenn nicht installed, dann wird “no packages found matching package” angezeigt) (ACHTUNG: exakten Namen schreiben, zB “lua” findet “lua5.1” nicht !) 
