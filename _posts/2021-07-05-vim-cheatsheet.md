@@ -1,6 +1,6 @@
 ---
 title: "Vim Cheatsheet"
-site.read_time: false
+site.read_time: False
 excerpt_separator: "<!--more-->"
 categories:
   - Cheatsheet
