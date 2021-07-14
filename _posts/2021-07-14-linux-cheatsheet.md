@@ -104,7 +104,7 @@ top	|					activity monitor
 # apt, apt-get, snap, dpkg
 
 ## Difference between apt and apt-get + apt-cache:
-- `apt` = most commonly used command options from `apt-get` and `apt-cache` (https://itsfoss.com/apt-vs-apt-get-difference/)
+- `apt` = most commonly used command options from `apt-get` and `apt-cache` see [here](https://itsfoss.com/apt-vs-apt-get-difference/)
 - So with `apt`, you get all the necessary tools in one place. You won’t be lost under tons of command options. The main aim of `apt` is to provide an efficient way of handling packages in a way “pleasant for end users”.
 - `apt`:
     - shows progress bar while installing or removing a program
@@ -127,7 +127,7 @@ sudo dpkg -l package	|		confirm whether package is already installed (wenn nicht
 sudo dpkg -l \| grep package	|	confirm whether package is already installed (wenn nicht installed, dann wird nichts angezeigt) (ACHTUNG regexp: zB “lua” findet “lua5.1” ! )
 sudo dpkg-query -s package	| prüfe ob package installiert ist (ACHTUNG regexp: exakten Namen schreiben, zB “lua” findet “lua5.1” nicht !) und print weitere Informationen zum package
 
-![how-to-show-history-of-installed-packages](https://www.linuxuprising.com/2019/01/how-to-show-history-of-installed.html)
+[how-to-show-history-of-installed-packages](https://www.linuxuprising.com/2019/01/how-to-show-history-of-installed.html)
 
 | command | description |
 | :---: | :---: |
