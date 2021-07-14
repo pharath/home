@@ -21,10 +21,10 @@ tags:
 | command | description |
 | :---: | :---: |
 |:h Q\_&lt;tab&gt; |
-|:h quickref	|							und dann eg /_sc um auf Q_sc tag zu springen
+|:h quickref	| und dann eg /_sc um auf Q_sc tag zu springen
 |ctrl + ] (während cursor auf einem tag)	|		springe zu selected tag
 |/pattern |	zB /^i springt zur nächsten Zeile, die mit i anfängt
-|ctrl + e, d, y, u 
+|ctrl + e, d, y, u |
 
 # regexp:
 (Achtung: in Windows manchmal bisschen anders s. [https://superuser.com/a/518231](https://superuser.com/a/518231)
