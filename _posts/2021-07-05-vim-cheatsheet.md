@@ -20,7 +20,7 @@ tags:
 
 | command | description |
 | :---: | :---: |
-|:h Q_<tab> 
+|:h Q\_&lt;tab&gt; |
 |:h quickref	|							und dann eg /_sc um auf Q_sc tag zu springen
 |ctrl + ] (während cursor auf einem tag)	|		springe zu selected tag
 |/pattern |	zB /^i springt zur nächsten Zeile, die mit i anfängt
