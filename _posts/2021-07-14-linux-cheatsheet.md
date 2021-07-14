@@ -187,7 +187,7 @@ $PATH |			Variable, die alle Pfade enthält, in denen Shell-Programme/Shell-Befe
 which python3 |		
 whereis python3	|
 -|-
-find /opt/ -iname pattern |						find all files (hier: in dir /opt/ ), for which base of file name (path with leading dirs removed) matches shell pattern pattern (Achtung: pattern muss genau übereinstimmen! Falls Endung unbekannt, mit Sternchen * am Ende suchen, dh. pattern* statt pattern suchen (wie bei “ls” Befehl).
+find /opt/ -iname pattern |						find all files (hier: in dir /opt/ ), for which base of file name (path with leading dirs removed) matches shell pattern pattern (Achtung: pattern muss genau übereinstimmen! Falls Endung unbekannt, mit Sternchen `*` am Ende suchen, dh. `pattern\*` statt `pattern` suchen (wie bei `ls` Befehl).
 find /opt/ -name pattern |						wie -iname, aber case-sensitive
 find /opt/ -iname pattern -type f |					nur files suchen
 find /opt/ -iname pattern -type d |					nur dirs suchen
@@ -202,7 +202,7 @@ cmd + oben	|	focus letzte input Zeile (zB gut, wenn man zB schnell hochscrollen 
 -|-
 tty	|			zeigt Namen des aktiven terminals
 -|-
-ls -ltr /dev/ttys*	| zeigt Namen aller aktiven terminals 
+ls -ltr /dev/ttys\*	| zeigt Namen aller aktiven terminals 
 -|-
 last | 				zeige letzte terminal logins
 -|-
