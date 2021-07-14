@@ -76,13 +76,14 @@ ctrl + shift + l |		focus note selection
 ctrl + shift + b |	focus body
 ctrl + shift + n |	focus title
 
-# My alias
+# My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
 
 `alias l='ls -CF'`
 `alias la='ls -A'`
 `alias ll='ls -alF'`
+
 (die restlichen Ubuntu alias gehen nicht wegen Doppelbindestrich Argument —color=auto)
 
 # General commands
