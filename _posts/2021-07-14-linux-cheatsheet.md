@@ -80,10 +80,9 @@ ctrl + shift + n |	focus title
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
 
-`alias l='ls -CF'`
-`alias la='ls -A'`
-`alias ll='ls -alF'`
-
+`alias l='ls -CF'` <br />
+`alias la='ls -A'` <br />
+`alias ll='ls -alF'` <br />
 (die restlichen Ubuntu alias gehen nicht wegen Doppelbindestrich Argument —color=auto)
 
 # General commands
