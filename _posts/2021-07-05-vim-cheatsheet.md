@@ -9,6 +9,11 @@ tags:
   - cheatsheet
 ---
 
+1. [Help](#help)
+2. [Regexp](#regexp)
+3. [Von Shell aus](#von-shell-aus)
+4. [In netrw](#In-netrw)
+
 # help:
 
 | command | description |
