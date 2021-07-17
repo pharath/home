@@ -77,6 +77,10 @@ ctrl + shift + l |		focus note selection
 ctrl + shift + b |	focus body
 ctrl + shift + n |	focus title
 
+| command | description |
+| :---: | :---: |
+bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" | installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
