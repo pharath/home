@@ -79,7 +79,9 @@ ctrl + shift + n |	focus title
 
 | command | description |
 | :---: | :---: |
-bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" | installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
+1. Download https://apt.llvm.org/llvm.sh |
+2. chmod u+x ~/Downloads/llvm.sh |
+3. bash -c ~/Downloads/llvm.sh | installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
 
 # My aliases
 
