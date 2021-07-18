@@ -12,11 +12,11 @@ tags:
 1. [Help](#help)
 2. [Regexp](#regexp)
 3. [Von Shell aus](#von-shell-aus)
-4. [In netrw](#In-netrw)
-5. [In COMMAND mode](#In-command-mode)
-6. [In INSERT mode](#In-insert-mode)
-7. [General facts](#General-facts)
-8. [Extensions](#Extensions)
+4. [In netrw](#in-netrw)
+5. [In COMMAND mode](#in-command-mode)
+6. [In INSERT mode](#in-insert-mode)
+7. [General facts](#general-facts)
+8. [Extensions](#extensions)
 
 # help:
 
