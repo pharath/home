@@ -237,7 +237,7 @@ cp -iv |
 | command | description |
 | :---: | :---: |
 unzip file -d destination	|	unzip to destination
-tar -C ./data/ -zxvf ~/Downloads/mnist.tgz | für .tgz (wobei -C target_location -zxvf source.tgz)
+tar -C ./data/ -zxvf ~/Downloads/mnist.tgz | für .tgz (wobei -C target_location -zxvf source.tgz), .tar.gz
 oder andersrum: |
 tar -zxvf ~/Downloads/mnist.tgz -C ./data/ |
 tar -C ./data/ -jxvf ~/Downloads/datei.tar.bz2 | für .tar.bz2 (dh. -j flag statt -z flag)
