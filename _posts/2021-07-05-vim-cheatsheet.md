@@ -13,6 +13,10 @@ tags:
 2. [Regexp](#regexp)
 3. [Von Shell aus](#von-shell-aus)
 4. [In netrw](#In-netrw)
+5. [In COMMAND mode](#In-command-mode)
+6. [In INSERT mode](#In-insert-mode)
+7. [General facts](#General-facts)
+8. [Extensions](#Extensions)
 
 # help:
 
@@ -196,10 +200,22 @@ ctrl + d		|	unindent
 -|-
 ctrl + r dann % | insert current file name
 
-# General facts:
+# General facts
 
 ## Reasons for swap files (.swp)
 Swap files store changes you've made to the buffer. If Vim or your computer crashes, they allow you to recover those changes.
 Swap files also provide a way to avoid multiple instances of Vim from editing the same file. This can be useful on multi-user systems or just to know if you have another Vim already editing a file.
 [s. stackexcange question](https://vi.stackexchange.com/questions/177/what-is-the-purpose-of-swap-files)
 
+# Extensions
+
+## Autocomplete clang_complete 
+
+| command | description |
+| :---: | :---: |
+1. Download https://apt.llvm.org/llvm.sh |
+2. chmod u+x ~/Downloads/llvm.sh |
+3. bash -c ~/Downloads/llvm.sh | installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
+4. Install https://github.com/xavierd/clang_complete | with minimum Configuration (optional: make `.clang_complete` file for setting Compiler options)
+5. cd /usr/lib/llvm-12/lib | look for libclang.so.1 file
+6. ln -s libclang.so.1 libclang.so | make a symlink (=symbolic link) called libclang.so to libclang.so.1 in this directory
