@@ -77,6 +77,10 @@ ctrl + shift + l |		focus note selection
 ctrl + shift + b |	focus body
 ctrl + shift + n |	focus title
 
+| command | description |
+| :---: | :---: |
+dconf-editor | zB `gsettings set org.gnome.desktop.interface clock-show-weekday true` geht irgendwie nicht, stattdessen in dconf-editor zu org.gnome.desktop.interface navigieren und clock-show-weekday aktivieren. 
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
