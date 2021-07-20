@@ -23,6 +23,7 @@ tags:
 
 # Apps:
 
+| command | description |
 | :---: | :---: |
 htop |				activity monitor (sieht besser aus als “top”)
 hardinfo	|		hardware info
@@ -30,13 +31,13 @@ hardinfo	|		hardware info
 | :---: | :---: |
 ffmpeg | mp4 to mp3 converter
 ffmpeg -i foo.mp4 bar.mp3 | convert foo.mp4 to bar.mp3
-
+<hr>
 | :---: | :---: |
 goldendict |		dict for fast lookup (ctrl + c + c)
-
+<hr>
 | :---: | :---: |
 pycharm-community |
-
+<hr>
 | :---: | :---: |
 docker |
 xhost +local:root |	enable GUI for docker
@@ -44,30 +45,30 @@ docker login registry.git.rwth-aachen.de |
 docker pull |
 
 see also [other commands](##Groups_docker)
-
+<hr>
 | :---: | :---: |
 retext markdown_file.md	|			edit markdown_file.md
 retext —preview markdown_file.md |		preview markdown_file.md
 |**Tipp:**| Shortcuts: s. Menu -> File und Edit
 ctrl + e |								preview on/off
 ctrl + l |								live preview on/off (die live updates brauchen manchmal bisschen)
-
+<hr>
 | :---: | :---: |
 eog	|			picture viewer (shortcuts: https://help.gnome.org/users/eog/stable/index.html.en)
-
+<hr>
 | :---: | :---: |
 pinta	|		picture editor (shortcuts: https://www.pinta-project.com/user-guide/shortcuts/)
-
+<hr>
 | :---: | :---: |
 gedit |			texteditor
 zum Lesen:	| unter F10/Preferences/Font & Colors/ Font ändern zu “TeX Gyre Termes Math Regular”
 ctrl + h	|		find and replace (halte im “Find & Replace”-Fenster `alt` gedrückt für schnelle Auswahl der Optionen)
 F10	|			menu (u.a. Shortcuts)
 F1	|			help, Shortcut overview
-
+<hr>
 | :---: | :---: |
 kazam |			screen recorder
-
+<hr>
 | :---: | :---: |
 joplin |			Notes
 alt + entsprechende Taste im menu |				im Menu stehen alle Shortcuts !
@@ -77,10 +78,10 @@ F11	|			show all Notes sidebar
 ctrl + shift + l |		focus note selection
 ctrl + shift + b |	focus body
 ctrl + shift + n |	focus title
-
+<hr>
 | :---: | :---: |
 dconf-editor | zB `gsettings set org.gnome.desktop.interface clock-show-weekday true` geht irgendwie nicht, stattdessen in dconf-editor zu org.gnome.desktop.interface navigieren und clock-show-weekday aktivieren. 
-
+<hr>
 | :---: | :---: |
 lm-sensors | get CPU temperature (using command `sensors`)
 
