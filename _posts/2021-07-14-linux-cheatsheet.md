@@ -23,25 +23,21 @@ tags:
 
 # Apps:
 
-| command | description |
 | :---: | :---: |
 htop |				activity monitor (sieht besser aus als “top”)
 hardinfo	|		hardware info
 
-| command | description |
+
 | :---: | :---: |
 ffmpeg | mp4 to mp3 converter
 ffmpeg -i foo.mp4 bar.mp3 | convert foo.mp4 to bar.mp3
 
-| command | description |
 | :---: | :---: |
 goldendict |		dict for fast lookup (ctrl + c + c)
 
-| command | description |
 | :---: | :---: |
 pycharm-community |
 
-| command | description |
 | :---: | :---: |
 docker |
 xhost +local:root |	enable GUI for docker
@@ -50,7 +46,6 @@ docker pull |
 
 see also [other commands](##Groups_docker)
 
-| command | description |
 | :---: | :---: |
 retext markdown_file.md	|			edit markdown_file.md
 retext —preview markdown_file.md |		preview markdown_file.md
@@ -58,15 +53,12 @@ retext —preview markdown_file.md |		preview markdown_file.md
 ctrl + e |								preview on/off
 ctrl + l |								live preview on/off (die live updates brauchen manchmal bisschen)
 
-| command | description |
 | :---: | :---: |
 eog	|			picture viewer (shortcuts: https://help.gnome.org/users/eog/stable/index.html.en)
 
-| command | description |
 | :---: | :---: |
 pinta	|		picture editor (shortcuts: https://www.pinta-project.com/user-guide/shortcuts/)
 
-| command | description |
 | :---: | :---: |
 gedit |			texteditor
 zum Lesen:	| unter F10/Preferences/Font & Colors/ Font ändern zu “TeX Gyre Termes Math Regular”
@@ -74,11 +66,9 @@ ctrl + h	|		find and replace (halte im “Find & Replace”-Fenster `alt` gedrü
 F10	|			menu (u.a. Shortcuts)
 F1	|			help, Shortcut overview
 
-| command | description |
 | :---: | :---: |
 kazam |			screen recorder
 
-| command | description |
 | :---: | :---: |
 joplin |			Notes
 alt + entsprechende Taste im menu |				im Menu stehen alle Shortcuts !
@@ -88,11 +78,10 @@ F11	|			show all Notes sidebar
 ctrl + shift + l |		focus note selection
 ctrl + shift + b |	focus body
 ctrl + shift + n |	focus title
----
-| command | description |
+
 | :---: | :---: |
 dconf-editor | zB `gsettings set org.gnome.desktop.interface clock-show-weekday true` geht irgendwie nicht, stattdessen in dconf-editor zu org.gnome.desktop.interface navigieren und clock-show-weekday aktivieren. 
----
+
 | :---: | :---: |
 lm-sensors | get CPU temperature (using command `sensors`)
 
