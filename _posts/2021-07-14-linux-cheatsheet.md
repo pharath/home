@@ -26,8 +26,7 @@ tags:
 | :---: | :---: |
 htop |				activity monitor (sieht besser aus als “top”)
 hardinfo	|		hardware info
-
-
+___
 | :---: | :---: |
 ffmpeg | mp4 to mp3 converter
 ffmpeg -i foo.mp4 bar.mp3 | convert foo.mp4 to bar.mp3
