@@ -9,7 +9,19 @@ tags:
   - cheatsheet
 ---
 
-# apps:
+1. [Apps](#apps)
+2. [My aliases](#my-aliases)
+3. [General Commands](#general-commands)
+4. [apt, apt-get, snap, dpkg](#apt-apt-get-snap-dpkg)
+5. [System information](#system-information)
+6. [Groups, docker](#groups-docker)
+7. [Bash](#bash) 
+8. [Unzipping](#unzipping)
+9. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
+10. [System information 2](#system-information)
+11. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
+
+# Apps:
 
 | command | description |
 | :---: | :---: |
@@ -180,7 +192,7 @@ getent group docker |		list all members of group docker
 -|-
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
-newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen)
+newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
 
 # bash
 
