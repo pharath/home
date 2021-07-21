@@ -133,6 +133,7 @@ xdg-open file	|			open file using default application
 gio open file		|		same as xdg-open, but depends on what desktop the user has installed, whereas xdg-open is desktop agnostic
 -|-
 top	|					activity monitor
+ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 
 # apt, apt-get, snap, dpkg
 
