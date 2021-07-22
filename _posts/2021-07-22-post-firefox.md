@@ -15,12 +15,12 @@ tags:
 
 # Tools
 
-about:about
-about:preferences
-about:performance
-about:config
-about:addons (**besser**: about:addons#extensions) 
-about:memory
+- about:about
+- about:preferences
+- about:performance
+- about:config
+- about:addons (**besser**: about:addons#extensions) 
+- about:memory
 
 # Shortcuts
 
