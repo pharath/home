@@ -10,6 +10,7 @@ tags:
 ---
 
 1. [Navigation](#navigation)
+2. [Setup](#setup)
 
 # Navigation
 
