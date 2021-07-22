@@ -92,10 +92,11 @@ ctrl + g | show current file name
 4. Esc		|		drücken und 1 sec warten (bis das Kommentarsymbol vor allen Zeilen im Block auftaucht)
 -|-
 |:terminal|
--|-
 |:syntax on|
--|-
 |:set number|
+|:set nonumber|
+|:set hlsearch| 
+|:set nohlsearch|
 -|-
 |:filetype indent plugin on |
 -|-
@@ -113,7 +114,9 @@ ctrl + g | show current file name
 |:!./a.out	|		(after :!g++ -g -Wall %) execute compiled file a.out
 -|-
 |:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
-
+-|-
+ctrl - k *digraph_id* | to type special characters that are not on the keyboard
+:dig | list all digraphs (see :h digraph)
 
 ## Navigation
 
