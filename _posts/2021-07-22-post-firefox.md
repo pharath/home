@@ -22,6 +22,7 @@ about:addons (**besser**: about:addons#extensions)
 about:memory
 
 # Shortcuts
+
 | command | description |
 | :---: | :---: |
 cmd + shift + n | open recently closed window
