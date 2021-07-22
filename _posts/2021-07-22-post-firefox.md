@@ -14,6 +14,7 @@ tags:
 3. [Addons](#addons)
 
 # Tools
+
 about:about
 about:preferences
 about:performance
@@ -27,8 +28,11 @@ about:memory
 | :---: | :---: |
 cmd + shift + n | open recently closed window
 cmd + shift + t	| open recently closed tab
+cmd + shift + b | hide/show bookmarks toolbar
+alt + b (linux: ctrl + alt + b) | hide/show bookmark search plus pane
 
 # Addons
+
 - Adblock Plus
 - Bookmark Serch Plus 2
 - DownThemAll!
