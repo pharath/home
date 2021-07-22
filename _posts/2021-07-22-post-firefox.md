@@ -1,4 +1,4 @@
-----
+---
 title: "Firefox Setup"
 read_time: false
 excerpt_separator: "<!--more-->"
