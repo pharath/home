@@ -46,3 +46,4 @@ alt + b (linux: ctrl + alt + b) | hide/show bookmark search plus pane
 - Textmarker
 - TeXZilla
 - Web Search Navigator
+- Vimium-FF (by Stephen Blott, Phil Crosby)
