@@ -55,15 +55,11 @@ tags:
 | command | description |
 | :---: | :---: |
 |F1	|			help
--|-
 |i	|			change listing style
--|-
 |d	|			new directory
 |%	|			new file
--|-
 |s	|			cycle through sort order
 |r	|			reverse current sort order
--|-
 |:Lexplore	 (in vim)	|	öffnet netrw links und jeder gewählte file wird rechts geöffnet (gut zum Browsen)
 
 # In COMMAND mode
@@ -71,13 +67,10 @@ tags:
 | command | description |
 | :---: | :---: |
 a |				gehe in INSERT modus
--|-
 |shift + z q	|	wie :q!
 |shift + z z	|	wie :x ( dasselbe wie :wq, aber :wq überschreibt auch wenn keine modification [nur wichtig, falls modification times matter] )
--|-
 1. ctrl + z     |        pause and switch to terminal
 2. in terminal: fg |   go back to vim
--|-
 ctrl + g | show current file name
 1 + ctrl + g | show current file name + path
 
@@ -90,31 +83,21 @@ ctrl + g | show current file name
 2. Shift + i	|		enter Insert mode (while in Block mode)
 3. “		|		Kommentarsymbol am Anfang der ersten Zeile eingeben (while in Block mode)
 4. Esc		|		drücken und 1 sec warten (bis das Kommentarsymbol vor allen Zeilen im Block auftaucht)
--|-
 |:terminal|
 |:syntax on|
 |:set number|
 |:set nonumber|
 |:set hlsearch| 
 |:set nohlsearch|
--|-
 |:filetype indent plugin on |
--|-
 |:so $VIMRUNTIME/syntax/python.vim| aktiviere Python Syntax
--|-
 |:h |				Hilfe (in Hilfe Cursor auf 	Tag zB \|syntax.txt\| platzieren ctrl + alt + 6 und ctrl + alt + 6 um auf content zu springen)
--|-
 |/irgend_ein_wort|	suche irgend_ein_wort vorwärts (springt zum ersten solchen Wort, drücke n für nächstes Wort und N für previous occurrence)
--|-
 |?irgend_ein_wort|	suche irgend_ein_wort rückwärts
--|-
 |:e /path/to/other/file	|öffne anderen file in vim
--|-
 |:!g++ -g -Wall % |	compile current file (% steht für current file)
 |:!./a.out	|		(after :!g++ -g -Wall %) execute compiled file a.out
--|-
 |:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
--|-
 ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 :dig | list all digraphs (see :h digraph)
 
@@ -123,7 +106,6 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 | command | description |
 | :---: | :---: |
 |h j k l |			links hoch runter rechts
--|-
 |line number + shift + g|	spring zu Zeile line number
 |0	|			spring zu Zeilenanfang
 |$	|			spring zu Zeilenende
@@ -135,41 +117,32 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |ctrl + u	|		spring 1/2 window nach oben
 |ctrl + f       |		spring 1 window nach unten (Merke: "f" für forward)
 |ctrl + b       |		spring 1 window nach oben (Merke: "b" für backward)
--|-
 |v	|			markieren
 |Shift + v	|		Zeile markieren
 |x	|			cut
 |p		|		paste
--|-
 |o	|			insert new line below
--|-
 |d w|				delete (=cut) to the start of next word
 |d i w		|		delete (=cut) current word
 |5 d w		|	delete (=cut) next 5 words
 |d d	|			delete (=cut) current line
 |d %	|			delete (=cut) betw matching brackets {}, [], ()
 |d $	|			delete (=cut) to end of line
--|-
 |y w	|			yank to the start of next word
 |y i w		|		yank current word
 |y y	|			yank current line
 |y %		|		yank to the matching character (useful to copy text betw matching brackets {}, [], () )
--|-
 |&gt;&gt;		|		indent (in Insert mode: ctrl + t)
 |&lt;&lt;		|		unindent (in Insert mode: ctrl + d)
 |10&lt;&lt;	|		unindent 10 lines
 |&lt;%		|		unindent betw matching brackets {}, [], ()
--|-
 |u oder :u	|		undo last change
 |ctrl + r	|		redo
--|-			
 |shift + g | 		Jump to end of file
 |g + g |			Jump to first line of file
 |ctrl + o | Jump to previous cursor position
 |ctrl + i | Jump to next cursor position
--|-
 |vi -o /path/to/file1 /path/to/file2	|	öffne 2 files in split screen
--|-
 |ctrl + w, s	|	öffne neuen split window horizontal
 |ctrl + w, v	|	öffne neuen split window vertical (oder besser: `:Lexplore`)
 |ctrl + w, &lt;h j k l&gt;|	change active viewport
@@ -203,10 +176,8 @@ ctrl + o + (cmd)	|	switch to command mode for one command (gut für zB ctrl + o 
 ctrl + x und danach ctrl + o	|	Omnicompletion (navigiere in Dropdown hoch/runter mit ctrl + p/ctrl + n)
 ctrl + p	|		completion with previous matching pattern
 ctrl + n 	|		completion with next matching pattern
--|-
 ctrl + t		|	indent
 ctrl + d		|	unindent
--|-
 ctrl + r dann % | insert current file name
 
 # General facts
