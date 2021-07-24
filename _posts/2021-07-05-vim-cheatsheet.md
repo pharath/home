@@ -161,6 +161,8 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 -|-			
 |shift + g | 		Jump to end of file
 |g + g |			Jump to first line of file
+|ctrl + o | Jump to previous cursor position
+|ctrl + i | Jump to next cursor position
 -|-
 |vi -o /path/to/file1 /path/to/file2	|	öffne 2 files in split screen
 -|-
