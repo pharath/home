@@ -114,6 +114,8 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |e	|			spring zu Wortende
 |\* |				jump to next occurrence of the word under the cursor (then navigate back and forth with "n" and "shift + n")
 |f x |				spring zum nächsten "x" in der Zeile (repeat mit ";", reverse mit ",")
+|ctrl + e	| 		scroll window one line down
+|ctrl + y	|		scroll window one line up 
 |ctrl + d	|		spring 1/2 window nach unten
 |ctrl + u	|		spring 1/2 window nach oben
 |ctrl + f       |		spring 1 window nach unten (Merke: "f" für forward)
