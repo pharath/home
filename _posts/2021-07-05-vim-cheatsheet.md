@@ -42,7 +42,9 @@ tags:
 | command | description |
 | :---: | :---: |
 ^	|			beginning of line ( praktisch für netrw: zB für jump to nächstem Ordner der mit “i” anfängt: /^i )
-\n |	linebreak (man kann damit auch linebreaks suchen und mit einem whitespace (ie einfach 1x Leertaste) ersetzen)
+\n oder \r |	linebreak (man kann damit auch linebreaks suchen und mit einem whitespace (ie einfach 1x Leertaste) ersetzen)
+|:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
+|:g/pattern/d | remove all lines containing "pattern"
 
 # Von Shell aus:
 
@@ -97,7 +99,6 @@ ctrl + g | show current file name
 |:e /path/to/other/file	|öffne anderen file in vim
 |:!g++ -g -Wall % |	compile current file (% steht für current file)
 |:!./a.out	|		(after :!g++ -g -Wall %) execute compiled file a.out
-|:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
 ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 :dig | list all digraphs (see :h digraph)
 
