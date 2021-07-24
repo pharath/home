@@ -129,8 +129,11 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |$	|			spring zu Zeilenende
 |b	|			spring zu Wortanfang
 |e	|			spring zu Wortende
+|f x |				spring zum nächsten "x" in der Zeile (repeat mit ";", reverse mit ",")
 |ctrl + d	|		spring 1/2 window nach unten
 |ctrl + u	|		spring 1/2 window nach oben
+|ctrl + f       |		spring 1 window nach unten (Merke: "f" für forward)
+|ctrl + b       |		spring 1 window nach oben (Merke: "b" für backward)
 -|-
 |v	|			markieren
 |Shift + v	|		Zeile markieren
