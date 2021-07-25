@@ -210,6 +210,8 @@ getent group docker |		list all members of group docker
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
+sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
+sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
 
 # bash
 
