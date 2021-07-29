@@ -37,6 +37,11 @@ ffmpeg -i foo.mp4 bar.mp3 | convert foo.mp4 to bar.mp3
 <hr>
 
 | :---: | :---: |
+pyTranscriber | generates subtitles for `.mp3` files via Google Speech Recognition API using Autosub (GUI)
+
+<hr>
+
+| :---: | :---: |
 goldendict |		dict for fast lookup (ctrl + c + c)
 
 <hr>
