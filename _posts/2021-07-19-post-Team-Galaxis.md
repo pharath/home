@@ -1,6 +1,6 @@
 ---
 title: "Notes"
-read_time: true 
+read_time: false
 excerpt_separator: "<!--more-->"
 categories:
   - Notes 
