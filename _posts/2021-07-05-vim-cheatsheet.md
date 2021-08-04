@@ -198,7 +198,7 @@ Swap files also provide a way to avoid multiple instances of Vim from editing th
 | :---: | :---: |
 1. Download https://apt.llvm.org/llvm.sh |
 2. chmod u+x ~/Downloads/llvm.sh |
-3. bash -c ~/Downloads/llvm.sh | installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
-4. Install https://github.com/xavierd/clang_complete | with minimum Configuration (optional: make `.clang_complete` file for setting Compiler options)
+3. bash -c ~/Downloads/llvm.sh | (einige dependencies - output sagt welche - müssen evtl. manuell nachinstalliert werden) installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
+4. Install https://github.com/xavierd/clang_complete | with minimum Configuration (Achtung: hier im `.vimrc` stattdessen `:let g:clang_library_path='/usr/lib/llvm-12/lib'` einsetzen, dh. die richtige llvm Version) (optional: make `.clang_complete` file for setting Compiler options)
 5. cd /usr/lib/llvm-12/lib | look for libclang.so.1 file
 6. ln -s libclang.so.1 libclang.so | make a symlink (=symbolic link) called libclang.so to libclang.so.1 in this directory
