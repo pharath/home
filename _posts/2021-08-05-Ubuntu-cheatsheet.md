@@ -9,7 +9,7 @@ tags:
 - cheatsheet
 ---
 
-1. [General Shortcuts](#general_shortcuts)
+1. [General Shortcuts](#general-shortcuts)
 
 # General Shortcuts
 
