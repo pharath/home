@@ -154,6 +154,8 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 | :---: | :---: |
 sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
+sudo apt check |	list broken packages
+apt --help |
 
 ## dpkg
 
@@ -176,6 +178,8 @@ zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go 
 -|-
 sudo dpkg -i package_file.deb |	install package_file.deb
 sudo apt remove package |		uninstall package_file.deb
+-|-
+dpkg -l \| grep ^..r   |   list all broken packages (**r** state (on the third field) means: reinst-required (package broken, reinstallation required))
 
 ## snap
 
