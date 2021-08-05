@@ -154,7 +154,6 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 | :---: | :---: |
 sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
-sudo apt check |	list broken packages
 apt --help |
 
 ## dpkg
