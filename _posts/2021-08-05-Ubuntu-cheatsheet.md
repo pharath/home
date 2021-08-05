@@ -9,6 +9,8 @@ tags:
 - cheatsheet
 ---
 
+1. [General Shortcuts](#general_shortcuts)
+
 # General Shortcuts
 
 ## For Bluetooth
