@@ -32,7 +32,7 @@ sudo chmod +x /path/to/script.sh
 
 (if it does not execute, copy it to ~/Desktop/. There right-click on it and select "Allow Launching".)
 
-![allow launching pic](https://ibb.co/tLtWmVP)
+![allow launching pic](https://i.ibb.co/2ZQfnGY/allow-launching.png)
 
 - Move .desktop file to `/usr/share/applications/`. Press `Super` to open Activities and in the application grid view select "All" (instead of "Frequent") and search the created .desktop file there. Right-click on it and select "Add to Favorites". Now the .desktop file should be in the dock and can be accessed via shortcut `Super + <position_in_dock>`.
 
