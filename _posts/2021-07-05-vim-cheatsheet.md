@@ -43,8 +43,10 @@ tags:
 | :---: | :---: |
 ^	|			beginning of line ( praktisch für netrw: zB für jump to nächstem Ordner der mit “i” anfängt: /^i )
 \n oder \r |	linebreak (man kann damit auch linebreaks suchen und mit einem whitespace (ie einfach 1x Leertaste) ersetzen)
-|:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
-|:g/pattern/d | remove all lines containing "pattern"
+:%s/pattern/replace/g	|	find pattern (regexp) and replace with replace (Achtung: Sonderzeichen (eg. Klammern, Punkt, …) muss ein \ vorangestellt werden!)
+:g/pattern/d | remove all lines containing "pattern"
+^\R  |  blank line (exact empty line)
+^\h\*\R | for empty lines with blanks, only
 
 # Von Shell aus:
 
