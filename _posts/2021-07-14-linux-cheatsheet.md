@@ -199,11 +199,13 @@ hostnamectl |				Ubuntu Version (mittel) mit Linux Kernel Version
 uname -r | 				Linux Kernel Version
 uname -a |				print system information
 
-# Groups, docker
+# chmod, Groups, docker
 <a name="Groups_docker"></a>
 
 | command | description |
 | :---: | :---: |
+chmod *<permissions> <file>* |     is an abbreviation of change mode. A file's mode is the set of permissions attached to it that control access. Zu *<permissions>*: s. [here](https://askubuntu.com/tags/chmod/info).
+-|-
 groups |					list all groups the currently logged in user belongs to (first group is the primary group)
 groups user |				same as “groups”, but for specific user “user”
 id |						“
