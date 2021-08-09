@@ -172,6 +172,7 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
 apt --help |
+sudo apt autoremove |   remove not needed packages (NOTE: This command will remove all unused packages (orphaned dependencies). Explicitly installed packages will remain.)
 
 ## dpkg
 
@@ -188,7 +189,7 @@ see also [how-to-show-history-of-installed-packages](https://www.linuxuprising.c
 
 | command | description |
 | :---: | :---: |
-grep " install \| remove " /var/log/dpkg.log |			list recently installed OR removed packages (in the current month)
+grep " install \\| remove " /var/log/dpkg.log |			list recently installed OR removed packages (in the current month)
 grep " install " /var/log/dpkg.log.1 |		list recently installed packages (in the previous month)
 zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go back 2 months, same for >2 months)
 -|-
