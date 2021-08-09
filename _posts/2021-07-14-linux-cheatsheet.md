@@ -114,14 +114,31 @@ dconf-editor | zB `gsettings set org.gnome.desktop.interface clock-show-weekday 
 | :---: | :---: |
 lm-sensors | get CPU temperature (using command `sensors`)
 
+<hr>
+
+| :---: | :---: |
+telegram-desktop | Telegram
+zoom-client |
+discord |
+
+<hr>
+
+| :---: | :---: |
+ticker | stock monitor
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
 
+In ~/.bashrc (Ubuntu default):
 `alias l='ls -CF'` <br />
 `alias la='ls -A'` <br />
 `alias ll='ls -alF'` <br />
-(die restlichen Ubuntu alias gehen nicht wegen Doppelbindestrich Argument —color=auto)
+(die restlichen Ubuntu alias gehen nicht bei Macbook Pro Mid 2010 wegen Doppelbindestrich Argument —color=auto)
+
+In ~/.bash_aliases:
+
+`alias phth_ticker='ticker --config ~/snap/ticker/common/.ticker.yaml'`
 
 # General commands
 
@@ -171,7 +188,7 @@ see also [how-to-show-history-of-installed-packages](https://www.linuxuprising.c
 
 | command | description |
 | :---: | :---: |
-grep " install " /var/log/dpkg.log |			list recently installed packages (in the current month)
+grep " install \| remove " /var/log/dpkg.log |			list recently installed OR removed packages (in the current month)
 grep " install " /var/log/dpkg.log.1 |		list recently installed packages (in the previous month)
 zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go back 2 months, same for >2 months)
 -|-
