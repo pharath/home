@@ -14,12 +14,13 @@ tags:
 3. [General Commands](#general-commands)
 4. [apt, apt-get, snap, dpkg](#apt-apt-get-snap-dpkg)
 5. [System information](#system-information)
-6. [Groups, docker](#groups-docker)
+6. [chmod, Groups, docker](#chmod-groups-docker)
 7. [Bash](#bash) 
 8. [Unzipping](#unzipping)
 9. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
 10. [System information 2](#system-information)
 11. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
+12. [gpg](#gpg)
 
 # Apps:
 
@@ -125,6 +126,11 @@ discord |
 
 | :---: | :---: |
 ticker | stock monitor
+
+<hr>
+
+| :---: | :---: |
+Tor-Browser-Bundle Webdownload | installation: see [here](https://wiki.ubuntuusers.de/Tor/Installation/#Tor-Browser-Bundle-Webdownload)
 
 # My aliases
 
@@ -304,6 +310,7 @@ tar -C ./data/ -zxvf ~/Downloads/mnist.tgz | für .tgz (wobei -C target_location
 oder andersrum: |
 tar -zxvf ~/Downloads/mnist.tgz -C ./data/ |
 tar -C ./data/ -jxvf ~/Downloads/datei.tar.bz2 | für .tar.bz2 (dh. -j flag statt -z flag)
+tar -C ~/ -xvf tor-browser-linux64-10.5.2_en-US.tar.xz | für .tar.xz
 
 # Manage Drives (hard drive, usb flash drive)
 
@@ -358,3 +365,9 @@ sudo hdparm -i /dev/sda |
 wget -O output_file -q https://checkip.amazonaws.com	|	-O output_file: benutze Minuszeichen “-“ statt output_file wenn output direkt in Terminal erscheinen soll; -q für quiet
 curl -s https://checkip.amazonaws.com		|			-s für silent
 
+# gpg
+
+| command | description |
+| :---: | :---: |
+gpg --list-keys | list your keys
+gpg --delete-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | delete key A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 from keyring
