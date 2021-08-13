@@ -237,6 +237,7 @@ uname -a |				print system information
 
 | command | description |
 | :---: | :---: |
+bla | 
 chmod *permissions file* |     is an abbreviation of change mode. A files mode is the set of permissions attached to it that control access. Zu *permissions*: s. [here](https://askubuntu.com/tags/chmod/info).
 
 <hr>
