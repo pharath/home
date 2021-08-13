@@ -237,7 +237,7 @@ uname -a |				print system information
 
 | command | description |
 | :---: | :---: |
-chmod *permissions file* |     is an abbreviation of change mode. A file's mode is the set of permissions attached to it that control access. Zu *permissions*: s. [here](https://askubuntu.com/tags/chmod/info).
+chmod *permissions file* |     is an abbreviation of change mode. A files mode is the set of permissions attached to it that control access. Zu *permissions*: s. [here](https://askubuntu.com/tags/chmod/info).
 
 <hr>
 
@@ -277,10 +277,11 @@ sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104
 
 ## container
 
-###tensorflow/tensorflow
+**tensorflow/tensorflow**
 
 Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/tensorflow/) or [tensorflow.org examples](https://www.tensorflow.org/install/docker)
 
+| command | description |
 | :---: | :---: |
 sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
 
