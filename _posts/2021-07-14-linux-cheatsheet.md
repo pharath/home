@@ -54,11 +54,6 @@ pycharm-community |
 
 | :---: | :---: |
 docker |
-xhost +local:root |	enable GUI for docker
-docker login registry.git.rwth-aachen.de |
-docker pull |
-
-see also [other commands](##Groups_docker)
 
 <hr>
 
@@ -240,8 +235,6 @@ uname -a |				print system information
 
 # chmod, Groups, docker
 
-<a name="Groups_docker"></a>
-
 | command | description |
 | :---: | :---: |
 chmod *<permissions> <file>* |     is an abbreviation of change mode. A file's mode is the set of permissions attached to it that control access. Zu *<permissions>*: s. [here](https://askubuntu.com/tags/chmod/info).
@@ -266,6 +259,9 @@ sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib
 <hr>
 
 | :---: | :---: |
+xhost +local:root |	enable GUI for docker
+docker login registry.git.rwth-aachen.de |
+docker pull |
 sudo docker ps |
 sudo docker images |
 sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554) 
