@@ -238,18 +238,26 @@ uname -a |				print system information
 | command | description |
 | :---: | :---: |
 chmod *<permissions> <file>* |     is an abbreviation of change mode. A file's mode is the set of permissions attached to it that control access. Zu *<permissions>*: s. [here](https://askubuntu.com/tags/chmod/info).
--|-
+
+<hr>
+
 groups |					list all groups the currently logged in user belongs to (first group is the primary group)
 groups user |				same as “groups”, but for specific user “user”
 id |						“
 id user	|				“
--|-
+
+<hr>
+
 less /etc/group	|		view all groups present on the system
 cat /etc/group |			“
 getent group |				“
--|-
+
+<hr>
+
 getent group docker |		list all members of group docker
--|-
+
+<hr>
+
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
