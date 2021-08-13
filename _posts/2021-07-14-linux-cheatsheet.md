@@ -132,6 +132,18 @@ ticker | stock monitor
 | :---: | :---: |
 Tor-Browser-Bundle Webdownload | installation: see [here](https://wiki.ubuntuusers.de/Tor/Installation/#Tor-Browser-Bundle-Webdownload)
 
+<hr>
+
+| :---: | :---: |
+inxi -Fxz |        inxi  - Command line system information script for console and IRC
+
+<hr>
+
+| :---: | :---: |
+cuda | [installation](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#removing-cuda-tk-and-driver) via .deb file 
+nvidia-cuda-toolkit | manuell installiert mit `sudo apt install nvidia-cuda-toolkit`, nachdem cuda per .deb file installiert wurde 
+nvidia-docker2 | [installation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -184,7 +196,7 @@ sudo apt autoremove |   remove not needed packages (NOTE: This command will remo
 
 | command | description |
 | :---: | :---: |
-| sudo dpkg -l \| less	| list all installed dpkg packages
+| sudo dpkg -l \| less	| list all installed dpkg packages [meaning of tags ii, rc, ...](https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean)
 -|-
 |**Tipp:**|AM BESTEN DIE FOLGENDEN 3 ALLE AUSFÜHREN, DA JEDER EINEN ANDEREN OUTPUT HAT !
 sudo dpkg -l package	|		confirm whether package is already installed (wenn nicht installed, dann wird “no packages found matching package” angezeigt) (ACHTUNG: exakten Namen schreiben, zB “lua” findet “lua5.1” nicht !) 
@@ -198,11 +210,14 @@ see also [how-to-show-history-of-installed-packages](https://www.linuxuprising.c
 grep " install \\| remove " /var/log/dpkg.log |			list recently installed OR removed packages (in the current month)
 grep " install " /var/log/dpkg.log.1 |		list recently installed packages (in the previous month)
 zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go back 2 months, same for >2 months)
+vim /var/log/apt/history.log | view apt history
 -|-
 sudo dpkg -i package_file.deb |	install package_file.deb
 sudo apt remove package |		uninstall package_file.deb
 -|-
 dpkg -l \| grep ^..r   |   list all broken packages (**r** state (on the third field) means: reinst-required (package broken, reinstallation required))
+-|-
+sudo vim /var/lib/dpkg/info/nvidia-cuda-toolkit.list | in /var/lib/dpkg/info/ sind die installation files (.conffiles, .list, .md5sums) für alle packages (hier: nvidia-cuda-toolkit)
 
 ## snap
 
@@ -246,6 +261,23 @@ sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
 sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
 sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
+
+<hr>
+
+| :---: | :---: |
+sudo docker ps |
+sudo docker images |
+sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554) 
+sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104 
+
+## container
+
+###tensorflow/tensorflow
+
+Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/tensorflow/) or [tensorflow.org examples](https://www.tensorflow.org/install/docker)
+
+| :---: | :---: |
+sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
 
 # bash
 
