@@ -14,13 +14,14 @@ tags:
 3. [General Commands](#general-commands)
 4. [apt, apt-get, snap, dpkg](#apt-apt-get-snap-dpkg)
 5. [System information](#system-information)
-6. [chmod, Groups, docker](#chmod-groups-docker)
-7. [Bash](#bash) 
-8. [Unzipping](#unzipping)
-9. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
-10. [System information 2](#system-information)
-11. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
-12. [gpg](#gpg)
+6. [chmod, Groups](#chmod-groups)
+7. [Docker](#docker)
+8. [Bash](#bash) 
+9. [Unzipping](#unzipping)
+10. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
+11. [System information 2](#system-information)
+12. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
+13. [gpg](#gpg)
 
 # Apps:
 
@@ -233,7 +234,7 @@ hostnamectl |				Ubuntu Version (mittel) mit Linux Kernel Version
 uname -r | 				Linux Kernel Version
 uname -a |				print system information
 
-# chmod, Groups, docker
+# chmod, Groups
 
 | command | description |
 | :---: | :---: |
@@ -261,6 +262,11 @@ getent group docker |		list all members of group docker
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
+
+# docker
+
+| command | description |
+| :---: | :---: |
 sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
 sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
 
@@ -270,10 +276,46 @@ sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib
 xhost +local:root |	enable GUI for docker
 docker login registry.git.rwth-aachen.de |
 docker pull |
-sudo docker ps |
+
+<hr>
+
+| :---: | :---: |
+sudo docker ps -a | -a flag: Show all containers (default shows just running)
 sudo docker images |
+
+<hr>
+
+| :---: | :---: |
 sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554) 
+
+<hr>
+
+| :---: | :---: |
 sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104 
+sudo docker rmi 1ff0175b5104 | alias for `docker image rm` [source](https://stackoverflow.com/a/63035352), see also [doc](http://manpages.ubuntu.com/manpages/bionic/man1/docker-rmi.1.html)
+
+<hr>
+
+| :---: | :---: |
+sudo docker container ls -a |
+sudo docker container stop 1ff0175b5104 | stoppt den container nur (dh. container Status: "Exited"), aber "docker ps -a" zeigt den container noch
+sudo docker container rm 1ff0175b5104 | entfernt den container, dh. "docker ps -a" zeigt den container nicht mehr
+sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `docker container stop`: see [here](https://stackoverflow.com/a/66736836): "So ideally we always stop a container with the `docker stop` command in order to get the running process inside of it a little bit of time to shut itself down, otherwise if it feels like the container has locked up and it's not responding to the docker stop command then we could issue `docker kill` instead.")
+
+<hr>
+
+| :---: | :---: |
+sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
+
+## Remove dangling images
+
+**Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
+In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG)
+
+[source](https://stackoverflow.com/a/40791752)
+
+docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
+docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
 
 ## container
 
