@@ -10,6 +10,7 @@ tags:
 ---
 
 1. [General Shortcuts](#general-shortcuts)
+2. [Network](#network)
 
 # General Shortcuts
 
@@ -43,3 +44,19 @@ If you want it to open a terminal window when you run it (if you needed to add i
 ```bash
 Terminal=true
 ```
+# Network
+
+## On the server computer:
+
+1. Connect server and client via Ethernet cable.
+2. On the computer, which is connected to the Internet, click the network icon in the panel and go to "Settings" at the bottom of the menu. [der Schieberegler von "Wired" beim Server sollte bereits aktiv sein, der Schieberegler beim Client sollte inaktiv sein (auch nachdem Kabel eingesteckt wurde)]
+3. Click on the "Settings symbol" of your Wired Connection (Leave your wireless connection untouched).
+4. On the "IPv4 Settings tab", select Method: "Shared to other computers". Click on "Apply" and close this window.
+5. On the server reconnect by clicking on the Wired Network's toggle switch [dh. einmal aus und an], so it gets a new IP address. (The two computers must be connected by an ethernet cable for this step, so connect them now if you haven't already.) [Toggle Switch auf Client sollte noch inactive sein]
+6. **Do not change IP settings. Leave everything as it is.**
+
+## On the client computer:
+
+1. Connect simply via toggle switch of Wired Connection. **IP settings are configured automatically!**
+
+Mostly from: [Instructions](https://askubuntu.com/questions/359856/share-wireless-internet-connection-through-ethernet)
