@@ -11,6 +11,7 @@ tags:
 
 1. [General Shortcuts](#general-shortcuts)
 2. [Network](#network)
+3. [Power](#power)
 
 # General Shortcuts
 
@@ -60,3 +61,11 @@ Terminal=true
 1. Connect simply via toggle switch of Wired Connection. **IP settings are configured automatically!**
 
 Mostly from: [Instructions](https://askubuntu.com/questions/359856/share-wireless-internet-connection-through-ethernet)
+
+# Power
+
+- [source](https://unix.stackexchange.com/a/317933) The Settings which determine what happens, when the Battery Level is critically low are in `/etc/UPower/UPower.conf`. There, the relevant entries are:
+```bash
+PercentageAction=2
+CriticalPowerAction=HybridSleep
+```
