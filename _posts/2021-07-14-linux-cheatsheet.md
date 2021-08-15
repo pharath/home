@@ -281,7 +281,7 @@ docker pull |
 
 | :---: | :---: |
 sudo docker ps -a | -a flag: Show all containers (default shows just running)
-sudo docker images |
+sudo docker images | show all images
 
 <hr>
 
@@ -306,6 +306,21 @@ sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `d
 
 | :---: | :---: |
 sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
+
+<hr>
+
+| :---: | :---: |
+sudo docker exec -it 6b594d9d60cc bash | start bash in container 6b594d9d60cc 
+
+<hr>
+
+| :---: | :---: |
+sudo docker build --no-cache -t deep\_braket:v1 . | -t: REPO name and TAG name of image; --no-cache: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!)
+
+<hr>
+
+| :---: | :---: |
+sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594d9d60cc 
 
 ## Remove dangling images
 
