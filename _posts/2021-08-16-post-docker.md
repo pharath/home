@@ -1,3 +1,14 @@
+---
+title: "Docker Notes"
+read_time: false
+excerpt_separator: "<!--more-->"
+categories:
+  - Notes
+tags:
+  - docker
+  - notes
+---
+
 # Welcher CMD wird per default beim image Start ausgeführt? 
 
 Klicke auf den letzten der layers in der Liste links. Dann erscheint rechts der zugehörige vollständige CMD.
