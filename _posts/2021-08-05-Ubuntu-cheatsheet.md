@@ -69,3 +69,9 @@ Mostly from: [Instructions](https://askubuntu.com/questions/359856/share-wireles
 PercentageAction=2
 CriticalPowerAction=HybridSleep
 ```
+
+- for laptops: [source](https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-power)
+   - `cat /sys/class/power_supply/BAT0/capacity` outputs laptop battery level (in percent)
+   - `cat /sys/class/power_supply/BAT0/status` outputs laptop battery status (values: "Unknown", "Charging", "Discharging", "Not charging", "Full")
+   - `cat /sys/class/power_supply/BAT0/capacity_level` outputs laptop battery level description (values: "Unknown", "Critical", "Low", "Normal", "High", "Full"). From doc: "Coarse representation of battery capacity."
+

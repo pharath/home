@@ -22,6 +22,7 @@ tags:
 11. [System information 2](#system-information)
 12. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
 13. [gpg](#gpg)
+14. [cron](#cron)
 
 # Apps:
 
@@ -466,3 +467,9 @@ curl -s https://checkip.amazonaws.com		|			-s für silent
 | :---: | :---: |
 gpg --list-keys | list your keys
 gpg --delete-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | delete key A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 from keyring
+
+# cron
+
+The software utility cron also known as cron job is a time-based job scheduler in Unix-like computer operating systems. Users who set up and maintain software environments use cron to schedule jobs to run periodically at fixed times, dates, or intervals.
+
+crontab -e | opens a file in which jobs can be specified (read this file for more info)
