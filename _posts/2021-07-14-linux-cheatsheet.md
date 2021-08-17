@@ -156,6 +156,11 @@ In ~/.bash_aliases:
 
 `alias phth_ticker='ticker --config ~/snap/ticker/common/.ticker.yaml'`
 
+| command | description |
+| :---: | :---: |
+alias | List all aliases
+type \<some_alias\> | check the meaning of a specific alias
+
 # General commands
 
 | command | description |
