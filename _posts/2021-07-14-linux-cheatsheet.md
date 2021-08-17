@@ -142,6 +142,11 @@ cuda | [installation](https://docs.nvidia.com/cuda/cuda-installation-guide-linux
 nvidia-cuda-toolkit | manuell installiert mit `sudo apt install nvidia-cuda-toolkit`, nachdem cuda per .deb file installiert wurde 
 nvidia-docker2 | [installation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
 
+<hr>
+
+| :---: | :---: |
+droidcam | use Android smartphone cam as Ubuntu webcam
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
