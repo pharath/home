@@ -491,3 +491,9 @@ crontab -e | opens a file in which jobs can be specified (read this file for mor
 
 sudo netstat -lpn \| grep :8889 | zeigt pid des Prozesses auf port 8889 (port kann dann mit `kill \<pid\>` frei gemacht werden)
 ss | 
+w | list all ssh sessions
+ssh bra-ket@10.14.14.60 | installiere vorher openssh-server auf beiden Computern
+
+**Achtung**: 
+- erst in den Server einloggen und **dann** erst in den Computer einloggen, der die Internetverbindung des Servers benutzt !
+- ~/.Xauthority löschen und nochmal per ssh einloggen kann helfen bei xauth Problemen !
