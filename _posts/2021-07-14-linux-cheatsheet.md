@@ -489,11 +489,29 @@ crontab -e | opens a file in which jobs can be specified (read this file for mor
 
 # network
 
+| command | description |
+| :---: | :---: |
 sudo netstat -lpn \| grep :8889 | zeigt pid des Prozesses auf port 8889 (port kann dann mit `kill \<pid\>` frei gemacht werden)
 ss | 
+
+## ssh
+
+| command | description |
+| :---: | :---: |
 w | list all ssh sessions
 ssh bra-ket@10.14.14.60 | installiere vorher openssh-server auf beiden Computern
+firefox -no-remote -no-xshm | display firefox on local client (no -X or -Y flag needed in previous ssh command)
 
 **Achtung**: 
 - erst in den Server einloggen und **dann** erst in den Computer einloggen, der die Internetverbindung des Servers benutzt !
-- ~/.Xauthority löschen und nochmal per ssh einloggen kann helfen bei xauth Problemen !
+- **Error**: "X11 connection rejected because of wrong authentication." 
+   - ~/.Xauthority löschen und nochmal per ssh einloggen kann helfen bei xauth Problemen (siehe [issue](https://unix.stackexchange.com/a/494742)) ! 
+   - (prüfe evtl noch) nach [source](https://www.cyberciti.biz/faq/x11-connection-rejected-because-of-wrong-authentication/):   
+      - Make sure X11 SSHD Forwarding Enabled
+      - Make sure X11 client forwarding enabled
+
+<hr>
+
+ssh -Y bra-ket@10.14.14.60 | display graphical output on trusted local client (**Caution**: may lead to security issues), [difference -X vs -Y flag](https://askubuntu.com/a/35518)
+ssh -X bra-ket@10.14.14.60 | display graphical output on untrusted local client, [difference -X vs -Y flag](https://askubuntu.com/a/35518)
+export DISPLAY=localhost:10.0 | set display (use `w` or `xauth list` to list diplays) ("**:0**" ist der server monitor; zB. "**localhost:10.0**" ist der client monitor, wobei localhost:=127.0.0.1 (127.0. 0.1 is the loopback Internet protocol (IP) address also referred to as the localhost. The address is used to establish an IP connection to the same machine or computer being used by the end-user. The same convention is defined for computers that support IPv6 addressing using the connotation of ::1.)
