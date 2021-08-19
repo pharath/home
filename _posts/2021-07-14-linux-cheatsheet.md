@@ -414,6 +414,11 @@ mv -iv |
 rm -iv |
 cp -iv |
 
+<hr>
+
+echo "blabla" >> *filename* | write output to file *filename*
+echo "blabla" | tee *filename* | write output to file *filename*
+
 # Unzipping
 
 | command | description |
