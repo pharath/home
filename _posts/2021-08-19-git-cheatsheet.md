@@ -52,6 +52,8 @@ git diff origin/exercise/4_ros_node_cpp..origin/solution/4_ros_node_cpp
 
 # credential helper
 
+| command | description |
+| :---: | :---: |
 git config credential.helper store | store next entered pw in ~/.git-credentials (visible for anyone !) (for current repo only)
 git config --global credential.helper store | store next entered pw in ~/.git-credentials (visible for anyone !) (globally, ie. for all repos)
 
