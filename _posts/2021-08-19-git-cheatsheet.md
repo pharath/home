@@ -16,7 +16,7 @@ tags:
 git clone --recurse-submodules repo \<Ziel directory\> | 
 git reflog |	view history of checkout operations
 git log	|	view history of commits
-git revert commit hash	| commit “commit hash” rückgängig machen
+git revert \<commit-hash\>	| commit \<commit-hash\> rückgängig machen
 git tag -l	|	list all tags
 git checkout tags/\<tag name\>	|		checkout a specific tag
 git fetch	|
