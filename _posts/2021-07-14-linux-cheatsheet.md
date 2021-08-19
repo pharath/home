@@ -177,15 +177,23 @@ type \<some_alias\> | check the meaning of a specific alias
 | command | description |
 | :---: | :---: |
 ctrl + r + Suchbegriff	|	reverse search (mehrmals ctrl + r drücken, um zwischen den Suchbegriff enthaltenden commands auszuwählen, danach “->” um zu übernehmen bzw “enter” um auszuführen)
--|-
+
+<hr>
+
 sudo -i	|				run single command with root privileges (does not require root password !)
 sudo -s		|			run single command with root privileges (does not require root password !) + do not change user and working directory
--|-
+
+<hr>
+
 su	|					switches to super user (root user) (requires root password !) (in Ubuntu: root account disabled by default for improved security)
--|-
+
+<hr>
+
 xdg-open file	|			open file using default application
 gio open file		|		same as xdg-open, but depends on what desktop the user has installed, whereas xdg-open is desktop agnostic
--|-
+
+<hr>
+
 top	|					activity monitor
 ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 
@@ -211,7 +219,9 @@ sudo apt autoremove |   remove not needed packages (NOTE: This command will remo
 | command | description |
 | :---: | :---: |
 | sudo dpkg -l \| less	| list all installed dpkg packages [meaning of tags ii, rc, ...](https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean)
--|-
+
+<hr>
+
 |**Tipp:**|AM BESTEN DIE FOLGENDEN 3 ALLE AUSFÜHREN, DA JEDER EINEN ANDEREN OUTPUT HAT !
 sudo dpkg -l package	|		confirm whether package is already installed (wenn nicht installed, dann wird “no packages found matching package” angezeigt) (ACHTUNG: exakten Namen schreiben, zB “lua” findet “lua5.1” nicht !) 
 sudo dpkg -l \| grep package	|	confirm whether package is already installed (wenn nicht installed, dann wird nichts angezeigt) (ACHTUNG regexp: zB “lua” findet “lua5.1” ! )
@@ -225,12 +235,18 @@ grep " install \\| remove " /var/log/dpkg.log |			list recently installed OR rem
 grep " install " /var/log/dpkg.log.1 |		list recently installed packages (in the previous month)
 zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go back 2 months, same for >2 months)
 vim /var/log/apt/history.log | view apt history
--|-
+
+<hr>
+
 sudo dpkg -i package_file.deb |	install package_file.deb
 sudo apt remove package |		uninstall package_file.deb
--|-
+
+<hr>
+
 dpkg -l \| grep ^..r   |   list all broken packages (**r** state (on the third field) means: reinst-required (package broken, reinstallation required))
--|-
+
+<hr>
+
 sudo vim /var/lib/dpkg/info/nvidia-cuda-toolkit.list | in /var/lib/dpkg/info/ sind die installation files (.conffiles, .list, .md5sums) für alle packages (hier: nvidia-cuda-toolkit)
 
 ## snap
@@ -248,7 +264,9 @@ sudo snap remove *package* |
 cat /etc/os-release	 |	Ubuntu Version (lang)
 lsb_release -a |			Ubuntu Version (kurz)
 hostnamectl |				Ubuntu Version (mittel) mit Linux Kernel Version
--|-
+
+<hr>
+
 uname -r | 				Linux Kernel Version
 uname -a |				print system information
 
@@ -365,50 +383,86 @@ sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/noteboo
 | command | description |
 | :---: | :---: |
 echo Variable |		display content of Variable
--|-	
+
+<hr>
+	
 $PATH |			Variable, die alle Pfade enthält, in denen Shell-Programme/Shell-Befehle (ls, echo, df, nautilus, etc.) gesucht werden
 which python3 |		
 whereis python3	|
--|-
+
+<hr>
+
 find /opt/ -iname pattern |						find all files (hier: in dir /opt/ ), for which base of file name (path with leading dirs removed) matches shell pattern pattern (Achtung: pattern muss genau übereinstimmen! Falls Endung unbekannt, mit Sternchen `*` am Ende suchen, dh. `pattern\*` statt `pattern` suchen (wie bei `ls` Befehl).
 find /opt/ -name pattern |						wie -iname, aber case-sensitive
 find /opt/ -iname pattern -type f |					nur files suchen
 find /opt/ -iname pattern -type d |					nur dirs suchen
 find /opt/ ( -iname pattern1 -o -iname pattern2 ) |	-o für oder
 find /opt/ -size +1G |							nur files, die über 1GB groß sind
--|-
+
+<hr>
+
 which *Shell-program*	| display path of Shell-program
--|-
+
+<hr>
+
 fn + links	|		scrolle nach ganz oben
--|-
+
+<hr>
+
 cmd + oben	|	focus letzte input Zeile (zB gut, wenn man zB schnell hochscrollen will)
--|-
+
+<hr>
+
 tty	|			zeigt Namen des aktiven terminals
--|-
+
+<hr>
+
 ls -ltr /dev/ttys\*	| zeigt Namen aller aktiven terminals 
--|-
+
+<hr>
+
 last | 				zeige letzte terminal logins
--|-
+
+<hr>
+
 vim &lt;(ls -ltr)	|	zeige Output eines Befehls in vim (ACHTUNG: Leerzeichen hinter “vim” nicht vergessen!)
 |oder:
 ls -ltr \| vim - |
--|-
+
+<hr>
+
 Befehl \| head -3 |	zeige oberste 3 Zeilen des Outputs
--|-
+
+<hr>
+
 Befehl \| tail -3 |
--|-
+
+<hr>
+
 du -sch ./folder \| sort -rh \| head -5	|	zeige disk usage (=size) of folder (-h für human readable; -s für zeige auch Subdirectories; -c für zeige grand total am Ende) (sort -rh für sortiere nach size, wobei -r für reverse und -h für compare human readable sizes)
--|-
+
+<hr>
+
 whoami	|		print the user name associated with the current effective user ID 
--|-
+
+<hr>
+
 nautilus .	|	öffne current directory in File Browser
--|-
+
+<hr>
+
 \`# ein comment\` |	Kommentar in command line
--|-
+
+<hr>
+
 pwd		|		zeige current working directory
--|-
+
+<hr>
+
 mkdir -p /file/subfile/subsubfile	|	erstellt file und subfile automatisch, falls sie noch nicht existieren
--|-
+
+<hr>
+
 **Tipp:** | IMMER -iv BENUTZEN ! (-i für bestätigen, -v für ausgeführte Aktion zeigen)
 mv -iv |
 rm -iv |
@@ -436,11 +490,15 @@ tar -C ~/ -xvf tor-browser-linux64-10.5.2_en-US.tar.xz | für .tar.xz
 | :---: | :---: |
 diskutil list |
 diskutil info /dev/disk2s2 |
--|-
+
+<hr>
+
 sudo diskutil mountDisk /dev/disk2s2 | (Partitionsname disk2s2 steht in rechter Spalte bei diskutil list; /dev/disk2 mounted alle Unterpartitionen)
 sudo diskutil umountDisk /dev/disk2s2 |
 mount_ntfs -o r “/Volumes/Volume node” | (r für read-only; rw für read-write (NICHT MACHEN! Es gibt einen Grund warum das bei Mac per default nicht geht!)
--|-
+
+<hr>
+
 df		|		zeige alle Laufwerke, ganz rechts steht die Location mit dem Inhalt des Datenträgers (zB /media/bra-ket/UBUNTU 20_0)
 sudo fdisk -l	|	wie df, aber mehr Details
 lsusb |
@@ -463,17 +521,23 @@ pydf |
 sudo fdisk -l |
 mount \| column -t |
 free -m |
--|-
+
+<hr>
+
 sudo dmidecode -t processor |
 sudo dmidecode -t memory |
 sudo dmidecode -t bios |
--|-
+
+<hr>
+
 cat /proc/cpuinfo |
 cat /proc/meminfo |
 cat /proc/version |
 cat /proc/scsi/scsi |
 cat /proc/partitions |
--|-
+
+<hr>
+
 sudo hdparm -i /dev/sda |
 
 # Retrieval commands curl und wget:
