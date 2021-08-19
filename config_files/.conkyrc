@@ -50,8 +50,14 @@ ${font sans-serif:bold:size=10}CPU ${hr 2}
 ${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
 ${font sans-serif:normal:size=8}${cpugraph cpu1}
 CPU: ${cpu cpu1}% ${cpubar cpu1}
-${color orange}CPU Temp: ${color}${execi 1000 sensors | grep 'Tdie'|awk '{print $2}'}
-${color orange}GPU Temp: ${color}${execi 1000 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader}°C
+${color orange}CPU Temp: ${color}${execi 1 sensors | grep 'Tdie'|awk '{print $2}'}
+
+${font sans-serif:bold:size=10}GPU ${hr 2}
+${font sans-serif:normal:size=8}${execi 1000 nvidia-smi --query-gpu=name --format=csv | grep 3060}
+GPU Frequency $alignr ${nvidia gpufreq} Mhz
+Mem Frequency $alignr ${nvidia memfreq} Mhz
+${color orange}GPU Temp: ${color}$alignr ${nvidia temp}°C
+GPU Temp Threshold: ${color}$alignr ${nvidia threshold}°C
 
 ${font sans-serif:bold:size=10}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
@@ -68,6 +74,7 @@ ${font sans-serif:normal:size=8}Local IPs:${alignr}External IP:
 ${execi 1000 ip a | grep inet | grep -vw lo | grep -v inet6 | cut -d \/ -f1 | sed 's/[^0-9\.]*//g'}  ${alignr}${execi 1000  wget -q -O- http://ipecho.net/plain; echo}
 ${font sans-serif:normal:size=8}Down: ${downspeed enp5s0}  ${alignr}Up: ${upspeed enp5s0} 
 ${color lightgray}${downspeedgraph enp5s0 80,130 } ${alignr}${upspeedgraph enp5s0 80,130 }$color
+
 ${font sans-serif:bold:size=10}TOP PROCESSES ${hr 2}
 ${font sans-serif:normal:size=8}Name $alignr PID   CPU%   MEM%${font sans-serif:normal:size=8}
 ${top name 1} $alignr ${top pid 1} ${top cpu 1}% ${top mem 1}%
