@@ -14,12 +14,17 @@ tags:
 3. [General Commands](#general-commands)
 4. [apt, apt-get, snap, dpkg](#apt-apt-get-snap-dpkg)
 5. [System information](#system-information)
-6. [Groups, docker](#groups-docker)
-7. [Bash](#bash) 
-8. [Unzipping](#unzipping)
-9. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
-10. [System information 2](#system-information)
-11. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
+6. [chmod, Groups](#chmod-groups)
+7. [Docker](#docker)
+8. [Bash](#bash) 
+9. [Unzipping](#unzipping)
+10. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
+11. [System information 2](#system-information)
+12. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
+13. [gpg](#gpg)
+14. [cron](#cron)
+15. [network](#network)
+16. [GPU](#gpu)
 
 # Apps:
 
@@ -53,11 +58,6 @@ pycharm-community |
 
 | :---: | :---: |
 docker |
-xhost +local:root |	enable GUI for docker
-docker login registry.git.rwth-aachen.de |
-docker pull |
-
-see also [other commands](##Groups_docker)
 
 <hr>
 
@@ -114,14 +114,63 @@ dconf-editor | zB `gsettings set org.gnome.desktop.interface clock-show-weekday 
 | :---: | :---: |
 lm-sensors | get CPU temperature (using command `sensors`)
 
+<hr>
+
+| :---: | :---: |
+telegram-desktop | Telegram
+zoom-client |
+discord |
+
+<hr>
+
+| :---: | :---: |
+ticker | stock monitor
+
+<hr>
+
+| :---: | :---: |
+Tor-Browser-Bundle Webdownload | installation: see [here](https://wiki.ubuntuusers.de/Tor/Installation/#Tor-Browser-Bundle-Webdownload)
+
+<hr>
+
+| :---: | :---: |
+inxi -Fxz |        inxi  - Command line system information script for console and IRC
+
+<hr>
+
+| :---: | :---: |
+cuda | [installation](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#removing-cuda-tk-and-driver) via .deb file 
+nvidia-cuda-toolkit | manuell installiert mit `sudo apt install nvidia-cuda-toolkit`, nachdem cuda per .deb file installiert wurde 
+nvidia-docker2 | [installation](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+
+<hr>
+
+| :---: | :---: |
+droidcam | use Android smartphone cam as Ubuntu webcam
+
+<hr>
+
+psensor | Unter "sensor preferences" im Tab "Application Indicator" das Kästchen "Display sensor in the label" aktivieren, damit ein bestimmter Wert im System Tray angezeigt wird.
+conky | see [configuration](https://linuxconfig.org/ubuntu-20-04-system-monitoring-with-conky-widgets)
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
 
+In ~/.bashrc (Ubuntu default):
 `alias l='ls -CF'` <br />
 `alias la='ls -A'` <br />
 `alias ll='ls -alF'` <br />
-(die restlichen Ubuntu alias gehen nicht wegen Doppelbindestrich Argument —color=auto)
+(die restlichen Ubuntu alias gehen nicht bei Macbook Pro Mid 2010 wegen Doppelbindestrich Argument —color=auto)
+
+In ~/.bash_aliases:
+
+`alias phth_ticker='ticker --config ~/snap/ticker/common/.ticker.yaml'`
+
+| command | description |
+| :---: | :---: |
+alias | List all aliases
+type \<some_alias\> | check the meaning of a specific alias
 
 # General commands
 
@@ -155,12 +204,13 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
 apt --help |
+sudo apt autoremove |   remove not needed packages (NOTE: This command will remove all unused packages (orphaned dependencies). Explicitly installed packages will remain.)
 
 ## dpkg
 
 | command | description |
 | :---: | :---: |
-| sudo dpkg -l \| less	| list all installed dpkg packages
+| sudo dpkg -l \| less	| list all installed dpkg packages [meaning of tags ii, rc, ...](https://askubuntu.com/questions/18804/what-do-the-various-dpkg-flags-like-ii-rc-mean)
 -|-
 |**Tipp:**|AM BESTEN DIE FOLGENDEN 3 ALLE AUSFÜHREN, DA JEDER EINEN ANDEREN OUTPUT HAT !
 sudo dpkg -l package	|		confirm whether package is already installed (wenn nicht installed, dann wird “no packages found matching package” angezeigt) (ACHTUNG: exakten Namen schreiben, zB “lua” findet “lua5.1” nicht !) 
@@ -171,14 +221,17 @@ see also [how-to-show-history-of-installed-packages](https://www.linuxuprising.c
 
 | command | description |
 | :---: | :---: |
-grep " install " /var/log/dpkg.log |			list recently installed packages (in the current month)
+grep " install \\| remove " /var/log/dpkg.log |			list recently installed OR removed packages (in the current month)
 grep " install " /var/log/dpkg.log.1 |		list recently installed packages (in the previous month)
 zgrep " install " /var/log/dpkg.log.2.gz |	list recently installed packages (go back 2 months, same for >2 months)
+vim /var/log/apt/history.log | view apt history
 -|-
 sudo dpkg -i package_file.deb |	install package_file.deb
 sudo apt remove package |		uninstall package_file.deb
 -|-
 dpkg -l \| grep ^..r   |   list all broken packages (**r** state (on the third field) means: reinst-required (package broken, reinstallation required))
+-|-
+sudo vim /var/lib/dpkg/info/nvidia-cuda-toolkit.list | in /var/lib/dpkg/info/ sind die installation files (.conffiles, .list, .md5sums) für alle packages (hier: nvidia-cuda-toolkit)
 
 ## snap
 
@@ -199,27 +252,113 @@ hostnamectl |				Ubuntu Version (mittel) mit Linux Kernel Version
 uname -r | 				Linux Kernel Version
 uname -a |				print system information
 
-# Groups, docker
-<a name="Groups_docker"></a>
+# chmod, Groups
 
 | command | description |
 | :---: | :---: |
+chmod *permissions file* |     is an abbreviation of change mode. A files mode is the set of permissions attached to it that control access. Zu *permissions*: s. [here](https://askubuntu.com/tags/chmod/info).
+
+<hr>
+
 groups |					list all groups the currently logged in user belongs to (first group is the primary group)
 groups user |				same as “groups”, but for specific user “user”
 id |						“
 id user	|				“
--|-
+
+<hr>
+
 less /etc/group	|		view all groups present on the system
 cat /etc/group |			“
 getent group |				“
--|-
+
+<hr>
+
 getent group docker |		list all members of group docker
--|-
+
+<hr>
+
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
+
+# docker
+
+| command | description |
+| :---: | :---: |
 sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
 sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
+
+<hr>
+
+| :---: | :---: |
+xhost +local:root |	enable GUI for docker
+docker login registry.git.rwth-aachen.de |
+docker pull |
+
+<hr>
+
+| :---: | :---: |
+sudo docker ps -a | -a flag: Show all containers (default shows just running)
+sudo docker images | show all images
+
+<hr>
+
+| :---: | :---: |
+sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554) 
+
+<hr>
+
+| :---: | :---: |
+sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104 
+sudo docker rmi 1ff0175b5104 | alias for `docker image rm` [source](https://stackoverflow.com/a/63035352), see also [doc](http://manpages.ubuntu.com/manpages/bionic/man1/docker-rmi.1.html)
+
+<hr>
+
+| :---: | :---: |
+sudo docker container ls -a |
+sudo docker container stop 1ff0175b5104 | stoppt den container nur (dh. container Status: "Exited"), aber "docker ps -a" zeigt den container noch
+sudo docker container rm 1ff0175b5104 | entfernt den container, dh. "docker ps -a" zeigt den container nicht mehr
+sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `docker container stop`: see [here](https://stackoverflow.com/a/66736836): "So ideally we always stop a container with the `docker stop` command in order to get the running process inside of it a little bit of time to shut itself down, otherwise if it feels like the container has locked up and it's not responding to the docker stop command then we could issue `docker kill` instead.")
+
+<hr>
+
+| :---: | :---: |
+sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
+
+<hr>
+
+| :---: | :---: |
+sudo docker exec -it 6b594d9d60cc bash | start bash in container 6b594d9d60cc 
+
+<hr>
+
+| :---: | :---: |
+sudo docker build --no-cache -t deep\_braket:v1 . | -t: REPO name and TAG name of image; --no-cache: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!)
+
+<hr>
+
+| :---: | :---: |
+sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594d9d60cc 
+
+## Remove dangling images
+
+**Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
+In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG)
+
+[source](https://stackoverflow.com/a/40791752)
+
+docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
+docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
+
+## container
+
+**tensorflow/tensorflow**
+
+Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/tensorflow/) or [tensorflow.org examples](https://www.tensorflow.org/install/docker)
+
+| command | description |
+| :---: | :---: |
+sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
 
 # bash
 
@@ -284,6 +423,7 @@ tar -C ./data/ -zxvf ~/Downloads/mnist.tgz | für .tgz (wobei -C target_location
 oder andersrum: |
 tar -zxvf ~/Downloads/mnist.tgz -C ./data/ |
 tar -C ./data/ -jxvf ~/Downloads/datei.tar.bz2 | für .tar.bz2 (dh. -j flag statt -z flag)
+tar -C ~/ -xvf tor-browser-linux64-10.5.2_en-US.tar.xz | für .tar.xz
 
 # Manage Drives (hard drive, usb flash drive)
 
@@ -338,3 +478,53 @@ sudo hdparm -i /dev/sda |
 wget -O output_file -q https://checkip.amazonaws.com	|	-O output_file: benutze Minuszeichen “-“ statt output_file wenn output direkt in Terminal erscheinen soll; -q für quiet
 curl -s https://checkip.amazonaws.com		|			-s für silent
 
+# gpg
+
+| command | description |
+| :---: | :---: |
+gpg --list-keys | list your keys
+gpg --delete-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | delete key A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 from keyring
+
+# cron
+
+The software utility cron also known as cron job is a time-based job scheduler in Unix-like computer operating systems. Users who set up and maintain software environments use cron to schedule jobs to run periodically at fixed times, dates, or intervals.
+
+| command | description |
+| :---: | :---: |
+crontab -e | opens a file in which jobs can be specified (read this file for more info)
+
+# network
+
+| command | description |
+| :---: | :---: |
+sudo netstat -lpn \| grep :8889 | zeigt pid des Prozesses auf port 8889 (port kann dann mit `kill \<pid\>` frei gemacht werden)
+ss | 
+
+## ssh
+
+| command | description |
+| :---: | :---: |
+w | list all ssh sessions
+ssh bra-ket@10.14.14.60 | installiere vorher openssh-server auf beiden Computern
+firefox -no-remote -no-xshm | display firefox on local client (no -X or -Y flag needed in previous ssh command)
+
+**Achtung**: 
+- erst in den Server einloggen und **dann** erst in den Computer einloggen, der die Internetverbindung des Servers benutzt !
+- **Error**: "X11 connection rejected because of wrong authentication." 
+   - ~/.Xauthority löschen und nochmal per ssh einloggen kann helfen bei xauth Problemen (siehe [issue](https://unix.stackexchange.com/a/494742)) ! 
+   - (prüfe evtl noch) nach [source](https://www.cyberciti.biz/faq/x11-connection-rejected-because-of-wrong-authentication/):   
+      - Make sure X11 SSHD Forwarding Enabled
+      - Make sure X11 client forwarding enabled
+
+<hr>
+
+ssh -Y bra-ket@10.14.14.60 | display graphical output on trusted local client (**Caution**: may lead to security issues), [difference -X vs -Y flag](https://askubuntu.com/a/35518)
+ssh -X bra-ket@10.14.14.60 | display graphical output on untrusted local client, [difference -X vs -Y flag](https://askubuntu.com/a/35518)
+export DISPLAY=localhost:10.0 | set display (use `w` or `xauth list` to list diplays) ("**:0**" ist der server monitor; zB. "**localhost:10.0**" ist der client monitor, wobei localhost:=127.0.0.1 (127.0. 0.1 is the loopback Internet protocol (IP) address also referred to as the localhost. The address is used to establish an IP connection to the same machine or computer being used by the end-user. The same convention is defined for computers that support IPv6 addressing using the connotation of ::1.)
+
+# GPU
+
+| command | description |
+| :---: | :---: |
+nvidia-smi -q -d temperature | temperature info including critical temperature values, shutdown temperature etc.
+nvidia-smi --query-gpu=name --format=csv | get GPU name
