@@ -13,14 +13,14 @@ tags:
 
 | command | description |
 | :---: | :---: |
-git clone --recurse-submodules repo <Ziel directory> | 
+git clone --recurse-submodules repo \<Ziel directory\> | 
 git reflog |	view history of checkout operations
 git log	|	view history of commits
 git revert commit hash	| commit “commit hash” rückgängig machen
 git tag -l	|	list all tags
-git checkout tags/<tag name>	|		checkout a specific tag
+git checkout tags/\<tag name\>	|		checkout a specific tag
 git fetch	|
-git checkout solution/2_foundations	|
+git checkout solution/2\_foundations	|
 git submodule init |
 git submodule update |
 
