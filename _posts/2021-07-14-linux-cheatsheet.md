@@ -153,6 +153,10 @@ droidcam | use Android smartphone cam as Ubuntu webcam
 psensor | Unter "sensor preferences" im Tab "Application Indicator" das Kästchen "Display sensor in the label" aktivieren, damit ein bestimmter Wert im System Tray angezeigt wird.
 conky | see [configuration](https://linuxconfig.org/ubuntu-20-04-system-monitoring-with-conky-widgets)
 
+<hr>
+
+mailspring | mail client similar to Apple Mail
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
