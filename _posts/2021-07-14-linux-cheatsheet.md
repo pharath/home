@@ -118,6 +118,7 @@ Tor-Browser-Bundle Webdownload | installation: see [here](https://wiki.ubuntuuse
 <hr>
 
 inxi -Fxz |        inxi  - Command line system information script for console and IRC
+inxi -G | get Graphics info, eg. display resolution, GPU, etc.
 
 <hr>
 
