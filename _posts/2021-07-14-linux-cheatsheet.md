@@ -138,6 +138,10 @@ conky | see [configuration](https://linuxconfig.org/ubuntu-20-04-system-monitori
 
 mailspring | mail client similar to Apple Mail
 
+<hr>
+
+peek | screen2gif recorder
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
