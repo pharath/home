@@ -585,6 +585,10 @@ export DISPLAY=localhost:10.0 | set display (use `w` or `xauth list` to list dip
 
 caffeinate -u | **for Mac**: prevent the system from sleeping and (-u for) prevent the system from sleeping [source](https://apple.stackexchange.com/questions/53802/waking-display-from-terminal-general-waking/161527)
 
+<hr>
+
+ssh-keygen -R 10.14.14.92 | remove 10.14.14.92 from .ssh/known_hosts (falls aus Versehen geaddet)
+
 # GPU
 
 | command | description |
