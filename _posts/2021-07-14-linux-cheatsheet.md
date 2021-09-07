@@ -143,6 +143,10 @@ mailspring | mail client similar to Apple Mail
 
 peek | screen2gif recorder
 
+<hr>
+
+plank | dock similar to macOS
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
