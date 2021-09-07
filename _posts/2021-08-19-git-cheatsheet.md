@@ -71,3 +71,24 @@ and set pw again as usual or just use
 `git config credential.helper store`
 
 and you will be prompted to enter pw again.
+
+# Create a new repository on the command line
+
+```bash
+echo "# documentation" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/pharath/documentation.git
+git push -u origin main
+```
+
+# Push an existing repository from the command line
+
+```bash
+git remote add origin https://github.com/pharath/documentation.git
+git branch -M main
+git push -u origin main
+```
+
