@@ -145,6 +145,11 @@ peek | screen2gif recorder
 
 <hr>
 
+sqlite3 | A command line interface for SQLite version 3
+sqlitebrowser | light GUI editor for SQLite databases
+
+<hr>
+
 plank | dock similar to macOS
 
 # My aliases
