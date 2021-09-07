@@ -12,6 +12,7 @@ tags:
 1. [General Shortcuts](#general-shortcuts)
 2. [Network](#network)
 3. [Power](#power)
+4. [Appearance](#appearance)
 
 # General Shortcuts
 
@@ -75,3 +76,28 @@ CriticalPowerAction=HybridSleep
    - `cat /sys/class/power_supply/BAT0/status` outputs laptop battery status (values: "Unknown", "Charging", "Discharging", "Not charging", "Full")
    - `cat /sys/class/power_supply/BAT0/capacity_level` outputs laptop battery level description (values: "Unknown", "Critical", "Low", "Normal", "High", "Full"). From doc: "Coarse representation of battery capacity."
 
+# Appearance
+
+## Hide Dock permanently
+
+see [source](https://www.linuxuprising.com/2018/08/how-to-remove-or-disable-ubuntu-dock.html) Option 3
+
+Hide:
+
+```bash
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide false
+
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
+```
+
+Show:
+
+```bash
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true
+
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
+```
