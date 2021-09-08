@@ -1,12 +1,24 @@
 ---
 title: "Tesla AI Day Summary"
+excerpt: "Analysis of the Tesla AI day"
+header:
+  overlay_image: /assets/images/tesla-ai-day.png
+  overlay_filter: 0.5 
+  caption: "Photo credit: [**TESLA**](https://www.tesla.com/)"
+  actions:
+    - label: "Learn more"
+      url: "https://www.tesla.com/"
 categories:
-  - self-driving
+  - self driving
 tags:
   - tesla
+  - self driving
 toc: true
 toc_sticky: true
+last_modified_at: 2021-09-09T16:00:52-04:00
 ---
+
+<iframe width="640" height="360" src="https://www.youtube.com/watch?v=j0z4FweCy4M" frameborder="0" allowfullscreen></iframe>
 
 ## Andrej Karpathy
 
@@ -14,7 +26,7 @@ hello everyone uh sorry for the delay um thanks for coming and um sorry i had so
 
 ## HTML Elements
 
-Below is just about everything you'll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.
+Below is just[^1] about everything you'll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.
 
 ## Body text
 
@@ -89,3 +101,4 @@ Make any link standout more when applying the `.btn` class.
 **Watch out!** You can also add notices by appending `{: .notice}` to a paragraph.
 {: .notice}
 
+[^1]: Texture image courtesty of [Lovetextures](http://www.lovetextures.com/)
