@@ -18,7 +18,7 @@ toc_sticky: true
 last_modified_at: 2021-09-09T16:00:52-04:00
 ---
 
-<iframe width="640" height="360" src="https://www.youtube.com/watch?v=j0z4FweCy4M" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/j0z4FweCy4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Andrej Karpathy
 
