@@ -598,6 +598,15 @@ caffeinate -u | **for Mac**: prevent the system from sleeping and (-u for) preve
 
 ssh-keygen -R 10.14.14.92 | remove 10.14.14.92 from .ssh/known_hosts (falls aus Versehen geaddet)
 
+## scp
+
+**Achtung:** Spaces müssen im path **DOPPELT** escapet werden ! (s. [hier](https://stackoverflow.com/a/20364170/12282296))
+
+| command | description |
+| :---: | :---: |
+scp *source* *target* | 
+scp -rv Macbook:"~/Desktop/Uni/FS1/Essential\ Astrophysics\ WS1819" ~/Desktop/ | spaces DOPPELT escapen (hier: 1. mit " **UND** 2. mit \) 
+
 # GPU
 
 | command | description |
