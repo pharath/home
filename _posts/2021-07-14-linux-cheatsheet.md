@@ -152,6 +152,10 @@ sqlitebrowser | light GUI editor for SQLite databases
 
 plank | dock similar to macOS
 
+<hr>
+
+whatsapp-for-linux | whatsapp
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
