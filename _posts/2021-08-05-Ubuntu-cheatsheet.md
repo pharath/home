@@ -78,6 +78,19 @@ CriticalPowerAction=HybridSleep
 
 # Appearance
 
+## Dock like MacOS
+
+
+```bash
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+
+gsettings set org.gnome.shell.extensions.dash-to-dock show-show-apps-button false 
+
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
+```
+
+- add Launcher icon to dock: via .desktop icon to favorites using "[launch show-apps from command line](https://www.reddit.com/r/gnome/comments/emkaxp/invoking_gnome_show_applications_from_command_line/)"
+
 ## Hide Dock permanently
 
 see [source](https://www.linuxuprising.com/2018/08/how-to-remove-or-disable-ubuntu-dock.html) Option 3
