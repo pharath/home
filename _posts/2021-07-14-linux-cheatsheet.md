@@ -150,11 +150,28 @@ sqlitebrowser | light GUI editor for SQLite databases
 
 <hr>
 
+sudo apt-get install gnome-tweaks | GNOME tweak tool
+
+<hr>
+
+sudo apt-get install dconf-editor | dconf editor
+
+<hr>
+
 plank | dock similar to macOS
 
 <hr>
 
 whatsapp-for-linux | whatsapp
+
+<hr>
+
+1. sudo apt-get install compiz compiz-gnome compiz-plugins-extra | compiz Fenstermanager dependencies
+2. sudo apt install compizconfig-settings-manager | compiz Fenstermanager
+
+<hr>
+
+python3-lxml | für xml, xpath, xquery support für gedit (s. [hier](https://github.com/jonocodes/gedit-xmltools))
 
 # My aliases
 

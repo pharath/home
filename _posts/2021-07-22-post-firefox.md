@@ -47,3 +47,4 @@ alt + b (linux: ctrl + alt + b) | hide/show bookmark search plus pane
 - TeXZilla
 - Web Search Navigator
 - Vimium-FF (by Stephen Blott, Phil Crosby)
+- GNOME Shell integration
