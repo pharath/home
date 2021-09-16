@@ -169,10 +169,6 @@ whatsapp-for-linux | whatsapp
 1. sudo apt-get install compiz compiz-gnome compiz-plugins-extra | compiz Fenstermanager dependencies
 2. sudo apt install compizconfig-settings-manager | compiz Fenstermanager
 
-<hr>
-
-python3-lxml | für xml, xpath, xquery support für gedit (s. [hier](https://github.com/jonocodes/gedit-xmltools))
-
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
