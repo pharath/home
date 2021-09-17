@@ -229,6 +229,7 @@ sudo apt update			|
 sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts	
 apt --help |
 sudo apt autoremove |   remove not needed packages (NOTE: This command will remove all unused packages (orphaned dependencies). Explicitly installed packages will remain.)
+sudo apt-mark auto $PACKAGES | mark $PACKAGES as "automatically installed", if accidentally marked as "manually installed"
 
 ## dpkg
 
