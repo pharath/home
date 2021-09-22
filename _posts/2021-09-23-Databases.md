@@ -7,6 +7,9 @@ categories:
 tags:
   - databases
   - summary
+toc: true
+toc_sticky: true
+last_modified_at: 2021-09-09T16:00:52-04:00
 ---
 
 1.1 Introduction
