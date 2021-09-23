@@ -24,6 +24,7 @@ tags:
 12. Start bridge to simulation: auf local machine: `cd ~/git/galaxis-simulation/bridge` und hier `./start_container.sh`. Dann im container `./start_bridge.sh`.
 13. Start control terminal: auf local machine: `cd ~/git/onboarding` und hier `./scripts/start_docker.sh`. Dann im container `tmux`.
 14. in tmux: ROS2 control Beispiele:
+
 ```bash
 ros2 topic pub --once /galaxis/simulation/remotecontrol messages/msg/SimulationVehicleControl "car_speed: 0.0
 turnangle_front: 0.0
