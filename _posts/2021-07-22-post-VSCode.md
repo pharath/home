@@ -1,5 +1,5 @@
 ---
-title: "VSCode"
+title: "VS Code Cheatsheet"
 read_time: false
 excerpt_separator: "<!--more-->"
 categories:
@@ -26,6 +26,7 @@ alt + 2 | focus second tab in current editor group, usw.
 ctrl + w | close current tab
 ctrl + j | show panel (problems, output, terminal, debug console)
 ctrl + b | show side bar (file explorer)
+ctrl-k ctrl-t | change theme
 
 # Setup
 
