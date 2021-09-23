@@ -1,13 +1,13 @@
 ---
 title: "Stanford Databases Course"
-excerpt: "Analysis of the Tesla AI day"
+excerpt: "Page formatting sucks. Click on \"Content in HTM\" button below."
 header:
   overlay_image: /assets/images/databases.png
   overlay_filter: 0.5 
   caption: "Photo credit: [**Jennifer Widom**](https://cs.stanford.edu/people/widom/)"
   actions:
     - label: "Content in HTML"
-      url: ""
+      url: "https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/2021-09-23-Databases.html"
 categories:
   - Summaries
 tags:
