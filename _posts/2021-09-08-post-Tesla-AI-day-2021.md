@@ -2,6 +2,7 @@
 title: "Tesla AI Day Summary"
 excerpt: "Analysis of the Tesla AI day"
 header:
+  teaser: /assets/images/tesla-ai-day.png
   overlay_image: /assets/images/tesla-ai-day.png
   overlay_filter: 0.5 
   caption: "Photo credit: [**TESLA**](https://www.tesla.com/)"

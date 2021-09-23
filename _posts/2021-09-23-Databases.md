@@ -2,6 +2,7 @@
 title: "Stanford Databases Course"
 excerpt: "Page formatting sucks. Click on \"Content in HTML\" button below."
 header:
+  teaser: /assets/images/databases.png
   overlay_image: /assets/images/databases.png
   overlay_filter: 0.5 
   caption: "Photo credit: [**Jennifer Widom**](https://cs.stanford.edu/people/widom/)"
