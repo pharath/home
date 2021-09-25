@@ -20,14 +20,22 @@ The shebang line is usually ignored by the interpreter, because the "#" characte
 
 ## Was bedeutet $# in einem bash script? (s. [askubuntu post](https://askubuntu.com/questions/939620/what-does-mean-in-bash))
 
-$#
-number of arguments (wie argc in C)
+Zum Beispiel:
+
+```bash
+if [[ $# -gt 0 ]]; then
+```
+
+$# steht für: number of arguments (wie argc in C)
+
 
 ## Vergleichsoperatoren
 
+```bash
 if [[ $# -gt 0 ]]; then
 else
 fi
+```
 
 “-gt” für “greater than” (ie der “>” operator) in der condition
 “-eq” für “equal to” (ie der “=“ operator)
