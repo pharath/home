@@ -2,6 +2,8 @@
 title: "Linux Cheatsheet"
 read_time: false
 excerpt_separator: "<!--more-->"
+toc: true
+toc_sticky: true
 categories:
   - Cheatsheet
 tags:
@@ -374,6 +376,13 @@ sudo docker build --no-cache -t deep\_braket:v1 . | -t: REPO name and TAG name o
 
 | :---: | :---: |
 sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594d9d60cc 
+
+<hr>
+
+| :---: | :---: |
+docker attach *double-tab* | attach to running container (double-tab shows names of running containers or use container id)
+ctrl-p ctrl-q | detach from container
+
 
 ## Remove dangling images
 
