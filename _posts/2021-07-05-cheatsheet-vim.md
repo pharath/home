@@ -2,6 +2,10 @@
 title: "Vim Cheatsheet"
 read_time: false
 excerpt_separator: "<!--more-->"
+header:
+  teaser: /assets/images/Vim.jpg
+  overlay_image: /assets/images/Vim.jpg
+  overlay_filter: 0.5 
 categories:
   - Cheatsheet
 tags:
