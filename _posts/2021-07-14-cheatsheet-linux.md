@@ -418,7 +418,7 @@ whereis python3	|
 
 <hr>
 
-find /opt/ -iname pattern |						find all files (hier: in dir /opt/ ), for which base of file name (path with leading dirs removed) matches shell pattern pattern (Achtung: pattern muss genau übereinstimmen! Falls Endung unbekannt, mit Sternchen `*` am Ende suchen, dh. `pattern\*` statt `pattern` suchen (wie bei `ls` Befehl).
+find /opt/ -iname pattern |						find all files (hier: in dir /opt/ ), for which base of file name (path with leading dirs removed) matches shell pattern pattern (Achtung: pattern muss genau übereinstimmen! Falls Endung unbekannt, mit Sternchen `*` am Ende suchen, dh. `pattern*` statt `pattern` suchen (wie bei `ls` Befehl).
 find /opt/ -name pattern |						wie -iname, aber case-sensitive
 find /opt/ -iname pattern -type f |					nur files suchen
 find /opt/ -iname pattern -type d |					nur dirs suchen
@@ -633,6 +633,12 @@ ssh-keygen -R 10.14.14.92 | remove 10.14.14.92 from .ssh/known_hosts (falls aus 
 | :---: | :---: |
 scp *source* *target* | 
 scp -rv Macbook:"~/Desktop/Uni/FS1/Essential\ Astrophysics\ WS1819" ~/Desktop/ | spaces DOPPELT escapen (hier: 1. mit " **UND** 2. mit \) 
+
+## rsync
+
+| command | description |
+| :---: | :---: |
+rsync -a *source* *destination* | copy directory (**Warning**: -r tag does not copy some stuff, e.g. symlinks)
 
 # GPU
 
