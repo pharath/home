@@ -1,6 +1,7 @@
 ---
 title: "Vim Cheatsheet"
 read_time: false
+excerpt: "Some essential vim commands"
 header:
   teaser: /assets/images/Vim.jpg
   overlay_image: /assets/images/Vim.jpg
@@ -13,15 +14,6 @@ tags:
   - vim
   - cheatsheet
 ---
-
-1. [Help](#help)
-2. [Regexp](#regexp)
-3. [Von Shell aus](#von-shell-aus)
-4. [In netrw](#in-netrw)
-5. [In COMMAND mode](#in-command-mode)
-6. [In INSERT mode](#in-insert-mode)
-7. [General facts](#general-facts)
-8. [Extensions](#extensions)
 
 # help:
 

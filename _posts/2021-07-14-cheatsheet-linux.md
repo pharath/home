@@ -15,23 +15,6 @@ tags:
   - cheatsheet
 ---
 
-1. [Apps](#apps)
-2. [My aliases](#my-aliases)
-3. [General Commands](#general-commands)
-4. [apt, apt-get, snap, dpkg](#apt-apt-get-snap-dpkg)
-5. [System information](#system-information)
-6. [chmod, Groups](#chmod-groups)
-7. [Docker](#docker)
-8. [Bash](#bash) 
-9. [Unzipping](#unzipping)
-10. [Manage Drives (hard drive, usb flash drive)](#manage-drives-hard-drive-usb-flash-drive)
-11. [System information 2](#system-information)
-12. [Retrieval commands curl und wget](#retrieval-commands-curl-und-wget)
-13. [gpg](#gpg)
-14. [cron](#cron)
-15. [network](#network)
-16. [GPU](#gpu)
-
 # Apps:
 
 | command | description |
