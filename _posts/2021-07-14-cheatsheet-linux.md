@@ -1,7 +1,6 @@
 ---
 title: "Linux Cheatsheet"
 read_time: false
-excerpt_separator: "<!--more-->"
 excerpt: "Some essential Linux commands"
 header:
   teaser: /assets/images/linux_teaser.jpg
