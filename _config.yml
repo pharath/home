@@ -65,14 +65,18 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Pharath Palesuvaran"
-  avatar : "/assets/images/profile_pic.jpg"
-  bio    : "Machine Learning, Computer Vision, Self-driving cars and a very rusty first degree in Physics"
+  name          : "Pharath Palesuvaran"
+  avatar        : "/assets/images/profile_pic.jpg"
+  bio           : "Machine Learning, Computer Vision, Self-driving cars and a very rusty first degree in Physics"
   #bio    : "My awesome biography constrained to a sentence or two goes here."
+  location      : "Aachen (Germany)"
   links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: mailto:phrth2@gmail.com
     - label: "Website"
       icon: "fas fa-fw fa-link"
-      url: "https://"
+      # url: "https://"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       url: "https://twitter.com/pharath_one"
