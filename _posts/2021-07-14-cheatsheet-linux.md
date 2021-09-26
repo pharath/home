@@ -6,10 +6,6 @@ header:
   teaser: /assets/images/linux_teaser.jpg
   overlay_image: /assets/images/linux_teaser.jpg
   overlay_filter: 0.5 
-<!--  caption: "Photo credit: [**who**](https://www.who.com/)"
-  actions:
-    - label: "Learn more"
-      url: "https://www.tesla.com/" -->
 toc: true
 toc_sticky: true
 categories:
