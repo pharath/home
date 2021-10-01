@@ -2,6 +2,8 @@
 title: "Ubuntu Cheatsheet"
 read_time: false
 excerpt_separator: "<!--more-->"
+toc: true
+toc_sticky: true
 categories:
 - Cheatsheet
 tags:
@@ -114,3 +116,20 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true
 
 gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
 ```
+# Default Applications
+
+## Change default mail client
+
+If not already present, add
+ 
+```bash
+MimeType=x-scheme-handler/mailto;x-scheme-handler/mailspring;
+```
+
+to `~/.local/share/applications/mailspring_mailspring.desktop` and run 
+
+```bash
+update-desktop-database ~/.local/share/applications
+```
+
+There should be a new line `x-scheme-handler/mailto=mailspring_mailspring.desktop` in `~/.config/mimeapps.list` now.
