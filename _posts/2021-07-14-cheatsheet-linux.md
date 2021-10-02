@@ -190,6 +190,10 @@ sudo -s		|			run single command with root privileges (does not require root pass
 
 <hr>
 
+*some_command* & | run process *some_command* in the background
+
+<hr>
+
 su	|					switches to super user (root user) (requires root password !) (in Ubuntu: root account disabled by default for improved security)
 
 <hr>
@@ -395,7 +399,15 @@ sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/noteboo
 
 | command | description |
 | :---: | :---: |
-echo Variable |		display content of Variable
+echo Variable |		display content of the variable "Variable"
+echo $$ | display PID of current shell
+bash | start new bash shell instance in current bash shell (the new shell will have a different PID than the old one, check shell PID via `echo $$`)
+exec > some_file | redirect all shell output to some_file
+
+<hr>
+
+do_something1 && do_something2_that_depended_on_something1 | only run "something2", if "something1" completes successfully
+do_something1; do_something2 | run "something2" irrespective of "something1"
 
 <hr>
 	

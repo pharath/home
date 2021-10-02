@@ -35,3 +35,8 @@ ros2 topic pub /simulation/gazebo/model/dr_drift/set_pose gazebo_simulation/msg/
 values: [0.4,-0.2]"
 ```
 
+# tmux
+
+## send-keys
+
+`C-m` ist dasselbe wie `Enter`.

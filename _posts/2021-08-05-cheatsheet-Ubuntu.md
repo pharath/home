@@ -11,11 +11,6 @@ tags:
 - cheatsheet
 ---
 
-1. [General Shortcuts](#general-shortcuts)
-2. [Network](#network)
-3. [Power](#power)
-4. [Appearance](#appearance)
-
 # General Shortcuts
 
 ## For Bluetooth
