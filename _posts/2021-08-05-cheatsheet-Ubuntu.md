@@ -128,3 +128,11 @@ update-desktop-database ~/.local/share/applications
 ```
 
 There should be a new line `x-scheme-handler/mailto=mailspring_mailspring.desktop` in `~/.config/mimeapps.list` now.
+
+# Converter
+
+## pptx (or ppt) to pdf
+
+```bash
+libreoffice --headless --invisible --convert-to pdf *.ppt
+```

@@ -27,6 +27,9 @@ ctrl + w | close current tab
 ctrl + j | show panel (problems, output, terminal, debug console)
 ctrl + b | show side bar (file explorer)
 ctrl-k ctrl-t | change theme
+ctrl-k ctrl-0 | collapse all
+ctrl-k ctrl-1 | collapse level 1
+ctrl-k ctrl-j | unfold all
 
 # Setup
 
