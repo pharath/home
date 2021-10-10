@@ -207,6 +207,11 @@ su	|					switches to super user (root user) (requires root password !) (in Ubunt
 
 <hr>
 
+ln -s FILE LINK | create symlink
+readlink -f LINK | show symlink target \[**ACHTUNG**: das heißt **nicht**, dass das target auch existiert, s.i [LINK](https://serverfault.com/a/76049) !\] 
+
+<hr>
+
 xdg-open file	|			open file using default application
 gio open file		|		same as xdg-open, but depends on what desktop the user has installed, whereas xdg-open is desktop agnostic
 
