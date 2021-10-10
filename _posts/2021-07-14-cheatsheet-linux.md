@@ -158,6 +158,14 @@ whatsapp-for-linux | whatsapp
 1. sudo apt-get install compiz compiz-gnome compiz-plugins-extra | compiz Fenstermanager dependencies
 2. sudo apt install compizconfig-settings-manager | compiz Fenstermanager
 
+<hr>
+
+doxygen | create class diagram for C++ projects
+
+<hr>
+
+qtcreator | for GUI development
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -191,6 +199,7 @@ sudo -s		|			run single command with root privileges (does not require root pass
 <hr>
 
 *some_command* & | run process *some_command* in the background
+nohup gedit & | start gedit in the background AND do not stop gedit, when shell is stopped. (Dies war ein einfaches Beispiel, aber es macht den eigentlichen Nutzen klar, wenn man z.B. per SSH auf einem fremden Rechner arbeitet und dort einen langwierigen Prozess starten möchte, die ssh-Verbindung aber während des Prozesses nicht permanent aktiv sein soll, weil man etwa den eigenen Rechner ausschalten möchte.)
 
 <hr>
 
@@ -205,6 +214,8 @@ gio open file		|		same as xdg-open, but depends on what desktop the user has ins
 
 top	|					activity monitor
 ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
+echo $$ | show PID of current shell
+kill *PID* | stop process with id *PID*
 
 # apt, apt-get, snap, dpkg
 
@@ -332,7 +343,7 @@ sudo docker images | show all images
 <hr>
 
 | :---: | :---: |
-sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554) 
+sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554), i.e. `docker commit CONTAINER_ID NEW_IMAGE_NAME`
 
 <hr>
 
@@ -352,6 +363,9 @@ sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `d
 
 | :---: | :---: |
 sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
+sudo docker run --rm ... | Automatically remove the container when it exits
+docker run --name test -it *image_name* | This example runs a container named test using the image *image_name*. The `-it` instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container.
+docker run --rm --name ubuntu_phth -it --entrypoint=/bin/bash deep_braket:v4 | start deep_braket:v4 in bash shell instead of starting in Jupyter Lab.
 
 <hr>
 
