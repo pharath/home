@@ -160,10 +160,12 @@ whatsapp-for-linux | whatsapp
 
 <hr>
 
-doxygen | create class diagram for C++ projects
+doxygen | create class diagram for C++ projects (Doxygen  is  a  documentation system for C++, C, Java, Objective-C, IDL (Corba and Microsoft flavors), Fortran, Python, VHDL and to some extent PHP, C#, and D.)
+doxywizard | a tool to configure and run doxygen on your source files
 
 <hr>
 
+qt5 | installiere via offline installer `qt-opensource-linux-x64-5.9.5.run`, weil qtcreator nur so automatisch qt konfiguriert (s. bookmarks in CS\/coding\/docker\/)
 qtcreator | for GUI development
 
 # My aliases
@@ -184,6 +186,10 @@ In ~/.bash_aliases:
 | :---: | :---: |
 alias | List all aliases
 type \<some_alias\> | check the meaning of a specific alias
+
+# System Folder
+
+~/.local/share/Trash/files | `rm FILE` command moves `FILE` to this location
 
 # General commands
 

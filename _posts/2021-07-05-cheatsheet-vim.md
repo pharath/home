@@ -15,7 +15,26 @@ tags:
   - cheatsheet
 ---
 
-# help:
+# Plugins
+
+'VundleVim/Vundle.vim'
+'NLKNguyen/papercolor-theme'
+'rip-rip/clang_complete' (install: see [below](#install-autocomplete-clang_complete))
+'godlygeek/tabular'
+'plasticboy/vim-markdown'
+
+## Install Autocomplete clang_complete 
+
+| command | description |
+| :---: | :---: |
+1. Download https://apt.llvm.org/llvm.sh |
+2. chmod u+x ~/Downloads/llvm.sh |
+3. bash -c ~/Downloads/llvm.sh | (einige dependencies - output sagt welche - müssen evtl. manuell nachinstalliert werden) installs LLVM + Clang + compiler-rt + polly + LLDB + LLD + libFuzzer + libc++ + libc++abi + openmp + libclc (see [here](https://apt.llvm.org/))
+4. Install https://github.com/xavierd/clang_complete | with minimum Configuration (Achtung: hier im `.vimrc` stattdessen `:let g:clang_library_path='/usr/lib/llvm-12/lib'` einsetzen, dh. die richtige llvm Version) (optional: make `.clang_complete` file for setting Compiler options)
+5. cd /usr/lib/llvm-12/lib | look for libclang.so.1 file
+6. ln -s libclang.so.1 libclang.so | make a symlink (=symbolic link) called libclang.so to libclang.so.1 in this directory
+
+# help
 
 | command | description |
 | :---: | :---: |
@@ -33,7 +52,7 @@ tags:
 |/pattern |	zB /^i springt zur nächsten Zeile, die mit i anfängt
 |ctrl + e, d, y, u |
 
-# regexp:
+# regexp
 (Achtung: in Windows manchmal bisschen anders s. [https://superuser.com/a/518231](https://superuser.com/a/518231)
 
 | command | description |
@@ -45,13 +64,13 @@ tags:
 ^\R  |  blank line (exact empty line)
 ^\h\*\R | for empty lines with blanks, only
 
-# Von Shell aus:
+# Von Shell aus
 
 | command | description |
 | :---: | :---: |
 |vim .			öffne netrw in current dir
 
-# In netrw:
+# netrw
 
 | command | description |
 | :---: | :---: |
