@@ -27,7 +27,7 @@ minimal_mistakes_skin: default
 search: true
 
 # phth:
-teaser: /assets/images/pytorch-vs-tensorflow.png
+teaser: /assets/images/mario-question-block.jpeg
 logo: "/assets/images/pytorch-logo.png"
 
 # Build settings
@@ -111,6 +111,7 @@ defaults:
       comments: true
       share: true
       related: true
+      show_date: true
   # _pages
   - scope:
       path: "_pages"

@@ -10,6 +10,12 @@ tags:
   - cheatsheet
 ---
 
+# pip
+
+| command | description |
+| :---: | :---: |
+pip install pip-autoremove | utility to remove a package plus unused dependencies
+
 # conda
 
 Vorinstallierte modules: [List](https://docs.anaconda.com/anaconda/packages/py3.8_linux-64/)

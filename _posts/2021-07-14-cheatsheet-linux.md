@@ -168,6 +168,14 @@ doxywizard | a tool to configure and run doxygen on your source files
 qt5 | installiere via offline installer `qt-opensource-linux-x64-5.9.5.run`, weil qtcreator nur so automatisch qt konfiguriert (s. bookmarks in CS\/coding\/docker\/)
 qtcreator | for GUI development
 
+<hr>
+
+python2.7 | einfach per `apt python2.7` installieren; starten per `python2.7` (nur `python2` geht nicht!)
+
+<hr>
+
+ocrmypdf | `ocrmypdf in.pdf out.pdf`
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
