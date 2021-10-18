@@ -27,7 +27,7 @@ minimal_mistakes_skin: default
 search: true
 
 # phth:
-teaser: /assets/images/mario-question-block.jpeg
+teaser: /assets/images/mario-question.png
 logo: "/assets/images/pytorch-logo.png"
 
 # Build settings
