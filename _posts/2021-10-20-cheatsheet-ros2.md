@@ -12,7 +12,7 @@ tags:
 
 # Install
 
-1. Über `apt install` (wie [hier](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html) beschrieben 
+1. Über `apt install` installieren (wie [hier](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html) beschrieben) 
 2. Dann, wie in [binary installation](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Binary.html) unter 
 - "Installing and initializing rosdep" und 
 - "Installing the missing dependencies" 
