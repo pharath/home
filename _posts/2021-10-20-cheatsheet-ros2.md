@@ -20,17 +20,26 @@ beschrieben, die restlichen dependencies installieren (ohne 2. funktioniert ROS2
 
 # Create Package
 
-1. `mkdir -p ~/dev_ws/src`
-2. `cd ~/dev_ws/src`
-3. `rosdep install -i --from-path src --rosdistro eloquent -y`
-   - check: `#All required rosdeps installed successfully`
-4. in root of ws, here: `dev_ws`: `colcon build`
-5. important: open a new terminal, separate from the one where you built the workspace
-6. source underlay: `source /opt/ros/eloquent/setup.bash`
-7. `cd ~/dev_ws`
-8. source overlay: `. install/local_setup.bash`
+```bash
+$ mkdir -p ~/dev_ws/src
+$ cd ~/dev_ws/src
+$ rosdep install -i --from-path src --rosdistro eloquent -y
+# check output of resdep install: "#All required rosdeps installed successfully"
+# in root of ws, here: "dev_ws": 
+$ colcon build
+```
+>**Important**: open a new terminal, separate from the one where you built the workspace (for **both**, underlay and overlay) !
+```bash
+# source underlay: 
+$ source /opt/ros/eloquent/setup.bash
+$ cd ~/dev_ws
+# source overlay: 
+$ . install/local_setup.bash
+```
 > Note: sourcing your main ROS 2 installation’s `setup` and then the `dev_ws` overlay’s `local_setup`, is the same as just sourcing `dev_ws`’s `setup`, because that includes the environment of the underlay it was created in.
-9. `ros2 run turtlesim turtlesim_node`
+```bash
+$ ros2 run turtlesim turtlesim_node
+```
 
 # rosdep
 
