@@ -394,7 +394,7 @@ sudo docker exec -it 6b594d9d60cc bash | start bash in container 6b594d9d60cc
 <hr>
 
 | :---: | :---: |
-sudo docker build --no-cache -t deep\_braket:v1 . | -t: REPO name and TAG name of image; --no-cache: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!)
+sudo docker build --no-cache -t deep\_braket:v1 . | `-t`: REPO name and TAG name of image; `--no-cache`: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!); `.`: location of Dockerfile
 
 <hr>
 
@@ -529,7 +529,7 @@ cp -iv |
 <hr>
 
 echo "blabla" >> *filename* | write output to file *filename*
-echo "blabla" | tee *filename* | write output to file *filename*
+echo "blabla" \| tee *filename* | write output to file *filename*
 
 # Unzipping
 
