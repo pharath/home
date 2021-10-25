@@ -29,6 +29,7 @@ $ rosdep install -i --from-path src --rosdistro eloquent -y
 $ colcon build
 ```
 >**Important**: open a new terminal, separate from the one where you built the workspace (for **both**, underlay and overlay) !
+
 ```bash
 # source underlay: 
 $ source /opt/ros/eloquent/setup.bash
@@ -36,7 +37,9 @@ $ cd ~/dev_ws
 # source overlay: 
 $ . install/local_setup.bash
 ```
+
 > Note: sourcing your main ROS 2 installation’s `setup` and then the `dev_ws` overlay’s `local_setup`, is the same as just sourcing `dev_ws`’s `setup`, because that includes the environment of the underlay it was created in.
+
 ```bash
 $ ros2 run turtlesim turtlesim_node
 ```
