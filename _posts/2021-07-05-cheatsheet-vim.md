@@ -68,7 +68,7 @@ tags:
 
 | command | description |
 | :---: | :---: |
-|vim .			öffne netrw in current dir
+|vim .  |			öffne netrw in current dir
 
 # netrw
 
@@ -174,6 +174,15 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |ctrl + w, &lt;	|	decrease active viewport size (für 8 Einheiten Verkleinerung: ctrl + w, 8, &lt;)
 |ctrl + 	|		zoom in (anschließend ctrl + w, =)
 |ctrl -		|	zoom out (anschließend ctrl + w, =)
+
+## Syntax highlighting
+
+| command | description |
+| :---: | :---: |
+|:set filetype=cmake | wenn Syntax nicht automatisch aktiviert wird, diesen Befehl ausführen
+|:scriptnames | To find out which files Vim has actually loaded. Generally, only the last one listed is "active", and even it may not be if you've turned syntax highlighting off. 
+|:echo b:current_syntax | To see the syntax currently in effect. 
+|:syntax list | To see the syntax items currently in effect. This may help if syntax items from more than one syntax file are in effect.
 
 # In INSERT mode
 
