@@ -183,6 +183,7 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |:scriptnames | To find out which files Vim has actually loaded. Generally, only the last one listed is "active", and even it may not be if you've turned syntax highlighting off. 
 |:echo b:current_syntax | To see the syntax currently in effect. 
 |:syntax list | To see the syntax items currently in effect. This may help if syntax items from more than one syntax file are in effect.
+|:setlocal syntax? | The syntax for the current buffer can be queried via this command. It usually (but not necessarily) corresponds to the buffer's filetype (`:setlocal filetype?`).
 
 # In INSERT mode
 
