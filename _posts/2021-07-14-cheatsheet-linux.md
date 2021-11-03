@@ -302,7 +302,7 @@ sudo snap remove *package* |
 | command | description |
 | :---: | :---: |
 | man pkg-config | description of all pkg-config flags
-| pkg-config --libs-only-l json-c | was man im CMakeLists.txt in `target_link_libraries` eintragen muss (hier: -ljson-c)
+| pkg-config --libs-only-l json-c | was man im CMakeLists.txt in `target_link_libraries` eintragen muss (hier: `-ljson-c` Achtung: das `-l` muss auch im CMakeLists.txt rein!)
 | pkg-config --libs-only-L json-c | location of .so library file (hier: in ubuntu 18.04: findet er nicht, ist aber in `/lib/x86_64-linux-gnu`; in ubuntu 20.04: `-L/usr/local/lib`) (see also: [difference .so vs .a libraries](https://stackoverflow.com/a/9810368/12282296)) (muss nicht in CMakeLists.txt rein, s. [Minimalbsp](https://github.com/pharath/home/tree/master/assets/_code_examples/jsonc))
 | pkg-config --cflags json-c | include paths of the corresponding library with .h header files (hier: in ubuntu 18.04: `-I/usr/include/json-c`; in ubuntu 20.04: `-I/usr/local/include -I/usr/local/include/json-c`) (muss nicht in CMakeLists.txt rein)
 
