@@ -236,7 +236,7 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 echo $$ | show PID of current shell
 kill *PID* | stop process with id *PID*
 
-# apt, apt-get, snap, dpkg
+# apt, apt-get, snap, dpkg, pkg-config
 
 ## Difference between apt and apt-get + apt-cache:
 - `apt` = most commonly used command options from `apt-get` and `apt-cache` see [here](https://itsfoss.com/apt-vs-apt-get-difference/)
@@ -296,6 +296,14 @@ sudo vim /var/lib/dpkg/info/nvidia-cuda-toolkit.list | in /var/lib/dpkg/info/ si
 snap find *package* |
 sudo snap install *package* |
 sudo snap remove *package* |
+
+## pkg-config
+
+| command | description |
+| :---: | :---: |
+| pkg-config --libs-only-l json-c | was man im CMakeLists.txt in target_link_libraries eintragen muss (hier: -ljson-c)
+| pkg-config --libs-only-L json-c | location of .so library file (muss nicht in CMakeLists.txt rein, s. [Minimalbsp](/assets/_code_examples/jsonc/CMakeLists.txt)) (hier: in ubuntu 18.04: findet er nicht, ist aber in `/lib/x86_64-linux-gnu`; in ubuntu 20.04: `-L/usr/local/lib`) (see also: [difference .so vs .a libraries](https://stackoverflow.com/a/9810368/12282296))
+| pkg-config --cflags json-c | include paths of the corresponding library with .h header files (hier: in ubuntu 20.04: `-I/usr/local/include -I/usr/local/include/json-c`) (muss nicht in CMakeLists.txt rein)
 
 # System information
 
