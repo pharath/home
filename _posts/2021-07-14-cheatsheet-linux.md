@@ -176,6 +176,10 @@ python2.7 | einfach per `apt python2.7` installieren; starten per `python2.7` (n
 
 ocrmypdf | `ocrmypdf in.pdf out.pdf`
 
+<hr>
+
+ipad_charge | [github link](https://github.com/mkorenkov/ipad_charge/wiki) automatically start charging ipad when connected to ubuntu
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
