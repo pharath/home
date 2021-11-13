@@ -62,6 +62,8 @@ So, we are building, of course, all of the mechanical components of the body, th
 
 So, the processing starts in the beginning when light hits our artificial retina and we are going to process this information with neural networks. 
 
+#### HydraNet
+
 Now, I'm going to roughly organize this section chronologically.
 
 So, starting off with some of the neural networks and what they looked like **roughly four years ago when i joined the team** and how they have developed over time. 
@@ -77,7 +79,7 @@ Roughly four years ago the car was mostly driving in a single lane going forward
 
    So, for example, if you're a neuron all the way down in the network and you're looking at a small patch and you're not sure if this is a car or not, it definitely helps to know from the top layers that, hey, you are actually in the vanishing point of this highway. So, that helps you disambiguate that this is probably a car. 
 
-6. After a BiFPN and a feature fusion across scales we then go into **task specific heads**. 
+6. [slide: Detection Head] After a BiFPN and a feature fusion across scales we then go into **task specific heads**. 
 
    So, for example, if you are doing **object detection**, we have a one stage **YOLO**-like object detector. Here, where we initialize a raster and there's a binary bit per position telling you whether or not there's a car there and then, in addition to that, if there is [a car], here's a bunch of other attributes you might be interested in. So, the x and y with height offset or any of the other attributes like what type of a car is this and so on. So, this is for the detection by itself.
 
