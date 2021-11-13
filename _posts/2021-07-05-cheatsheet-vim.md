@@ -68,7 +68,8 @@ tags:
 
 | command | description |
 | :---: | :---: |
-|vim .  |			öffne netrw in current dir
+| vim .  |			öffne netrw in current dir
+| vim -r *file.swp* | restore *file.swp*
 
 # netrw
 
