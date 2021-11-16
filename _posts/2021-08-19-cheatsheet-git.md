@@ -18,6 +18,7 @@ git reflog |	view history of checkout operations
 git log	|	view history of commits
 git revert \<commit-hash\>	| commit \<commit-hash\> rückgängig machen
 git tag -l	|	list all tags
+git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' \<repository\> | list all tags of \<repository\>
 git checkout tags/\<tag name\>	|		checkout a specific tag
 git fetch	|
 git checkout solution/2\_foundations	|
