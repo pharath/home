@@ -66,3 +66,7 @@ Packages declare their dependencies in the **package.xml** file. This command wa
 
 - `--build-type`: `ament_cmake`
 - `--dependencies` will automatically add the necessary dependency lines to `package.xml` and `CMakeLists.txt`
+
+# Gazebo
+
+- `wget -q -R *index.html*,*.tar.gz --no-parent -r -x -nH http://models.gazebosim.org/cardboard_box/` download model cardboard_box
