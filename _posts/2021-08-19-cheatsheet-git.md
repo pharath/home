@@ -48,10 +48,19 @@ git status 		# should show added files in green (green = files are added)
 git commit -m “message for saving my solution to exercise 2” #	commit added files to your local “exercise/2_foundations”
 ```
 
-# Compare code files
+# git diff
+
+## Compare code files
 
 ```bash
 git diff origin/exercise/4_ros_node_cpp..origin/solution/4_ros_node_cpp
+```
+
+## Compare commits
+
+```bash
+# Syntax: git diff COMMIT~ COMMIT (vergleicht COMMIT mit dessen ancestor)
+git diff 2326473e602be4b90b46f6b6afc7315ff1d09a17~ 2326473e602be4b90b46f6b6afc7315ff1d09a17
 ```
 
 # credential helper
