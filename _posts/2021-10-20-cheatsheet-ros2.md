@@ -94,3 +94,7 @@ Source: [http://gazebosim.org/tutorials?tut=build_model](http://gazebosim.org/tu
 
 <p><strong>Plugins:</strong> A plugin is a shared library created by a third party to control a model.</p>
 </blockquote>
+
+# Troubleshooting
+
+- `rosnode kill -a; killall -9 rosmaster; killall -9 roscore`, if nodes do not stop automatically
