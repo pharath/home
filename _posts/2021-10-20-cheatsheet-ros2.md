@@ -16,6 +16,7 @@ tags:
 2. Dann, wie in [binary installation](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Binary.html) unter 
 - "Installing and initializing rosdep" und 
 - "Installing the missing dependencies" 
+
 beschrieben, die restlichen dependencies installieren (ohne 2. funktioniert ROS2 nicht!).
 
 # Create Package
