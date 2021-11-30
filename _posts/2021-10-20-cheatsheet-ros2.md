@@ -72,6 +72,11 @@ Packages declare their dependencies in the **package.xml** file. This command wa
 
 - `wget -q -R *index.html*,*.tar.gz --no-parent -r -x -nH http://models.gazebosim.org/cardboard_box/` download model cardboard_box
 
+## Xacro Macros (.xacro)
+
+- s. [http://wiki.ros.org/xacro#Macros](http://wiki.ros.org/xacro#Macros)
+- nicht vergessen: `*origin` in `param="suffix *origin"` ist **kein** Parameter und muss ein separates Element sein (s. [Link](http://wiki.ros.org/xacro#Macros) oben)!
+
 ## Components of SDF Models
 
 Source: [http://gazebosim.org/tutorials?tut=build_model](http://gazebosim.org/tutorials?tut=build_model)
