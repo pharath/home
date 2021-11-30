@@ -70,3 +70,27 @@ Packages declare their dependencies in the **package.xml** file. This command wa
 # Gazebo
 
 - `wget -q -R *index.html*,*.tar.gz --no-parent -r -x -nH http://models.gazebosim.org/cardboard_box/` download model cardboard_box
+
+## Components of SDF Models
+
+Source: [http://gazebosim.org/tutorials?tut=build_model](http://gazebosim.org/tutorials?tut=build_model)
+
+<blockquote>
+<p><strong>Links:</strong> A link contains the physical properties of one body of the model. This can be a wheel, or a link in a joint chain. Each link may contain many collision and visual elements. Try to reduce the number of links in your models in order to improve performance and stability. For example, a table model could consist of 5 links (4 for the legs and 1 for the top) connected via joints. However, this is overly complex, especially since the joints will never move. Instead, create the table with 1 link and 5 collision elements.</p>
+
+<blockquote>
+<p><strong>Collision:</strong> A collision element encapsulates a geometry that is used for collision checking. This can be a simple shape (which is preferred), or a triangle mesh (which consumes greater resources). A link may contain many collision elements.</p>
+
+<p><strong>Visual:</strong> A visual element is used to visualize parts of a link. A link may contain 0 or more visual elements.</p>
+
+<p><strong>Inertial:</strong> The inertial element describes the dynamic properties of the link, such as mass and rotational inertia matrix.</p>
+
+<p><strong>Sensor:</strong> A sensor collects data from the world for use in plugins. A link may contain 0 or more sensors.</p>
+
+<p><strong>Light:</strong> A light element describes a light source attached to a link. A link may contain 0 or more lights.</p>
+</blockquote>
+
+<p><strong>Joints:</strong> A joint connects two links. A parent and child relationship is established along with other parameters such as axis of rotation, and joint limits.</p>
+
+<p><strong>Plugins:</strong> A plugin is a shared library created by a third party to control a model.</p>
+</blockquote>
