@@ -68,6 +68,14 @@ Packages declare their dependencies in the **package.xml** file. This command wa
 - `--build-type`: `ament_cmake`
 - `--dependencies` will automatically add the necessary dependency lines to `package.xml` and `CMakeLists.txt`
 
+# Publisher-Subscriber
+
+## Queue Size
+
+from: [source](https://stackoverflow.com/a/60554760/12282296)
+
+A real life example can be a scenario of a waiter and a kitchen to wash dishes. Suppose the costumers ends its meals and the waiter takes their dirty dishes to wash in the kitchen. He puts in a table. Whenever the dishwasher can, he goes to table and gets dishes and take to wash. In normal operation the table is never filled. But if someone else give another task to the dishwasher guy, the table will start to get full. Until some time the waiter can't place dishes anymore and leave tables dirty (problem in the system). But if table is artificially large there (let's say 1000 square units) the waiter will likely fulfill its job even if dishwasher is busy, considering that after some time he will be able to return to clean dishes.
+
 # Gazebo
 
 - `wget -q -R *index.html*,*.tar.gz --no-parent -r -x -nH http://models.gazebosim.org/cardboard_box/` download model cardboard_box
