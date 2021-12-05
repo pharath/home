@@ -615,7 +615,7 @@ sudo hdparm -i /dev/sda |
 
 | command | description |
 | :---: | :---: |
-wget -O output_file -q https://checkip.amazonaws.com	|	-O output_file: benutze Minuszeichen “-“ statt output_file wenn output direkt in Terminal erscheinen soll; -q für quiet
+wget -O output_file -q https://checkip.amazonaws.com -P DESTINATION	|	-O output_file: benutze Minuszeichen “-“ statt output_file wenn output direkt in Terminal erscheinen soll; -q für quiet; -P für Zielordner
 curl -s https://checkip.amazonaws.com		|			-s für silent
 
 # gpg
