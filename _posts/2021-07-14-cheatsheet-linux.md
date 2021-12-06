@@ -449,6 +449,8 @@ sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/noteboo
 | :---: | :---: |
 ctrl + w | delete the word in front of the cursor
 alt + d | delete the word after the cursor
+ctrl + a | jump to the beginning of the line
+ctrl + e | jump to the end of the line
 
 ## terminal commands and bash scripting
 
