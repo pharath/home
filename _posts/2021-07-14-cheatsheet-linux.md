@@ -443,6 +443,15 @@ sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/noteboo
 
 # bash
 
+## terminal shortcuts
+
+| command | description |
+| :---: | :---: |
+ctrl + w | delete the word in front of the cursor
+alt + d | delete the word after the cursor
+
+## terminal commands and bash scripting
+
 | command | description |
 | :---: | :---: |
 echo Variable |		display content of the variable "Variable"
