@@ -376,6 +376,8 @@ sudo docker images | show all images
 
 | :---: | :---: |
 sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554), i.e. `docker commit CONTAINER_ID NEW_IMAGE_NAME`
+docker commit -m "added test file" eloquent_lehmann | commit with commit message
+docker history \<image hash\> | view commit messages
 
 <hr>
 
