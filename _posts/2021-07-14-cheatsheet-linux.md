@@ -443,6 +443,14 @@ Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/te
 | :---: | :---: |
 sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
 
+## Gitlab Container Registry
+
+| command | description |
+| :---: | :---: |
+docker login registry.git.rwth-aachen.de | login to Container Registry
+docker image tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | tag local image "galaxis_simulation:phth-8" (Note: the tag registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 must have this form!)
+docker push registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | push image to Gitlab Container Registry
+
 # bash
 
 ## terminal shortcuts
