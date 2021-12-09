@@ -105,6 +105,7 @@ ctrl + g | show current file name
 3. “		|		Kommentarsymbol am Anfang der ersten Zeile eingeben (while in Block mode)
 4. Esc		|		drücken und 1 sec warten (bis das Kommentarsymbol vor allen Zeilen im Block auftaucht)
 |:terminal|
+| ctrl+w capital N | in terminal mode: enable scrolling (move around with cursor) in vim terminal mode (press i or a to resume using terminal as before)
 |:syntax on|
 |:set number|
 |:set nonumber|
