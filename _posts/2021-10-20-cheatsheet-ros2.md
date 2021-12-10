@@ -78,6 +78,17 @@ A real life example can be a scenario of a waiter and a kitchen to wash dishes. 
 
 # Gazebo
 
+## reopen the GUI window
+
+from: [source](https://answers.gazebosim.org/question/541/what-is-a-simple-way-to-run-gazebo-with-no-graphics/?answer=544#post-id-544)
+
+> When you launch gazebo, there are two programs that are run: gzserver and gzclient. The program gzserver does all the simulation, even rendering for camera simulation. The interactive window is opened by gzclient.
+> To open a specific world, type gzserver specific.world.
+
+I.e. simply reopen the GUI by entering the command `gzclient`.
+
+## adding models
+
 - `wget -q -R *index.html*,*.tar.gz --no-parent -r -x -nH http://models.gazebosim.org/cardboard_box/` download model cardboard_box
 
 ## Xacro Macros (.xacro)
