@@ -16,7 +16,9 @@ cd /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resou
 ./airport en1 prefs # set wifi connection behaviour (eg. DisconnectOnLogout=NO)
 ```
 
-# ssh tricks
+# ssh 
+
+**Achtung:** `ssh` muss auf Mac erst aktiviert werden: unter "System Preferences"/"Sharing" bei "Remote login" Häkchen setzen!
 
 | command | description |
 | :---: | :---: |
