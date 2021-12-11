@@ -26,7 +26,7 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 - reduce number of model parameters
 - increase number of data points N
-- regularization (in statistics: shrinkage methods)
+- increase regularization parameter $\lambda$ (in statistics: shrinkage methods)
     - quadratic: 
         - weight decay (in Deep Learning)
         - L2 regularization = ridge regression (in statistics)
