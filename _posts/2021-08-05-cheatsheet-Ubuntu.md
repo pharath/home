@@ -75,6 +75,12 @@ CriticalPowerAction=HybridSleep
 
 # Appearance
 
+## Restart GUI
+
+Press Alt + F2, then type `r` and press Enter.
+
+other methods: [https://linuxconfig.org/how-to-restart-gui-on-ubuntu-20-04-focal-fossa](https://linuxconfig.org/how-to-restart-gui-on-ubuntu-20-04-focal-fossa)
+
 ## Dock like MacOS
 
 
