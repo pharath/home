@@ -47,3 +47,11 @@ Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die 
     - quadratic: 
         - weight decay (in Deep Learning)
         - L2 regularization = ridge regression (in statistics)
+
+# Probability Theory
+
+- Let p(B=r) = 0.4 and p(B=b) = 0.6 (frequentist view: this is how many times the guy who picked the fruit picked each box (in the limit of infinitely many pickings), i.e. the picker had a tendency to pick the blue one more often). 
+	- Suppose that we pick a box at random, and it turns out to be the blue box. What's the probability of picking an apple ?
+	- What's the (overall) probability of choosing an apple ?
+	- Suppose we picked an orange. Which box did it come from ?
+- prior vs posterior explain intuitively (e.g. "evidence favouring the red box")
