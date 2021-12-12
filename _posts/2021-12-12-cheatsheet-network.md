@@ -1,7 +1,7 @@
 ---
-title: "Linux Networking Cheatsheet"
+title: "Network Cheatsheet"
 read_time: false
-excerpt: "Some essential Linux networking commands"
+excerpt: "Some essential networking commands"
 header:
   teaser: /assets/images/linux_teaser.jpg
   overlay_image: /assets/images/linux_teaser.jpg
@@ -26,11 +26,11 @@ Ifconfig
 
 networksetup ( ohne parameter: zeigt alle möglichen parameter )
 
-alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport' (Achtung: ‘ und nicht “ als Anführungszeichen benutzen!)
-=> diese Zeile in “vim ~/.bash_profile” einfügen
-=> “listssids -s” kann dann alle SSIDs abrufen
+alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport' # (Achtung: ‘ und nicht “ als Anführungszeichen benutzen!)
+# => diese Zeile in “vim ~/.bash_profile” einfügen
+# => “listssids -s” kann dann alle SSIDs abrufen
 
-networksetup -setairportnetwork en1 'bra-ket’s iPhone' 'muster_password' (Achtung: das alt-Apostroph in “bra-ket’s” muss über <cmd> + <shift> + < ‘ > eingegeben werden)
+networksetup -setairportnetwork en1 'bra-ket’s iPhone' 'muster_password' # (Achtung: das alt-Apostroph in “bra-ket’s” muss über <cmd> + <shift> + < ‘ > eingegeben werden)
 ```
 
 # Linux
@@ -93,13 +93,13 @@ aus S. 32 in Dok:
 ```bash
 man module
 
-module avail				list all available modules
+module avail # list all available modules
 
-module list				list currently loaded module files
+module list # list currently loaded module files
 
-module help python/3.9.1 	Manual zu modul ‘python/3.9.1’
+module help python/3.9.1 # Manual zu modul ‘python/3.9.1’
 
-module unload modulename	NICHT BENUTZEN ! (stattdessen “module switch” s.u.)
+module unload modulename # NICHT BENUTZEN ! (stattdessen “module switch” s.u.)
 ```
 
 If you want to use another version of a software (e.g., another compiler), we strongly recommend switching between modules:

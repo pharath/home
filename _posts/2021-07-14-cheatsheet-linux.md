@@ -699,12 +699,16 @@ ssh-keygen -R 10.14.14.92 | remove 10.14.14.92 from .ssh/known_hosts (falls aus 
 | :---: | :---: |
 scp *source* *target* | 
 scp -rv Macbook:"~/Desktop/Uni/FS1/Essential\ Astrophysics\ WS1819" ~/Desktop/ | spaces DOPPELT escapen (hier: 1. mit " **UND** 2. mit \) 
+`scp -r [!.]* source target` | exclude hidden files
 
 ## rsync
 
 | command | description |
 | :---: | :---: |
 rsync -a *source* *destination* | copy directory (**Warning**: -r tag does not copy some stuff, e.g. symlinks)
+`rsync -a --exclude="SomeDirForPythonInstall"` | exclude directory "SomeDirForPythonInstall"
+`rsync -a --exclude=".*"` | excludes hidden files and directories
+`rsync -a --exclude=".*/"` | exclude hidden directories only
 
 # GPU
 
