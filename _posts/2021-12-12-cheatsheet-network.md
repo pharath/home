@@ -134,7 +134,7 @@ nvidia-smi				GPU Usage Info
 
 # Für Jupyter Lab
 
-Quelle: (https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/)[https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/]
+Quelle: [https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/](https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/)
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:$HOME/SomeDirForPythonInstall/lib/python3.9.1/site-packages
