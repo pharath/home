@@ -55,3 +55,36 @@ Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die 
 	- What's the (overall) probability of choosing an apple ?
 	- Suppose we picked an orange. Which box did it come from ?
 - prior vs posterior explain intuitively (e.g. "evidence favouring the red box")
+- independence intuitively (e.g. "independent of which box is chosen")
+
+# Outlier removal
+
+- by choosing a suitable nonlinearity (e.g. sigmoid, tanh)
+- remove outlier data point completely from the data set
+
+# Linear models for classification
+
+> Note:
+> - linear models (i.e. WITHOUT activation function) 
+> - generalized linear models
+
+1. linear discriminant functions
+	- 2 classes
+	- K classes
+		- one-vs-rest
+		- one-vs-one
+		- single K-class discriminant
+	- learning the parameters
+		- least squares
+		- Fisher's linear discriminant
+		- perceptron algorithm
+2. probabilistic generative models (indirect modeling of posterior)
+	- p(Ck|x) can be written as logistic sigmoid 4.57 
+		- (i.e. it has a sigmoidal shape in input space, **if** "a" [4.58] is linear in x!)
+	- first model p(x|Ck) and p(Ck), then use 4.57-58 to find p(Ck|x) (or use equivalently Bayes' theorem 1.82-83)
+		- Examples:
+			- model p(x|Ck) as Gaussian 4.64 **=>** posterior p(Ck|x) is the logistic sigmoid 4.65, i.e. a **generalized linear model**
+				- (i.e. linear decision boundaries, but not linear in parameters!)
+				- decision boundaries are where (the 2 largest) posteriors are equal
+				- use MaxLike to determine parameters of Gaussian 4.64 and priors p(Ck) (requires data set)
+3. discriminative models (direct modeling of posterior)
