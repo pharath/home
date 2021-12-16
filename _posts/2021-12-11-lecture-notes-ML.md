@@ -112,6 +112,23 @@ Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die 
 
 # Newton's method (Newton-Raphson gradient descent)
 
+## "local quadratic approximation"
+
+... weil die Newton update Formel [w(tau+1)=w(tau)-...] sich aus der 2nd order taylor expansion (AKA quadratic approximation) am Punkt wtau ergibt, wenn man den 2nd order Polynom nimmt (mit Entwicklungspunkt wtau), diesen nach x ableitet, f'(x)=0 setzt und nach x auflöst. 
+
+- **Achtung**: die Newton-Raphson method update Formel [w(tau+1)=w(tau)-...] nähert die Nullstelle der 1. Ableitung an und nicht den Funktions**wert**! Letzterer wird über die 2nd order Taylor expansion angenähert!
+
+### 2nd order taylor polynomial anschaulich
+
+GeoGebra [https://www.geogebra.org/m/tbyAnqAK](https://www.geogebra.org/m/tbyAnqAK)
+- beachte: rote Scheitelstelle (vertex Stelle) ist bei -b/(2a), d.h. **nicht** unbedingt bei (0,0) und abhängig von a und b!
+
+Die 2nd order taylor expansion ist ein Polynom zweiten Grades am Punkt wtau (Parabel, die sich an Stelle wtau an log-likelihood anschmiegt) 
+- wtau muss **nicht** mit Parabel-Scheitelstelle übereinstimmen (s. [Geogebra](https://www.geogebra.org/m/tbyAnqAK))! Wenn diese übereinstimmen, wäre w(tau) = w(tau + 1), d.h. wtau würde sich nicht verändern beim update: ![Quadratic_approximation](/assets/images/Quadratic_approximation.jpg))
+	- vgl. Bild ganz unten in [Link](https://suzyahyah.github.io/calculus/optimization/2018/04/06/Taylor-Series-Newtons-Method.html) 
+
+## intuition
+
 source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method](https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method)
 
 <h2 data-id="newtons-method">Newton&#8217;s Method</h2>
