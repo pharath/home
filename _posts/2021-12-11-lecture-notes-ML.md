@@ -161,3 +161,15 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
 	- this is why it's called "backprop"
 	- "propagates the gradient backwards through the layers"
+
+### Dynamic Programming
+
+source: [https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence](https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence)
+
+```python
+var m := map(0 → 0, 1 → 1)
+function fib(n)
+    if key n is not in map m
+        m[n] := fib(n − 1) + fib(n − 2)
+    return m[n]
+```
