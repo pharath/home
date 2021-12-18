@@ -19,7 +19,7 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 # Algorithm 1
 Just a sample algorithmn
-\begin{algorithm}[H]
+[//]: # (\begin{algorithm}[H]
 \DontPrintSemicolon
 \SetAlgoLined
 \KwResult{Write here the result}
@@ -37,4 +37,10 @@ Just a sample algorithmn
     }
 }
 \caption{While loop with If/Else condition}
-\end{algorithm} 
+\end{algorithm} )
+
+\begin{equation}
+\begin{aligned}
+  \LaTeX
+\end{aligned}
+\end{equation}
