@@ -41,6 +41,6 @@ Just a sample algorithmn
 
 \begin{equation}
 \begin{aligned}
-  \LaTeX
+  \LaTeX 1 2 3 \alpha
 \end{aligned}
 \end{equation}
