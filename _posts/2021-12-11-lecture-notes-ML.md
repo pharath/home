@@ -161,11 +161,11 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
 	- this is why it's called "backprop"
 	- "propagates the gradient backwards through the layers"
+- "performs on the order of one **Jacobian product** per node in the graph" (Goodfellow, Bengio)
 
 ### Dynamic Programming
 
-- backprop stores the $y_i^{(k-1)}$ after the forward pass and re-uses it during the backward pass to calculate $$\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$$
-- backprop visits each edge only once
+#### Example: Fibonacci sequence
 
 source: [https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence](https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence)
 
@@ -178,3 +178,18 @@ function fib(n)
 ```
 
 - This technique of saving values that have already been calculated is called **memoization**
+- The function requires only O(n) time instead of exponential time (but requires O(n) space)
+    - i.e. the number of common subexpressions is reduced **without regard to memory**!
+
+#### Relation to Backprop
+
+- backprop stores the $y_i^{(k-1)}$ during the forward pass and re-uses it during the backward pass to calculate $$\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$$
+- backprop visits each edge (of the computational graph for this problem) only once, so that ... 
+
+> "[...] the amount of computation required for performing the back-propagation scales linearly with the number of edges in G, where the computation for each edge corresponds to computing a partial derivative (of one node with respect to one of its parents) as well as performing one multiplication and one addition." (Goodfellow, Bengio)
+
+- Back-propagation avoids the exponential explosion in repeated subexpressions (cf. Figure 6.9 in Goodfellow, Bengio)
+
+> "The back-propagation algorithm is designed to reduce the number of common subexpressions without regard to memory." (Goodfellow, Bengio)
+
+- this increase in memory consumption is similar to the Fibonacci example above
