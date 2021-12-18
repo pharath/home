@@ -1,7 +1,5 @@
 ---
 title: "test latex"
-header-includes:
-  - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 header:
   teaser: /assets/images/databases.png
   overlay_image: /assets/images/databases.png
