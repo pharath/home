@@ -17,8 +17,10 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 ---
 
-# Algorithm 1
+# Algorithm 1 $$\LaTeX$$
+
 Just a sample algorithmn
+
 [//]: # (\begin{algorithm}[H]
 \DontPrintSemicolon
 \SetAlgoLined
@@ -37,10 +39,11 @@ Just a sample algorithmn
     }
 }
 \caption{While loop with If/Else condition}
-\end{algorithm} )
+\end{algorithm} 
 
 \begin{equation}
 \begin{aligned}
   \LaTeX 1 2 3 \alpha
 \end{aligned}
-\end{equation}
+\end{equation} )
+
