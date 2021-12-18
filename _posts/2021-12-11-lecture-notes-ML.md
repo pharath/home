@@ -156,8 +156,21 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 - However, when calculating the **depth** of a deep neural network, we only consider the layers that have tunable weights. [source](https://datascience.stackexchange.com/a/14033/115254)
 
+## Forward Propagation
+
+- inputs:
+	- depth l
+	- l weight matrices of the model $\mathbf{W}^{(i)}$
+	- l biases of the model $\mathbf{b}^{(i)}$
+	- input $\mathbf{x}$ (here: only one for simplicity)
+	- target $\mathbf{y}$
+- outputs:
+	- output $\hat{\mathbf{y}}$
+	- target $\mathbf{y}$
+
 ## Backprop
 
+- refers only to the **method used to compute all necessary gradients**, whereas another algorithm (e.g. SGD) is used to perform **learning** using these gradients!
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
 	- this is why it's called "backprop"
 	- "propagates the gradient backwards through the layers"
@@ -165,6 +178,11 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - Backprop visits each edge (of the computational graph for this problem) only once, so that "[...] the amount of computation required for performing the back-propagation **scales linearly with the number of edges** in G, where the computation for each edge corresponds to computing a partial derivative (of one node with respect to one of its parents) as well as performing one multiplication and one addition." (Goodfellow, Bengio)
 
 ### Dynamic Programming
+
+- a computer programming method
+	- though, in literature one often finds the plural form "dynamic programming methods"
+- refers to simplifying a complicated problem by breaking it down into simpler sub-problems in a recursive manner
+	- if this "breaking down" is possible for a problem, then the problem is said to have **optimal substructure**
 
 #### Example: Fibonacci sequence
 
@@ -181,10 +199,13 @@ function fib(n)
 - This technique of saving values that have already been calculated is called **memoization**
 - The function requires only O(n) time instead of exponential time (but requires O(n) space)
     - i.e. the number of common subexpressions is reduced **without regard to memory**!
+	- note: sometimes recalculating instead of storing can be a good decision, if memory is limited!
 
 #### Relation to Backprop
 
 - Backprop stores the $y_i^{(k-1)}$ during the forward pass and re-uses it during the backward pass to calculate $$\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$$ (memoization, Dynamic Programming)
+- During the backward pass Backprop visits each edge only once (see above) and gradients that have already been calculated are saved in memory (cf. `grad_table[u[i]]` in Algo 6.2 or `g` in Algo 6.4 Goodfellow, Bengio)! (memoization, Dynamic Programming)
+    - this is analogous to the Fibonacci Sequence Algo's map `m` (see above) which saves the `fib(n − 1) + fib(n − 2)` that have already been calculated in memory
 - (cf. Figure 6.9 in Goodfellow, Bengio) Back-propagation avoids the exponential explosion in **repeated subexpressions** 
 - similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
 - "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
