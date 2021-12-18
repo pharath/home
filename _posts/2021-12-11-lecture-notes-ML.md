@@ -162,6 +162,7 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 	- this is why it's called "backprop"
 	- "propagates the gradient backwards through the layers"
 - "performs on the order of one **Jacobian product** per node in the graph" (Goodfellow, Bengio)
+- Backprop visits each edge (of the computational graph for this problem) only once, so that "[...] the amount of computation required for performing the back-propagation **scales linearly with the number of edges** in G, where the computation for each edge corresponds to computing a partial derivative (of one node with respect to one of its parents) as well as performing one multiplication and one addition." (Goodfellow, Bengio)
 
 ### Dynamic Programming
 
@@ -183,13 +184,7 @@ function fib(n)
 
 #### Relation to Backprop
 
-- backprop stores the $y_i^{(k-1)}$ during the forward pass and re-uses it during the backward pass to calculate $$\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$$
-- backprop visits each edge (of the computational graph for this problem) only once, so that ... 
-
-> "[...] the amount of computation required for performing the back-propagation scales linearly with the number of edges in G, where the computation for each edge corresponds to computing a partial derivative (of one node with respect to one of its parents) as well as performing one multiplication and one addition." (Goodfellow, Bengio)
-
-- Back-propagation avoids the exponential explosion in repeated subexpressions (cf. Figure 6.9 in Goodfellow, Bengio)
-
-> "The back-propagation algorithm is designed to reduce the number of common subexpressions without regard to memory." (Goodfellow, Bengio)
-
-- this increase in memory consumption is similar to the Fibonacci example above
+- Backprop stores the $y_i^{(k-1)}$ during the forward pass and re-uses it during the backward pass to calculate $$\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$$ (memoization, Dynamic Programming)
+- (cf. Figure 6.9 in Goodfellow, Bengio) Back-propagation avoids the exponential explosion in **repeated subexpressions** 
+- similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
+- "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
