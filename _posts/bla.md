@@ -1,6 +1,5 @@
 ---
-title: "Machine Learning"
-excerpt: "Page formatting sucks. Click on \"Content in HTML\" button below."
+title: "test latex"
 header-includes:
   - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 header:
@@ -10,13 +9,10 @@ header:
   caption: "Photo credit: [**Jennifer Widom**](https://cs.stanford.edu/people/widom/)"
   actions:
     - label: "Content in HTML"
-[//]: # (      url: "https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/2021-09-23-Databases.html")
 categories:
-  - Lecture_Notes
-  - Machine_Learning
+  - Test
 tags:
-  - lecture_notes
-  - ml
+  - test
 toc: true
 toc_sticky: true
 last_modified_at: 2021-09-23T16:00:52-04:00
