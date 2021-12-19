@@ -166,9 +166,21 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 	- target $\mathbf{y}$
 - outputs:
 	- output $\hat{\mathbf{y}}$
-	- target $\mathbf{y}$
+	- cost function $J$
+	- input of unit j: $\mathbf{a}_j^{(k)} for all j
+	- output of unit j: $\mathbf{h}_j^{(k)} for all j
 
 ## Backprop
+
+- inputs:
+	- depth l
+	- l weight matrices of the model $\mathbf{W}^{(i)}$
+	- l biases of the model $\mathbf{b}^{(i)}$
+	- outputs of Forward Propagation
+- outputs:
+	- gradients w.r.t. all weights and biases $\nabla_{\mathbf{W}^{(k)}}J$ and $\nabla_{\mathbf{b}^{(k)}}J$
+		- also computes all $\nabla_{\mathbf{a}^{(k)}}J$ and $\nabla_{\mathbf{h}^{(k)}}J$ in the process
+			- $\nabla_{\mathbf{a}^{(k)}}J$ can be interpreted as an indication of how each layer’s output should change to reduce error
 
 - refers only to the **method used to compute all necessary gradients**, whereas another algorithm (e.g. SGD) is used to perform **learning** using these gradients!
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
