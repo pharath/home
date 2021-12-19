@@ -27,10 +27,10 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 1. higher order polynomial contains all lower order polynomials as special cases
 	- hence, the higher order polynomial **is** capable of generating a result at least as good as the lower order polynomial
-		- d.h. das Polynom mit höherer Ordnung **kann** potentiell mindestens genauso gute Ergebnisse liefern ! Wieso passiert das nicht ?
+		- d.h. das Polynom mit höherer Ordnung **kann** potentiell mindestens genauso gute Ergebnisse liefern ! Wieso passiert das nicht?
 2. Sinus-Potenzreihe konvergiert für alle x in R und enthält Terme mit allen Potenzen von x (die geraden Potenzen haben Vorfaktor 0)
 
-Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term umso genauer (d.h. näher an der ursprünglichen Sinusfunktion) werden sollte (weil die Potenzreihe ja auch mit jedem höheren x-Term genauer wird). Warum passiert das nicht ? 
+Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term umso genauer (d.h. näher an der ursprünglichen Sinusfunktion) werden sollte (weil die Potenzreihe ja auch mit jedem höheren x-Term genauer wird). Warum passiert das nicht? 
 
 **Antwort**:
 
@@ -52,9 +52,9 @@ Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die 
 # Probability Theory
 
 - Let p(B=r) = 0.4 and p(B=b) = 0.6 (frequentist view: this is how many times the guy who picked the fruit picked each box (in the limit of infinitely many pickings), i.e. the picker had a tendency to pick the blue one more often). 
-	- Suppose that we pick a box at random, and it turns out to be the blue box. What's the probability of picking an apple ?
-	- What's the (overall) probability of choosing an apple ?
-	- Suppose we picked an orange. Which box did it come from ?
+	- Suppose that we pick a box at random, and it turns out to be the blue box. What's the probability of picking an apple?
+	- What's the (overall) probability of choosing an apple?
+	- Suppose we picked an orange. Which box did it come from?
 - prior vs posterior explain intuitively (e.g. "evidence favouring the red box")
 - independence intuitively (e.g. "independent of which box is chosen")
 
