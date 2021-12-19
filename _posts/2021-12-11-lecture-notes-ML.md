@@ -160,6 +160,7 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 > When I say that reverse-mode differentiation gives us the derivative of e with respect to **every node**, I really do mean every node. We get both $\frac{\partial e}{\partial a}$ and $\frac{\partial e}{\partial b}$, the derivatives of $e$ with respect to both inputs. Forward-mode differentiation gave us the derivative of our output with respect to a single input, but reverse-mode differentiation gives us all of them. [...] 
 > Are there any cases where forward-mode differentiation makes more sense? Yes, there are! Where the reverse-mode gives the derivatives of one output with respect to all inputs, the forward-mode gives us the derivatives of all outputs with respect to one input. If one has a function with lots of outputs, forward-mode differentiation can be much, much, much faster.
+
 ## Forward Propagation
 
 - inputs:
