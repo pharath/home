@@ -167,8 +167,8 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - outputs:
 	- output $\hat{\mathbf{y}}$
 	- cost function $J$
-	- input of unit j: $\mathbf{a}_j^{(k)} for all j
-	- output of unit j: $\mathbf{h}_j^{(k)} for all j
+	- input of unit j: $\mathbf{a}_j^{(k)}$ for all j
+	- output of unit j: $\mathbf{h}_j^{(k)}$ for all j
 
 ## Backprop
 
