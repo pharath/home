@@ -183,6 +183,9 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 			- $\nabla_{\mathbf{a}^{(k)}}J$ can be interpreted as an indication of how each layer’s output should change to reduce error
 
 - refers only to the **method used to compute all necessary gradients**, whereas another algorithm (e.g. SGD) is used to perform **learning** using these gradients!
+	- "however, the term is often used loosely to refer to the entire learning algorithm, including how the gradient is used, such as by stochastic gradient descent" [source](https://en.wikipedia.org/wiki/Backpropagation)
+       	> "More generally, the field of **automatic differentiation** is concerned with how to compute derivatives algorithmically. The back-propagation algorithm described here is only one approach to automatic differentiation. It is a special case of a broader class of techniques called **reverse mode accumulation**." (Goodfellow, Bengio)
+
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
 	- this is why it's called "backprop"
 	- "propagates the gradient backwards through the layers"
