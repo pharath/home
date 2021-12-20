@@ -1,13 +1,14 @@
 ---
 title: "Machine Learning"
-excerpt: "Page formatting sucks. Click on \"Content in HTML\" button below."
+excerpt: "Notes on Machine Learning theory."
+classes: wide
 header:
-  teaser: /assets/images/databases.png
-  overlay_image: /assets/images/databases.png
-  overlay_filter: 0.5 
-  caption: "Photo credit: [**Jennifer Widom**](https://cs.stanford.edu/people/widom/)"
+  teaser: /assets/images/lenet.png
+  overlay_image: /assets/images/lenet.png
+  overlay_filter: 0.6
+  caption: "Photo credit: [**Yann LeCun**](http://yann.lecun.com/)"
   actions:
-    - label: "Content in HTML"
+    - label: "Some Content"
 [//]: # (      url: "https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/2021-09-23-Databases.html")
 categories:
   - Lecture_Notes
@@ -16,7 +17,7 @@ tags:
   - lecture_notes
   - ml
 toc: true
-toc_sticky: true
+toc_label: "Contents"
 last_modified_at: 2021-09-23T16:00:52-04:00
 
 ---
@@ -156,35 +157,139 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 - However, when calculating the **depth** of a deep neural network, we only consider the layers that have tunable weights. [source](https://datascience.stackexchange.com/a/14033/115254)
 
-## Forward-mode vs Reverse-mode differentiation
+## Automatic Differentiation
+
+### Forward-mode vs Reverse-mode differentiation
 
 - read [Olah](https://colah.github.io/posts/2015-08-Backprop/)
 
 > **Forward-mode differentiation** starts at an input to the graph and moves towards the end. At every node, it sums all the paths feeding in. Each of those paths represents one way in which the input affects that node. By adding them up, we get the total way in which the node is affected by the input, it’s derivative. [...]
+
 > **Reverse-mode differentiation**, on the other hand, starts at an output of the graph and moves towards the beginning. At each node, it merges all paths which originated at that node. [...]
+
 > When I say that reverse-mode differentiation gives us the derivative of e with respect to every node, I really do mean **every node**. We get both $\frac{\partial e}{\partial a}$ and $\frac{\partial e}{\partial b}$, the derivatives of $e$ with respect to both inputs. Forward-mode differentiation gave us the derivative of our output with respect to a single input, but reverse-mode differentiation gives us all of them. [...] 
+
 > When training neural networks, we think of the cost (a value describing how bad a neural network performs) as a function of the parameters (numbers describing how the network behaves). We want to calculate the derivatives of the cost with respect to all the parameters, for use in gradient descent. Now, there’s often millions, or even tens of millions of parameters in a neural network. So, reverse-mode differentiation, called backpropagation in the context of neural networks, gives us a massive speed up!
-> (Are there any cases where forward-mode differentiation makes more sense? Yes, there are! Where the reverse-mode gives the derivatives of one output with respect to all inputs, the forward-mode gives us the derivatives of all outputs with respect to one input. If one has a function with lots of outputs, forward-mode differentiation can be much, much, much faster.) ([Olah](https://colah.github.io/posts/2015-08-Backprop/))
+
+> (Are there any cases where forward-mode differentiation makes more sense? Yes, there are! Where the reverse-mode gives the derivatives of one output with respect to all inputs, the forward-mode gives us the derivatives of all outputs with respect to one input. If one has a function with lots of outputs, forward-mode differentiation can be much, much, much faster.) 
 
 - both are algorithms for efficiently computing the sum by factoring the paths. Instead of summing over all of the paths explicitly, they compute the same sum more efficiently by merging paths back together at every node. In fact, both algorithms touch each edge exactly once!
 - At each node, reverse-mode differentiation merges all paths which originated at that node (starting at an output of the graph and moving towards the beginning)
 - forward-mode: apply operator $\frac{\partial}{\partial X}$ 
 - reverse-mode: apply operator $\frac{\partial Z}{\partial}$
-- if we have e.g. a hundred inputs, but only one output, reverse-mode differentiation gives a speed up in $\mathcal{0}(#inputs)$
+- if we have e.g. a hundred inputs, but only one output, reverse-mode differentiation gives a speed up in $\mathcal{O}(No. Inputs)$ compared to forward-mode differentiation
+
+### PyTorch autograd
+
+[source](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html) 
+
+- In the above examples, we had to manually implement both the forward and backward passes of our neural network. Manually implementing the backward pass is not a big deal for a small two-layer network, but can quickly get very hairy for large complex networks.
+
+- Thankfully, we can use **automatic differentiation** to automate the computation of backward passes in neural networks. The **autograd** package in PyTorch provides exactly this functionality. When using autograd, the forward pass of your network will define a **computational graph**; nodes in the graph will be Tensors, and edges will be functions that produce output Tensors from input Tensors. Backpropagating through this graph then allows you to easily compute gradients.
+	- auf Folie:
+		1. Convert NN to a computational graph 
+			- explanations:
+				- [PyTorch 101, Part 1: Understanding Graphs, Automatic Differentiation and Autograd](https://blog.paperspace.com/pytorch-101-understanding-graphs-and-automatic-differentiation/)
+					- [important points from this blog post](/pytorch/machine_learning/notes-pytorch/#how-does-pytorch-create-a-computational-graph)
+				- [Computational graphs in PyTorch and TensorFlow](https://towardsdatascience.com/computational-graphs-in-pytorch-and-tensorflow-c25cc40bdcd1)
+		2. Each new layer/module specifies how it affects the forward and backward passes 
+			- auf nächster Folie: "Each module is defined by
+				- `module.fprop(`$x$`)`
+				- `module.bprop(`$\frac{\partial E}{\partial y}$`)`
+					- computes the gradients of the cost wrt. the inputs $x$ given the gradient wrt. the outputs $y$
+					- `module.bprop()` ist in PyTorch wegen dem Autograd System nicht notwendig (vgl. [aus PyTorch Doc](/pytorch/machine_learning/notes-pytorch/#modules))
+			- e.g. `torch.nn.Linear` specifies that it will apply a linear transformation $y=xA^T+b$ to the incoming data during the forward pass (each module has a `forward()` method, see e.g. [source nn.Linear](https://pytorch.org/docs/stable/_modules/torch/nn/modules/linear.html#Linear))
+		3. Apply reverse-mode differentiation 
+			- i.e. call `loss.backward()`
+
+- This sounds complicated, it’s pretty simple to use in practice. Each Tensor represents a node in a computational graph. If `x` is a Tensor that has `x.requires_grad=True` then `x.grad` is another Tensor holding the gradient of `x` with respect to some scalar value.
+
+```python
+# -*- coding: utf-8 -*-
+import torch
+import math
+
+
+# Create Tensors to hold input and outputs.
+x = torch.linspace(-math.pi, math.pi, 2000)
+y = torch.sin(x)
+
+# For this example, the output y is a linear function of (x, x^2, x^3), so
+# we can consider it as a linear layer neural network. Let's prepare the
+# tensor (x, x^2, x^3).
+p = torch.tensor([1, 2, 3])
+xx = x.unsqueeze(-1).pow(p)
+
+# In the above code, x.unsqueeze(-1) has shape (2000, 1), and p has shape
+# (3,), for this case, broadcasting semantics will apply to obtain a tensor
+# of shape (2000, 3)
+
+# Use the nn package to define our model as a sequence of layers. nn.Sequential
+# is a Module which contains other Modules, and applies them in sequence to
+# produce its output. The Linear Module computes output from input using a
+# linear function, and holds internal Tensors for its weight and bias.
+# The Flatten layer flatens the output of the linear layer to a 1D tensor,
+# to match the shape of `y`.
+model = torch.nn.Sequential(
+    torch.nn.Linear(3, 1),
+    torch.nn.Flatten(0, 1)
+)
+
+# The nn package also contains definitions of popular loss functions; in this
+# case we will use Mean Squared Error (MSE) as our loss function.
+loss_fn = torch.nn.MSELoss(reduction='sum')
+
+learning_rate = 1e-6
+for t in range(2000):
+
+    # Forward pass: compute predicted y by passing x to the model. Module objects
+    # override the __call__ operator so you can call them like functions. When
+    # doing so you pass a Tensor of input data to the Module and it produces
+    # a Tensor of output data.
+    y_pred = model(xx)
+
+    # Compute and print loss. We pass Tensors containing the predicted and true
+    # values of y, and the loss function returns a Tensor containing the
+    # loss.
+    loss = loss_fn(y_pred, y)
+    if t % 100 == 99:
+        print(t, loss.item())
+
+    # Zero the gradients before running the backward pass.
+    model.zero_grad()
+
+    # Backward pass: compute gradient of the loss with respect to all the learnable
+    # parameters of the model. Internally, the parameters of each Module are stored
+    # in Tensors with requires_grad=True, so this call will compute gradients for
+    # all learnable parameters in the model.
+    loss.backward()
+
+    # Update the weights using gradient descent. Each parameter is a Tensor, so
+    # we can access its gradients like we did before.
+    with torch.no_grad():
+        for param in model.parameters():
+            param -= learning_rate * param.grad
+
+# You can access the first layer of `model` like accessing the first item of a list
+linear_layer = model[0]
+
+# For linear layer, its parameters are stored as `weight` and `bias`.
+print(f'Result: y = {linear_layer.bias.item()} + {linear_layer.weight[:, 0].item()} x + {linear_layer.weight[:, 1].item()} x^2 + {linear_layer.weight[:, 2].item()} x^3')
+```
 
 ## Forward Propagation
 
 - inputs:
-	- depth l
-	- l weight matrices of the model $\mathbf{W}^{(i)}$
-	- l biases of the model $\mathbf{b}^{(i)}$
+	- depth $l$
+	- $l$ weight matrices of the model $\mathbf{W}^{(i)}$
+	- $l$ biases of the model $\mathbf{b}^{(i)}$
 	- input $\mathbf{x}$ (here: only one for simplicity)
 	- target $\mathbf{y}$
 - outputs:
 	- output $\hat{\mathbf{y}}$
 	- cost function $J$
-	- input of unit j: $\mathbf{a}_j^{(k)}$ for all j
-	- output of unit j: $\mathbf{h}_j^{(k)}$ for all j
+	- input of unit $j$: $\mathbf{a}_j^{(k)}$ for all $j$
+	- output of unit $j$: $\mathbf{h}_j^{(k)}$ for all $j$
 
 ## Backprop
 
@@ -241,3 +346,8 @@ function fib(n)
 - (cf. Figure 6.9 in Goodfellow, Bengio) Back-propagation avoids the exponential explosion in **repeated subexpressions** 
 - similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
 - "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
+
+## MLP in numpy from scratch
+
+- see [here](/posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html)
+- see <a href="/posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html" title="About Me">About Me</a>

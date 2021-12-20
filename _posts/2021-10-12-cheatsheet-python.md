@@ -31,3 +31,12 @@ conda config --set auto_activate_base False | conda base environment nicht mit s
 | command | description |
 | :---: | :---: |
 python3 -v | zeige Details der ausgeführten Befehle (eg. automatische imports, andere getriggerte Befehle, Konstruktor calls, etc.)
+
+# jupyter
+
+## Convert notebooks to other formats
+
+| command | description |
+| :---: | :---: |
+jupyter nbconvert --to html notebook.ipynb | pass --execute flag, if cells should be run before converting
+jupyter nbconvert --to pdf notebook.ipynb |

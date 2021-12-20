@@ -180,6 +180,14 @@ ocrmypdf | `ocrmypdf in.pdf out.pdf`
 
 ipad_charge | [github link](https://github.com/mkorenkov/ipad_charge/wiki) automatically start charging ipad when connected to ubuntu
 
+<hr>
+
+sudo apt-get install ruby-full |
+sudo apt install rubygems-integration | nicht nötig, wenn ruby-full installiert wurde
+sudo gem install bundler |
+sudo bundle install | im github-pages repo root folder
+bundle exec jekyll serve | warten bis "Server running... press ctrl-c to stop." message und dann ctrl gedrückt halten und auf server address clicken (oder in Browser "http://localhost:4000" aufrufen)
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -422,6 +430,16 @@ sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594
 docker attach *double-tab* | attach to running container (double-tab shows names of running containers or use container id)
 ctrl-p ctrl-q | detach from container
 
+<hr>
+
+| :---: | :---: |
+[docker volume overview](https://www.baeldung.com/ops/docker-volumes) | 
+docker volume create data_volume_name |
+docker volume ls |
+docker volume inspect volume_hash |
+docker volume rm data_volume_name | remove one or more volumes individually
+docker volume prune | remove all the unused volumes
+docker run -v data-volume:/var/opt/project bash:latest bash -c "ls /var/opt/project" | start a container with a volume using the -v option. The -v option contains three components, separated by colons: 1. Source directory or volume name, 2. Mount point within the container, 3. (Optional) *ro* if the mount is to be read-only
 
 ## Remove dangling images
 
@@ -441,7 +459,7 @@ Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/te
 
 | command | description |
 | :---: | :---: |
-sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
+`sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket` | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
 
 ## Gitlab Container Registry
 
