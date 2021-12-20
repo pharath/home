@@ -347,7 +347,13 @@ function fib(n)
 - similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
 - "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
 
+### Implementing Softmax Correctly
+
+- Problem: Exponentials get very big and can have very different magnitudes
+	- Solution: 
+		- Evaluate $\ln{(\sum_{j=1}^K\exp{(\mathbf{w}_j^\top\mathbf{x})})}$ in the denominator **before** calculating the fraction
+		- since $\text{softmax}(\mathbf{a} + \mathbf{b}) = \text{softmax}(\mathbf{a})$, subtract the largest $\mathbf{w}_j$ from the others (entspricht Kürzen des Bruches mit $\exp{(\mathbf{w}_{max}\mathbf{x})}$
+-
 ## MLP in numpy from scratch
 
-- see [here](/posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html)
-- see <a href="/posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html" title="About Me">About Me</a>
+- see [here](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html)
