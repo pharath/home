@@ -94,6 +94,7 @@ a |				gehe in INSERT modus
 2. in terminal: fg |   go back to vim
 ctrl + g | show current file name
 1 + ctrl + g | show current file name + path
+:r !xsel | paste from clipboard
 
 ## Mehrere Zeilen auskommentieren: 
 [how-to-comment-and-uncomment-multiple-line-vi-terminal-editor](https://discuss.devopscube.com/t/how-to-comment-and-uncomment-multiple-line-vi-terminal-editor/64)

@@ -356,3 +356,52 @@ function fib(n)
 ## MLP in numpy from scratch
 
 - see [here](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html)
+
+## Stochastic Learning vs Batch Learning
+
+source: LeCun et al. "Efficient BackProp"
+
+### SGD
+
+- Pros:
+	- is usually much faster than batch learning
+		- consider large redundant data set
+			- example: training set of size 1000 is inadvertently composed of 10 identical copies of a set with 100 samples
+	- also often results in better solutions because of the noise in the updates
+		- because the noise present in the updates can result in the weights jumping into the basin of another, possibly deeper, local minimum. This has been demonstrated in certain simplified cases
+	- can be used for tracking changes
+		-  useful when the function being modeled is changing over time
+
+- Cons:
+	- noise also prevents full convergence to the minimum 
+		- Instead of converging to the exact minimum, the convergence stalls out due to the **weight fluctuations** 
+		- size of the fluctuations depend on the degree of noise of the stochastic updates:
+			- The variance of the fluctuations around the local minimum is proportional to the learning rate $\eta$ 
+			- So in order **to reduce the fluctuations** we can either 
+				- decrease (anneal) the learning rate or
+				- have an adaptive batch size.
+
+### Batch GD
+
+- Pros:
+	- Conditions of convergence are well understood.
+	- Many acceleration techniques (e.g. conjugate gradient) only operate in batch learning.
+     	- Theoretical analysis of the weight dynamics and convergence rates are simpler
+	- one is able to use second order methods to speed the learning process 
+		- Second order methods speed learning by estimating not just the gradient but also the curvature of the cost surface. Given the curvature, one can estimate the approximate location of the actual minimum.
+
+- Cons:
+	- redundancy can make batch learning much slower than on-line
+	- often results in worse solutions because of the absence of noise in the updates
+		- will discover the minimum of whatever basin the weights are initially placed
+	- changes go undetected and we obtain rather bad results since we are likely to average over several rules
+
+### Mini-batch GD
+
+- Another method to remove noise [in SGD] is to use “mini-batches”, that is, start with a small batch size and increase the size as training proceeds. 
+	- However, deciding the rate at which to increase the batch size and which inputs to include in the small batches is as difficult as determining the proper learning rate. **Effectively the size of the learning rate in stochastic learning corresponds to the respective size of the mini batch.**
+- Note also that the problem of removing the noise in the data may be less critical than one thinks because of generalization. **Overtraining may occur long before the noise regime is even reached.**
+
+### Shuffling the Examples
+
+- 

@@ -734,3 +734,8 @@ rsync -a *source* *destination* | copy directory (**Warning**: -r tag does not c
 | :---: | :---: |
 nvidia-smi -q -d temperature | temperature info including critical temperature values, shutdown temperature etc.
 nvidia-smi --query-gpu=name --format=csv | get GPU name
+
+# tree
+
+tree -H ./ > result.html | save directory tree to file 
+firefox ./result.html | view html tree created by `tree` command
