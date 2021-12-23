@@ -3,8 +3,8 @@ title: "Triaxiale Schwarzschild-Modelle für elliptische Galaxien und ihre Anwen
 excerpt: "Bachelorarbeit an der Fakultät für Physik der Ludwig–Maximilians–Universität München."
 classes: wide
 header:
-  teaser: 
-  overlay_image: 
+  teaser: /assets/images/NGC_4365.jpg
+  overlay_image: /assets/images/NGC_4365.jpg
   overlay_filter: 0.6
   actions:
     - label: "Download the Bachelor Thesis"
