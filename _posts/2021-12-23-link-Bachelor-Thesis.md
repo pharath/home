@@ -7,8 +7,8 @@ header:
   overlay_image: 
   overlay_filter: 0.6
   actions:
-    - label: "My Bachelor Thesis"
-    - url: "https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/2021-09-23-Databases.html")
+    - label: "Download the Bachelor Thesis"
+    - url: "https://raw.githubusercontent.com/pharath/home/master/pdfs/Bachelorarbeit_Pharath_Palesuvaran_final.pdf")
 categories:
   - Bachelor_Thesis
 tags:
