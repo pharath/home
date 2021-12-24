@@ -1,0 +1,132 @@
+from scipy import misx
+from scipy import misc
+exit()
+import numpy as np
+import matplotlib.pyplot as plt
+!ls
+ls
+import os
+os.system('ls')
+fig,ax=plt.subplots(1,19
+fig,ax=plt.subplots(1,1)
+exit()
+import roslaunch
+import numpy
+exit()
+import sys
+print(sys.executable)
+exit()
+import sys
+sys.executable
+exit()
+import sys
+sys.executable
+exit()
+import numpy as np
+np.__file__
+import pandas as pd
+pd.__file--
+pd.__file__
+exit()
+import carla
+print(client.show_recorder_file_info("recording01.log"))print(client.show_recorder_file_info("recording01.log"))exit()
+exit()
+from carla import client
+import carla
+print(carla.client.show_recorder_file_info("/home/bra-ket/.config/Epic/CarlaUE4/Saved/test1.log"))
+print(carla.Client.show_recorder_file_info("/home/bra-ket/.config/Epic/CarlaUE4/Saved/test1.log"))
+!ls
+exit()
+import carla.Client as cl
+import carla
+carla.Client.show_recorder_file_info("test1.log")
+carla.Client.show_recorder_file_info('test1.log')
+carla.Client.show_recorder_file_info(test1.log)
+carla.Client.show_recorder_file_info?
+?carla.Client.show_recorder_file_info
+help(carla.Client.show_recorder_file_info)
+exit
+import carla
+import os.path as op
+import numpy as np
+l
+a = np.arange(1,4,1)
+print(a)
+a = np.arange(0,4,(2,2))
+a = np.arange(0,4,2)
+print(a)
+a = np.arange(0,4,2,2)
+a = np.arange(0,4)
+print(a)
+a.reshape(2,2)
+cv_image=a
+print(cv_image)
+a = a.reshape(2,2)
+cv_image=a
+print(cv_image)
+indices = np.array(np.where(cv_image == cv_image[cv_image > 0].min()))[:,0]
+indices
+cv_image[0,1]
+cv_image[0,1]=4
+indices = np.array(np.where(cv_image == cv_image[cv_image > 0].min()))[:,0]
+indices
+2 == 3
+2 == 1
+2 == 2
+flag
+lks = 2
+'lks' in globals
+'lks' in globals()
+'lks' in locals()
+'bla' in globals()
+global bla
+'bla' in globals()
+for x in globals():
+	print(x)
+for x in globals:
+	print(x)
+global flag
+flag in globals()
+flag = 1
+flag in globals()
+global flag
+flag in globals()
+import hashlib
+hashlib.md5("hello world")
+hashlib.md5(100)
+hashlib.md5(100).digest()
+hashlib.md5(b'100').digest()
+hashlib.md5(b'hello').digest()
+hashlib.md5('hello'.encode()).hexdigest()
+print(b'hello')
+proof = 23
+guess = f'{proof}.encode()
+guess = f'{proof}'.encode()
+hashlib.sha256(guess).hexdigest()
+guess
+f'{proof}
+f'{proof}'
+f'{proof}'.encode()
+hashlib.sha256(guess).hexdigest()
+proof
+last_proof=45
+guess = f'{last_proof}{proof}'.encode()
+hashlib.sha256(guess).hexdigest()
+f'{last_proof}{proof}'
+hashlib.sha256(guess).hexdigest()
+hashlib.sha256(guess).hexdigest()[:4]
+hashlib.sha256(guess).hexdigest()[4:]
+hashlib.sha256(guess).hexdigest()[0:4]
+a = range(4)
+a
+a = range(0,4)
+a
+a[0]
+a[1]
+a = range(0,4) *2
+a = range(0,4) *2.
+l
+from uuid import uuid4
+uuid4()
+import readline
+readline.write_history_file('history_221221.txt')

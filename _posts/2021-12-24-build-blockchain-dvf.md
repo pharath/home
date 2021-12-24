@@ -11,17 +11,54 @@ header:
     - label: "Download this project on Github"
       url: "https://github.com/pharath/blockchain"
 categories:
+  - Build
   - Blockchain
 tags:
+  - build
   - blockchain
+toc: true
+toc_label: "Contents"
 
 ---
 
-# Blockchain
+# Postman Settings
 
-- Postman: Authorization Type auf "No Auth" stellen !
+To interact with the built `blockchain.py` API over a network via the Postman App:
 
-- requests ("raw" auswählen und "Text" auf "JSON" stellen):
+- Select Authorization Type "No Auth" !
+- select "raw" 
+- select "JSON" instead of "Text" 
+
+# Set up python environment
+
+```bash
+# create a python environment
+python3 -m venv env
+
+# activate the python environment
+source env/bin/activate
+
+# install necessary packages in this environment
+# Note: try newer version of Flask (I used version 2.0.2), if something does not work in the following)
+pip install Flask==0.12.2 requests==2.18.4 
+```
+
+# Start the server
+
+```bash
+python3 blockchain.py -p 5001
+```
+
+# http requests 
+
+## General structure
+
+### Examples 
+
+- GET `http://localhost:5000/chain`
+- POST `http://localhost:5001/transactions/new`
+
+## Examples
 
 | command | description |
 | :---: | :---: |
