@@ -39,7 +39,9 @@ POST /transactions/new | fügt eine Transaktion zum nächsten Block (der noch ni
 
 Spin up another node on machine, on a different port [port 5001], and register it with current node [on port 5000]:
 
-POST nodes/register:
+| command | description |
+| :---: | :---: |
+POST nodes/register |
 
 ```yaml
 {
