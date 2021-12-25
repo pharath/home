@@ -74,7 +74,7 @@ pipenv graph | shows installed dependencies
 
 | command | description |
 | :---: | :---: |
-curl -sSL https://install.python-poetry.org \| python3 - | python packaging tool
+curl -sSL https://install.python-poetry.org \| python3 - | install poetry (check the installation with `poetry` or `poetry --version`)
 
 # conda
 
