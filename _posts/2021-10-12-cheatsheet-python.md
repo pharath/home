@@ -10,11 +10,71 @@ tags:
   - cheatsheet
 ---
 
+# pyenv
+
+- For Python version management, e.g. 
+	- if you want to use multiple python versions on the same machine
+	- if a project requires an older python version
+- `pipenv install` (see below) will automatically install a python version using `pyenv`, if the project requires it 
+
+## Prerequisites
+
+```bash
+sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+## Install
+
+```bash
+curl https://pyenv.run | bash
+```
+
 # pip
+
+- use `pipenv` (see subsection below) instead of `venv` and `pip`
 
 | command | description |
 | :---: | :---: |
 pip install pip-autoremove | utility to remove a package plus unused dependencies
+
+## venv
+
+**Warning:** Do not move or copy the `env` folder to other locations! Always re-create environments by using `python3 -m venv env` and re-installing all packages from a `requirements.txt` file. 
+
+| command | description |
+| :---: | :---: |
+python3 -m venv env | create the environment `env`
+source env/bin/activate | activate the environment `env`
+deactivate | deactivate the environment that is currently activated
+
+## requirements.txt files
+
+| command | description |
+| :---: | :---: |
+pip install -r requirements.txt | install all packages from a `requirements.txt` file
+pip freeze > requirements.txt | write all packages in the current environment to a `requirements.txt` file
+
+## pipenv
+
+- **Warning**: not much development here, i.e. maybe official support ends soon? Use `poetry` instead !
+
+| command | description |
+| :---: | :---: |
+pip install --user pipenv | Python's officially recommended packaging tool
+pipenv install | install right python version, environment and all dependencies
+pipenv lock --clear | if `ERROR: No matching distribution found for markupsafe==1.0 ERROR: Couldn't install package: MarkupSafe Package installation failed...` (and after this command run `pipenv install` again)
+pipenv | shows help 
+pipenv shell | activates env (similar to `source /env/bin/activate` for `pip`)
+pipenv run python blockchain.py | Spawns a command installed into the virtualenv.
+pipenv graph | shows installed dependencies
+
+## poetry
+
+| command | description |
+| :---: | :---: |
+curl -sSL https://install.python-poetry.org \| python3 - | python packaging tool
 
 # conda
 

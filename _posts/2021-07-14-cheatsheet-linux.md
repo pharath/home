@@ -188,6 +188,13 @@ sudo gem install bundler |
 sudo bundle install | im github-pages repo root folder
 bundle exec jekyll serve | warten bis "Server running... press ctrl-c to stop." message und dann ctrl gedrückt halten und auf server address clicken (oder in Browser "http://localhost:4000" aufrufen)
 
+<hr>
+
+(nicht mehr) sudo apt install powerline | maybe install https://github.com/powerline/fonts, if symbols (e.g. branch symbol in git repo) are not displayed correctly	
+sudo apt install fish | install fish shell (add `exec fish` in `.bashrc` to start automatically; in `fish_config` theme `fish default` wählen)
+curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install \| fish | install oh my fish (necessary for bobthefish)
+omf install bobthefish | install powerline in fish
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`

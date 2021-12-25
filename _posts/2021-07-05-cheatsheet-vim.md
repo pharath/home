@@ -169,6 +169,8 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |vi -o /path/to/file1 /path/to/file2	|	öffne 2 files in split screen
 |ctrl + w, s	|	öffne neuen split window horizontal
 |ctrl + w, v	|	öffne neuen split window vertical (oder besser: `:Lexplore`)
+|<kbd>ctrl</kbd> + <kbd>w</kbd> <kbd>t</kbd>, <kbd>ctrl</kbd> + <kbd>w</kbd> <kbd>K</kbd> |    change two vertically split windows to horizonally split
+|<kbd>ctrl</kbd> + <kbd>w</kbd> <kbd>t</kbd>, <kbd>ctrl</kbd> + <kbd>w</kbd> <kbd>H</kbd> |    change two horizonally split windows to vertically split
 |ctrl + w, &lt;h j k l&gt;|	change active viewport
 |ctrl + r		|	rotate viewport (zum Anordnen der viewports)
 |ctrl + R|

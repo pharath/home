@@ -43,6 +43,16 @@ source env/bin/activate
 pip install Flask==0.12.2 requests==2.18.4 
 ```
 
+# Modify old blockchain.py
+
+- add the following `app.config` line:
+
+```python
+# Instantiate the Node
+app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+```
+
 # Start the server
 
 ```bash
