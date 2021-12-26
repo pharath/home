@@ -195,6 +195,10 @@ sudo apt install fish | install fish shell (add `exec fish` in `.bashrc` to star
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install \| fish | install oh my fish (necessary for bobthefish)
 omf install bobthefish | install powerline in fish
 
+<hr>
+
+sudo snap install postman | http client 
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
