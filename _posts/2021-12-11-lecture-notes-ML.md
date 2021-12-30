@@ -23,24 +23,30 @@ toc_label: "Contents"
 
 # Overfitting problem
 
-## Paradoxes
+## Paradoxes (related to the overfitting problem)
+
+![sine-taylor](/assets/images/sine-taylor.png)
 
 1. higher order polynomial contains all lower order polynomials as special cases
-	- hence, the higher order polynomial **is** capable of generating a result at least as good as the lower order polynomial
+	- hence, the higher order polynomial **is capable of** generating a result at least as good as the lower order polynomial
 		- d.h. das Polynom mit höherer Ordnung **kann** potentiell mindestens genauso gute Ergebnisse liefern ! Wieso passiert das nicht?
 2. Sinus-Potenzreihe konvergiert für alle x in R und enthält Terme mit allen Potenzen von x (die geraden Potenzen haben Vorfaktor 0)
 
-Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term umso genauer (d.h. näher an der ursprünglichen Sinusfunktion) werden sollte (weil die Potenzreihe ja auch mit jedem höheren x-Term genauer wird). Warum passiert das nicht? 
+Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prinzipiell** umso genauer (d.h. näher an der ursprünglichen Sinusfunktion) werden **könnte** (weil die Potenzreihe ja auch mit jedem höheren x-Term genauer wird). Warum passiert das nicht? 
 
 **Antwort**:
 
-Bei der Potenzreihe (Maclaurin Series) bleiben die weights der ersten N Terme fix, wenn man den Term der Ordnung N+1 hinzufügt, aber beim Fitten nicht ! Die Weights werden beim overfitting zu groß und sorgen für eine schlechtere representation der Targetfunktion als die Potenzreihenrepresentation der Targetfunktion, die gleiche Ordnung hat!
+1. Taylorreihe und linear model sind nicht vergleichbar: <mark>Die Taylor Reihe approximiert $\sin{x}$ und nicht die Datenpunkte.</mark> D.h. $E > 0$ für die Taylor Reihe, egal wie hoch die Ordnung des Taylor Polynoms ist! Aber das linear model kann mit hinreichend vielen $w_i$ stets einen perfekten Fit, i.e. $E=0$, erzielen.
 
-Deshalb muss man große weights "bestrafen" (d.h. einen penalty term einfügen aka regularizen), um die weights beim Fitten klein zu halten.
+2. Bei der Potenzreihe (Maclaurin Series) bleiben die weights der ersten N Terme fix, wenn man den Term der Ordnung N+1 hinzufügt, aber beim Fitten nicht ! Die Weights werden beim overfitting zu groß und sorgen für eine schlechtere representation der Targetfunktion als die Potenzreihenrepresentation der Targetfunktion, die die gleiche Ordnung hat!
 
-Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die weights fangen beim overfitting an auch den Noise in den Daten zu fitten, was für die hohen weight Werte sorgt! 
+   Deshalb muss man große weights "bestrafen" (d.h. einen penalty term einfügen aka regularizen), um die weights beim Fitten klein zu halten.
 
-## Possible Solutions
+   Wir geben ja den weights völlige Freiheit, aber genau das ist das Problem: die weights fangen beim overfitting an auch den **Noise** in den Daten zu fitten, was für die hohen weight Werte sorgt!
+
+   - **Note**: This happens with decision trees as well: the strongest variables are at the top of the tree, but at the very end, the split that the tree is making, might not be fitting signal but rather noise!
+
+## Possible Solutions (to the overfitting problem)
 
 - reduce number of model parameters
 - increase number of data points N
