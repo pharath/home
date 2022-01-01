@@ -21,7 +21,13 @@ toc_label: "Contents"
 
 ---
 
+> As Feynman said: don't read everything about a topic before starting to work on it. Think about the problem for yourself, figure out what's important, then read the literature. This will allow you to interpret the literature and tell what's good from what's bad. - Y. LeCun
+
 # Overfitting problem
+
+## Why important
+
+TODO
 
 ## Paradoxes (related to the overfitting problem)
 
@@ -55,7 +61,28 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
         - weight decay (in Deep Learning)
         - L2 regularization = ridge regression (in statistics)
 
+## Related Problems
+
+### Bias in MLE
+
+- maximum likelihood approach systematically underestimates the **true** variance of the univariate Gaussian distribution (*bias*)
+	- this is related to the problem of over-fitting (e.g. too many parameters in polynomial curve fitting):
+		> - $\mu_{ML}$ and $\sigma_{ML}^2$ are functions of $x_1, \ldots, x_N$
+		> - $x_1, \ldots, x_N$ come from a Gaussian distribution with (separate) $\mu$ and $\sigma^2$
+		> - one can show that the expectations of $\mu_{ML}$ and $\sigma_{ML}^2$ wrt this distribution are $\mathbb{E}[\mu_{ML}]=\mu$ and $\mathbb{E}[\sigma_{ML}^2]=\frac{N-1}{N}\sigma^2$, i.e. $\sigma_{ML}$ is biased and underestimates the **true sample variance** $\sigma$
+		> - Correcting for this bias yields the **unbiased sample variance** $\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2$
+- increasing data size $N$ alleviates this problem (and reduces over-fitting [see above])
+- this bias lies at the root of the over-fitting problem
+- for anything other than small $N$ this bias is not a problem, in practice
+- may become a problem for more complex models with many parameters, though
+
 # Probability Theory
+
+## Why important?
+
+We have to understand the concepts of **posterior** and **prior** probabilities, as well as **likelihood** because e.g. both generative and discriminative linear models are used to model the posterior probabilities $p(C_k|\mathbf{x})$ of the classes $C_k$ given the input $\mathbf{x}$. Hence, understanding the basic concepts of probability theory is crucial for understanding linear models.
+
+## Example: Fruits in Boxes
 
 - Let p(B=r) = 0.4 and p(B=b) = 0.6 (frequentist view: this is how many times the guy who picked the fruit picked each box (in the limit of infinitely many pickings), i.e. the picker had a tendency to pick the blue one more often). 
 	- Suppose that we pick a box at random, and it turns out to be the blue box. What's the probability of picking an apple?
@@ -68,6 +95,22 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 
 - by choosing a suitable nonlinearity (e.g. sigmoid, tanh)
 - remove outlier data point completely from the data set
+
+# Model Selection / Comparison
+
+- TODO
+
+# The Curse of Dimensionality
+
+- TODO
+
+# Decision Theory
+
+## Why important?
+
+The **classification problem** can be broken down into two stages:
+- **Inference Stage**: use training data to learn a model for $p(C_k|\mathbf{x})$
+- **Decision Stage**: use these $p(C_k|\mathbf{x})$ to make optimal class assignments
 
 # Linear models for classification
 

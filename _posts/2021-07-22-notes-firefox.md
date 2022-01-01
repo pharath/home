@@ -30,6 +30,7 @@ cmd + shift + n | open recently closed window
 cmd + shift + t	| open recently closed tab
 cmd + shift + b | hide/show bookmarks toolbar
 alt + b (linux: ctrl + alt + b) | hide/show bookmark search plus pane
+ctrl + shift + m | show mobile version of website
 
 # Addons
 
