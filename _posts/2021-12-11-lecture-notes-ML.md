@@ -21,6 +21,10 @@ toc_label: "Contents"
 
 ---
 
+# General Remarks
+
+Don't lose sight of the bigger picture ! Only learn stuff when you need it !
+
 > As Feynman said: don't read everything about a topic before starting to work on it. Think about the problem for yourself, figure out what's important, then read the literature. This will allow you to interpret the literature and tell what's good from what's bad. - Y. LeCun
 
 # Overfitting problem
@@ -109,14 +113,16 @@ We have to understand the concepts of **posterior** and **prior** probabilities,
 ## Why important?
 
 The **classification problem** can be broken down into two stages:
-- **Inference Stage**: use training data to learn a model for $p(C_k|\mathbf{x})$
-- **Decision Stage**: use these $p(C_k|\mathbf{x})$ to make optimal class assignments
+- **Inference Stage**: use training data to learn a model for $P(C_k|\mathbf{x})$
+- **Decision Stage**: use these $P(C_k|\mathbf{x})$ to make optimal class assignments
+
+Both generative and discriminative models use this "two stage" approach.
 
 # Linear models for classification
 
 > Note:
-> - linear models (i.e. WITHOUT activation function) 
-> - generalized linear models (WITH activation function)
+> - linear models (i.e. <mark>WITHOUT</mark> activation function) 
+> - generalized linear models (i.e. <mark>WITH</mark> activation function)
 
 ## linear discriminant functions
 - 2 classes
@@ -130,15 +136,17 @@ The **classification problem** can be broken down into two stages:
     - perceptron algorithm
 
 ## probabilistic generative models (indirect modeling of posterior)
-- p(Ck\|x) can be written as logistic sigmoid 4.57 
-    - (i.e. it has a sigmoidal shape in input space, **if** "a" [4.58] is linear in x!)
-- first model p(x\|Ck) and p(Ck), then use 4.57-58 to find p(Ck\|x) (or use equivalently Bayes' theorem 1.82-83)
+
+- $P(C_k|\mathbf{x})$ can be written as logistic sigmoid [4.57](/assets/images/equations/eq_4_57.png)
+    - i.e. $P(C_k|\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png)    
+    is linear in $\mathbf{x}$!
+- first model $P(\mathbf{x}|C_k)$ and $P(C_k)$, then use 4.57-58 to find $P(C_k|\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](/assets/images/equations/eq_1_82.png) and [1.83](/assets/images/equations/eq_1_83.png))
     - Examples:
-        - model p(x\|Ck) as Gaussian 4.64 **=>** posterior p(Ck\|x) is the logistic sigmoid 4.65, i.e. a **generalized linear model**
+        - model $P(\mathbf{x}|C_k)$ as Gaussian [4.64](/assets/images/equations/eq_4_64.png) $\Rightarrow$ posterior $P(C_k|\mathbf{x})$ is the logistic sigmoid [4.65](/assets/images/equations/eq_4_65.png), i.e. a **generalized linear model**
             - (i.e. linear decision boundaries, but not linear in parameters!)
             - decision boundaries are where (the 2 largest) posteriors are equal
-            - use MaxLike to determine parameters of Gaussian 4.64 and priors p(Ck) (requires data set)
-            - priors enter only through w0 4.67
+            - use Maximum Likelihood to determine parameters of Gaussian 4.64 and priors $P(C_k)$ (requires data set)
+            - priors enter only through $w_0$ [4.67](/assets/images/equations/eq_4_67.png)
                 - i.e. priors shift the decision boundary parallelly (vgl. 4.65 mit distance from the origin to the decision surface 4.5)
                 - i.e. priors shift the parallel contours of constant posterior probability
 
