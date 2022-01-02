@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-excerpt: "Notes on Machine Learning theory."
+excerpt: "Notes on Machine Learning theory. Based on C. M. Bishop, \"Pattern Recognition and Machine Learning\" (2011) and Goodfellow, Bengio, Courville, \"Deep Learning\""
 classes: wide
 header:
   teaser: /assets/images/lenet.png
@@ -118,36 +118,38 @@ The **classification problem** can be broken down into two stages:
 > - linear models (i.e. WITHOUT activation function) 
 > - generalized linear models (WITH activation function)
 
-1. linear discriminant functions
-	- 2 classes
-	- K classes
-		- one-vs-rest
-		- one-vs-one
-		- single K-class discriminant
-	- learning the parameters
-		- least squares
-		- Fisher's linear discriminant
-		- perceptron algorithm
-2. probabilistic generative models (indirect modeling of posterior)
-	- p(Ck\|x) can be written as logistic sigmoid 4.57 
-		- (i.e. it has a sigmoidal shape in input space, **if** "a" [4.58] is linear in x!)
-	- first model p(x\|Ck) and p(Ck), then use 4.57-58 to find p(Ck\|x) (or use equivalently Bayes' theorem 1.82-83)
-		- Examples:
-			- model p(x\|Ck) as Gaussian 4.64 **=>** posterior p(Ck\|x) is the logistic sigmoid 4.65, i.e. a **generalized linear model**
-				- (i.e. linear decision boundaries, but not linear in parameters!)
-				- decision boundaries are where (the 2 largest) posteriors are equal
-				- use MaxLike to determine parameters of Gaussian 4.64 and priors p(Ck) (requires data set)
-				- priors enter only through w0 4.67
-					- i.e. priors shift the decision boundary parallelly (vgl. 4.65 mit distance from the origin to the decision surface 4.5)
-					- i.e. priors shift the parallel contours of constant posterior probability
-3. probabilistic discriminative models (direct modeling of posterior)
-	- maximize likelihood function defined through p(Ck\|x)
-		- fewer adaptive parameters to be determined than for generative models
-			- zB. M parameters for logistic regression vs. M (M + 5) / 2 + 1 for Gaussian generative model approach as described above, which grows quadratically with M ! 
-		- may lead to better predictive performance than generative models, particularly when the p(x\|Ck) assumptions of the generative models are not accurate
-		- Examples:
-			- logistic regression (2 classes)
-			- softmax regression/multiclass logistic regression (multiple classes)
+## linear discriminant functions
+- 2 classes
+- K classes
+    - one-vs-rest
+    - one-vs-one
+    - single K-class discriminant
+- learning the parameters
+    - least squares
+    - Fisher's linear discriminant
+    - perceptron algorithm
+
+## probabilistic generative models (indirect modeling of posterior)
+- p(Ck\|x) can be written as logistic sigmoid 4.57 
+    - (i.e. it has a sigmoidal shape in input space, **if** "a" [4.58] is linear in x!)
+- first model p(x\|Ck) and p(Ck), then use 4.57-58 to find p(Ck\|x) (or use equivalently Bayes' theorem 1.82-83)
+    - Examples:
+        - model p(x\|Ck) as Gaussian 4.64 **=>** posterior p(Ck\|x) is the logistic sigmoid 4.65, i.e. a **generalized linear model**
+            - (i.e. linear decision boundaries, but not linear in parameters!)
+            - decision boundaries are where (the 2 largest) posteriors are equal
+            - use MaxLike to determine parameters of Gaussian 4.64 and priors p(Ck) (requires data set)
+            - priors enter only through w0 4.67
+                - i.e. priors shift the decision boundary parallelly (vgl. 4.65 mit distance from the origin to the decision surface 4.5)
+                - i.e. priors shift the parallel contours of constant posterior probability
+
+## probabilistic discriminative models (direct modeling of posterior)
+- maximize likelihood function defined through p(Ck\|x)
+    - fewer adaptive parameters to be determined than for generative models
+        - zB. M parameters for logistic regression vs. M (M + 5) / 2 + 1 for Gaussian generative model approach as described above, which grows quadratically with M ! 
+    - may lead to better predictive performance than generative models, particularly when the p(x\|Ck) assumptions of the generative models are not accurate
+    - Examples:
+        - logistic regression (2 classes)
+        - softmax regression/multiclass logistic regression (multiple classes)
 
 # Linear Basis Function Models
 
