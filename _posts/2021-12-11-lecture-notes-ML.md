@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-excerpt: "Notes on Machine Learning theory. Based on C. M. Bishop, \"Pattern Recognition and Machine Learning\" (2011) and Goodfellow, Bengio, Courville, \"Deep Learning\""
+excerpt: "Notes on Machine Learning theory. Based on C. M. Bishop, \"Pattern Recognition and Machine Learning\" (2011) and Goodfellow, Bengio, Courville, \"Deep Learning\"."
 classes: wide
 header:
   teaser: /assets/images/lenet.png
@@ -59,15 +59,28 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 ## Possible Solutions (to the overfitting problem)
 
 - reduce number of model parameters
-- increase number of data points N
+- increase number of data points $N$
 - increase regularization parameter lambda (in statistics: shrinkage methods)
-    - quadratic: 
-        - weight decay (in Deep Learning)
-        - L2 regularization = ridge regression (in statistics)
+    - $q=2$ in 3.29: quadratic regularization: 
+        - **advantage**: error function remains a quadratic function of $\mathbf{w}$ $\Rightarrow$ exact minimum can be found in closed form
+        - **terminology**:
+            - weight decay (in Deep Learning because in sequential learning algorithms, it encourages weight values to decay towards zero, unless supported by the data)
+            - L2 regularization = parameter shrinkage = ridge regression (in statistics)
+    - $q=1$ in 3.29: "lasso"
+        - if $\lambda$ is sufficiently large, some of the coefficients are driven to $0$
+            - leads to a **sparse** model in which the corresponding basis functions play no role
+                - the origin of this sparsity can be seen [here](/assets/images/bishop_ml/origin_of_sparsity.png)
+                    - increasing $\lambda$ corresponds to shrinking the yellow "constraint area". The optimal parameter $\mathbf{w}^*$ corresponds to the point in the yellow area which is closest to the center of the blue circles (center = minimum of unregularized error function) 
+                        - [Note: More generally, if the error function does not have circular contours, $\mathbf{w}^*$ would not necessarily be the "closest-to-center" point. In that case we would have to choose the point in the yellow area that minimizes the error function.]
+                    - the shape of these yellow "constraint areas" depends on $q$, but their size depends on $\lambda$
+                    - the blue circles only depend on the **unregularized** error function, i.e. changing $\lambda$ does not change the blue circles!
+- use suitable heuristics (cf. overfitting MoGs)
 
 ## Related Problems
 
-### Bias in MLE
+### In Maximum Likelihood
+
+#### Bias 
 
 - maximum likelihood approach systematically underestimates the **true** variance of the univariate Gaussian distribution (*bias*)
 	- this is related to the problem of over-fitting (e.g. too many parameters in polynomial curve fitting):
@@ -80,20 +93,265 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 - for anything other than small $N$ this bias is not a problem, in practice
 - may become a problem for more complex models with many parameters, though
 
+#### MoG<a name="MoG_overfitting"></a>
+
+- singularities in the MoG likelihood will always be present (this is another example of overfitting in maximum likelihood)
+    - **Solution**: use suitable heuristics 
+        - e.g. detect when a Gaussian component is collapsing and reset mean to a random value and reset covariance to some large value and then continue with the optimization
+
 # Probability Theory
 
 ## Why important?
 
-We have to understand the concepts of **posterior** and **prior** probabilities, as well as **likelihood** because e.g. both generative and discriminative linear models are used to model the posterior probabilities $p(C_k|\mathbf{x})$ of the classes $C_k$ given the input $\mathbf{x}$. Hence, understanding the basic concepts of probability theory is crucial for understanding linear models.
+- <mark>**[Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference):**</mark> We have to understand the concepts of **posterior** and **prior** probabilities, as well as **likelihood** because e.g. both generative and discriminative linear models model the posterior probabilities $P(C_k\vert\mathbf{x})$ of the classes $C_k$ given the input $\mathbf{x}$. 
 
-## Example: Fruits in Boxes
+    > "Bayesian inference is a method of statistical inference in which Bayes' theorem is used to update the probability for a hypothesis as more evidence or information becomes available." - [Wikipedia](https://en.wikipedia.org/wiki/Bayesian_inference)
 
-- Let p(B=r) = 0.4 and p(B=b) = 0.6 (frequentist view: this is how many times the guy who picked the fruit picked each box (in the limit of infinitely many pickings), i.e. the picker had a tendency to pick the blue one more often). 
+- <mark>**Probability distributions:**</mark> 
+    - Terminology:
+        - probability distribution: overall **shape** of the probability density 
+        - probability density function, or PDF: probabilities for specific outcomes of a random variable
+    - these are useful for:
+        - **Outlier detection**: It is useful to know the PDF for a sample of data in order to know whether a given observation is unlikely, or so unlikely as to be considered an **outlier or anomaly** and whether it should be removed. 
+        - **in order to choose appropriate learning methods** that require input data to have a specific probability distribution.
+        - for  **probability density estimation** (see below).
+        - distributions can form building blocks **for more complex models** (e.g. MoG)
+
+- <mark>**Density estimation:**</mark> Sometimes we want to model the probability distribution $P(\mathbf{x})$ of a random variable $\mathbf{x}$, given a finite set $\mathbf{x}_1, \ldots, \mathbf{x}_N$ of observations (= **density estimation**). 
+    - there are infinitely many probability distributions that could have given rise to the observed data, i.e. the density estimation problem is **fundamentally ill-posed**
+    - <mark>important because</mark> e.g. naive Bayes classifiers coupled with kernel density estimation (see below) can achieve higher accuracy levels.
+    - 2 density estimation methods:
+        - **parametric density estimation**:<a name="parametric_density"></a>
+            1. choose **parametric distribution**:
+                - discrete random variables:
+                    - Binomial distribution
+                    - Multinomial distribution
+                - continuous random variables:
+                    - Gaussian distribution
+            2. **<mark>Learning</mark>**: estimate parameters of the chosen distribution given the observed data set
+                - frequentist:
+                    - via Maximum Likelihood
+                - Bayesian:
+                    1. introduce prior distributions over the parameters
+                    2. use Bayes' theorem to compute the corresponding posterior over the parameters given the observed data
+                    - Note: This approach is simplified by [**conjugate priors**](https://en.wikipedia.org/wiki/Conjugate_prior). These lead to posteriors which have the same functional form as the prior. Examples:
+                        - conjugate prior for the parameters of the multinomial distribution: **Dirichlet distribution**
+                        - conjugate prior for the mean of the Gaussian: Gaussian
+        - **nonparametric density estimation**:
+            - size of the data set $N$ determines the **form of the distribution**, parameters determine the **model complexity** (i.e. "flexibility", similar to the order of the polynomial in the polynomial curve fitting example) (but not the form of the distribution!)
+            - histograms
+            - nearest-neighbours (e.g. K-NN)
+            - kernels (e.g. KDE)
+
+Hence, understanding the basic concepts of probability theory is crucial for understanding linear models.
+
+## Sum rule, Product rule, Bayes' Theorem
+
+### Example: Fruits in Boxes
+
+- Let $P(B=r) = 0.4$ and $P(B=b) = 0.6$ (**frequentist view**: this is how many times the guy who picked the fruit picked each box [in the limit of infinitely many pickings], i.e. the picker had a tendency to pick the blue one more often). 
 	- Suppose that we pick a box at random, and it turns out to be the blue box. What's the probability of picking an apple?
 	- What's the (overall) probability of choosing an apple?
 	- Suppose we picked an orange. Which box did it come from?
-- prior vs posterior explain intuitively (e.g. "evidence favouring the red box")
-- independence intuitively (e.g. "independent of which box is chosen")
+- **prior** vs **posterior** explain intuitively (e.g. "evidence favouring the red box")
+- **independence** intuitively (e.g. "independent of which box is chosen")
+
+## Likelihood
+
+- $P(\mathbf{x}\vert\vec{\theta})=L_{\mathbf{x}}(\vec{\theta})$ expresses how probable the observed data point $\mathbf{x}$ is (as a function of the parameter vector $\vec{\theta}$)
+    - the likelihood is not a probability distribution **<mark>over w</mark>**, and its integral **<mark>with respect to w</mark>** does not (necessarily) equal one.
+        - not $\mathbf{x}$ because integral w.r.t. $\mathbf{x}$ **is** $1$.
+- **MoGs**: Similarly, in MoGs $P(\mathbf{x}\vert k)$ expresses the likelihood of $\mathbf{x}$ given mixture component $k$
+    - i.e. the MoG likelihood itself is composed of several individual Gaussian likelihoods
+
+## Frequentist vs Bayesian approach
+
+- there is no unique frequentist or Bayesian viewpoint
+
+### Frequentist
+
+- Maximum Likelihood views true parameter vector $\theta$ to be unknown, but <mark>fixed</mark> (i.e. $\theta$ is **not** a random variable!).
+
+### Bayesian
+
+- In Bayesian learning <mark>$\theta$ is a random variable</mark>.
+- prior encodes knowledge we have about the type of distribution we expect to see for $\theta$ 
+    - (e.g. from calculations how fast the polar ice is melting)
+- history: 
+    - Bayesian framework has its origins in the 18th century, but the practical application was <mark style="color: white; background-color: red; opacity: 1">limited by</mark> "the difficulties in carrying through the full Bayesian procedure, particularly <mark style="color: white; background-color: red; opacity: 1">the need to marginalize (sum or integrate) over the whole of parameter space</mark>, which [...] is required in order to make predictions or to compare different models" (Bishop)
+        - [technical developments](/assets/images/bishop_ml/history_development_bayes_approach.png) changed this!
+- critics:
+    - prior distribution is often selected on the basis of mathematical convenience rather than as a reflection of any prior beliefs $\Rightarrow$ subjective conclusions
+        - one motivation for so-called **noninformative priors**
+        - Bayesian methods based on poor choices of prior can give poor results with high
+confidence
+- advantages (compared to frequentist methods):
+    - inclusion of prior knowledge
+        - cf. example "tossing a coin three times and landing heads three times": 
+            - Bayesian approach gives a better estimate of the probability of landing heads (whereas Maximum Likelihood would give probability 1)
+
+## The Uniform Distribution
+
+- Mean: $\frac{(a+b)}{2}$ [[derivation]](https://de.wikipedia.org/wiki/Stetige_Gleichverteilung#Erwartungswert_und_Median)
+- Variance: $\frac{1}{12}(b-a)^2$ [[derivation]](https://de.wikipedia.org/wiki/Stetige_Gleichverteilung#Varianz)
+
+## The Gaussian Distribution
+
+> "Of all probability distributions over the reals with a specified mean $\mu$ and variance $\sigma^2$, the normal distribution $N(\mu,\sigma^2)$ is the one with **maximum entropy**." - [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Maximum_entropy)
+
+- this also holds for the **multivariate** Gaussian (i.e. the multivariate distribution with maximum entropy, for a given mean and covariance, is a Gaussian)
+    - Proof: 
+        - maximize the entropy of a distribution $p(x)$ $H[x]$ over all distributions $p(x)$ (likelihoods) subject to the constraints that $p(x)$ be normalized and that it has a specific mean and covariance
+        - the maximum likelihood distribution is given by the multivariate Gaussian
+
+### Central Limit Theorem (CLT)
+
+Subject to certain mild conditions, the sum of a set of random variables (which is itself a random variable) has a distribution that becomes increasingly Gaussian as the number of terms in the sum increases.
+
+- Let $X_1+\ldots+X_n$ be i.i.d. random variables. The expectation of $S_n=X_1+\ldots+X_n$ is $n\mu$ and the variance is $n\sigma^2$. [[source]](https://de.wikipedia.org/wiki/Zentraler_Grenzwertsatz#Der_Zentrale_Grenzwertsatz_der_Statistik_bei_identischer_Verteilung)
+
+#### Example: Sum of uniformly distributed i.i.d. random variables (e.g. distribution of the average of random variables)
+
+$x_1,\ldots,x_N\sim \mathcal{U}[0,1]\xrightarrow[]{N \to \infty} \frac{1}{N}(x_1+\ldots +x_N)\sim\mathcal{N}(\frac{1}{2},\frac{1}{12N})$
+
+- [[Proof]](/assets/images/proofs/variance_of_sum_of_Uniformly_distributed_iid_RV.png) for the mean $\frac{1}{2}$ and the variance $\frac{1}{12N}$, where $\bar{X}=\frac{1}{N}(x_1+\ldots +x_N)$ [[source]](https://www.math.umd.edu/~millson/teaching/STAT400fall18/slides/article21.pdf)
+    - Recall the rules for expectations and variances.
+- Notation: The $[0,1]$ in $\mathcal{U}[0,1]$ denotes an interval, whereas the $(\frac{1}{2},\frac{1}{12N})$ in $\mathcal{N}(\frac{1}{2},\frac{1}{12N})$ denotes the mean and the variance of the Gaussian (specifying an interval for the Gaussian does not make sense)
+
+### Relation to other distributions
+
+- Binomial distribution $\xrightarrow[]{N\to\infty}$ Gaussian distribution
+
+![Binomial_Gaussian_Poisson](/assets/images/binomial_gaussian_poisson.jpg)
+
+### Intuition for Multivariate Gaussians
+
+- spectral decomposition of the covariance $\Sigma$
+- Shape of the Gaussian:
+    - scaling given by $\lambda_i$, 
+    - shifted by $\mathbf{\mu}$, 
+    - rotation given by the eigenvectors $\mathbf{u}_i$
+- new coordinate system defined by eigenvectors $\mathbf{u}_i$ with axes $y_i=\mathbf{u}_i^T(\mathbf{x}-\mathbf{\mu})$ for $i=1,\ldots,D$
+    > "In linear algebra, **eigendecomposition** is the factorization of a matrix into a canonical form, whereby the matrix is represented in terms of its eigenvalues and eigenvectors. Only diagonalizable matrices can be factorized in this way. When the matrix being factorized is a normal or real symmetric matrix, the decomposition is called **"spectral decomposition"**, derived from the spectral theorem." - [Wikipedia](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix) 
+    - origin of new coordinate system is at $\mathbf{y}=\mathbf{0}$, i.e. at $\mathbf{x}=\mathbf{\mu}$ in the old coordinate system!
+- **Normalization:** one can show that ![eq_2_56](/assets/images/equations/eq_2_56.png)
+    i.e. in the EV coordinate system the joint PDF factorizes into $D$ independent **univariate** Gaussians! The integral is then $\int{p(\mathbf{y})d\mathbf{y}}=1$, which shows that the multivariate Gaussian is normalized.
+- **1st order and 2nd order moments**:
+    - Note: 2nd order moment (i.e. $\mu\mu^T+\Sigma$) $\neq$ covariance of $\mathbf{x}$ (i.e. $\Sigma$)
+- **Number of independent parameters**: $\Sigma$ has in general $D(D+1)/2$ independent parameters
+    > - $D^2-D$ non-diagonal elements of which $(D^2-D)/2$ are unique
+    > - $D$ diagonal elements
+    > - i.e. in total $(D^2-D)/2+D=D(D+1)/2$ independent parameters in $\Sigma$
+    - <mark style="color: white; background-color: red; opacity: 1">grows quadratically with $D$</mark> $\Rightarrow$ manipulating/inverting $\Sigma$ can become computationally infeasible for large $D$
+    - $\Sigma$ and $\mu$ together have $D(D+3)/2$ independent parameters
+- **special cases of covariance matrices**:
+    - general $\qquad\qquad\qquad\qquad\Rightarrow D(D+3)/2$ independent parameters (shape: hyperellipsoids)
+    - diagonal $\Sigma=\mathop{\mathrm{diag}}(\sigma_i)$ $\qquad\Rightarrow 2D$ independent parameters (shape: axis-aligned hyperellipsoids)
+    - isotropic $\Sigma=\sigma^2\mathbf{I}$ $\qquad\qquad\Rightarrow D+1$ independent parameters (shape: hyperspheres)
+
+### Limitations of Gaussians
+
+#### Problem
+
+- as discussed above, the Gaussian can be both
+    - too flexible (too many parameters) and 
+    - too limited in the distributions that it can represent 
+        - Gaussian is unimodal, i.e. it has a single maximum, but we want to approximate multimodal distributions!
+
+#### Solution: Latent variable models 
+
+- use latent (hidden, unobserved) variables 
+    - discrete latent variables $\Rightarrow$ MoGs (which are multimodal!)
+    - continuous latent variables $\Rightarrow$ ["probabilistic PCA"](/assets/images/bishop_ml/probabilistic_PCA.png), [factor analysis](/assets/images/bishop_ml/factor_analysis.png) 
+        > "<mark>Probabilistic PCA represents</mark> a constrained form of <mark>the Gaussian distribution</mark> in which the number of free parameters can be restricted while still allowing the model to capture the dominant correlations in a data set." - Bishop, "Pattern Recognition and Machine Learning"
+        - i.e., like MoGs, probabilistic PCA is a parametric density estimation method (see [above](#parametric_density)) 
+        - see also [here](/assets/images/bishop_ml/simplest_contin_latent_var_model_1.png) and [here](/assets/images/bishop_ml/simplest_contin_latent_var_model_2.png)
+        - probabilistic PCA and factor analysis are related
+        - formulation of PCA as a probabilistic model was proposed independently by
+Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia.edu/~liam/teaching/neurostat-fall20/papers/hmm/roweis-ghahramani-lds.pdf) $\rightarrow$ see "Linear Gaussian Models"
+            - also important [applications in control theory](https://adam2392.github.io/blog/2019/06/gaussian-generative-models/)
+        - [[paper: GMMs vs Mixtures of Latent Variable Models]](https://publications.idiap.ch/attachments/reports/2000/rr00-25.pdf)
+            > "One of the most popular density estimation methods is the Gaussian mixture model (GMM). <mark>A promising alternative to GMMs [= MoGs] are the recently proposed mixtures of latent variable models. Examples of the latter are principal component analysis and factor analysis.</mark> The advantage of these models is that they are capable of representing the covariance structure with less parameters by choosing the dimension of a subspace in a suitable way. An empirical evaluation on a large number of data sets shows that mixtures of latent variable models almost always outperform various GMMs both in density estimation and Bayes classifiers." - from [[paper: GMMs vs Mixtures of Latent Variable Models]](https://publications.idiap.ch/attachments/reports/2000/rr00-25.pdf)
+- Latent variable models:
+    - discrete latent variables
+        - continuous $\mathbf{x}$:
+            - MoG/GMM
+        - discrete $\mathbf{x}$:
+            - Mixture of Bernoulli distributions
+    - continuous latent variables
+        - probabilistic PCA
+        - factor analysis
+
+### Proof: Covariance $\Sigma$ symmetric w.l.o.g.
+
+![proof-Gaussian-cov-symmetric-wlog](/assets/images/proofs/Gaussian_cov_symmetric_wlog.png)
+
+- **<mark>Key point:</mark>** If $\mathbf{A}=\mathbf{\Sigma}^{-1}$ is not symmetric, then there is another symmetric matrix $\mathbf{B}$ so that $\Delta^2=(\mathbf{x}-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}-\mathbf{\mu})$ is equal to $\Delta^2=(\mathbf{x}-\mathbf{\mu})^T\mathbf{B}(\mathbf{x}-\mathbf{\mu})$.
+- **Why is this important?**
+    - If $\Sigma$ was not symmetric, its eigenvectors would not necessarily form an orthonormal basis. Hence, the above intuition for the Gaussians would not hold.
+    - If $\Sigma$ is a real, symmetric matrix its eigenvalues are real and its eigenvectors can be chosen to form an orthonormal basis ([symmetric matrices/diagonalizable](https://de.wikipedia.org/wiki/Symmetrische_Matrix#Diagonalisierbarkeit) and [symmetric matrices/orthoganally diagonalizable](https://de.wikipedia.org/wiki/Symmetrische_Matrix#Orthogonale_Diagonalisierbarkeit)) 
+        - in other words, it's important in order to apply the spectral theorem:
+            > "The finite-dimensional **spectral theorem says** that any symmetric matrix whose entries are real can be diagonalized by an orthogonal matrix. More explicitly: For every real symmetric matrix $A$ there exists a real orthogonal matrix $Q$ such that $D = Q^{\mathrm{T}} A Q$ is a diagonal matrix. Every real symmetric matrix is thus, up to choice of an orthonormal basis, a diagonal matrix." - Wikipedia
+
+## MoG
+
+- MoGs are probabilistic generative models (see below), if we view each mixture component $k$ as a class
+- parameters are determined by:
+    - Frequentist:
+        - Maximum Likelihood:
+            - **problem 1**: no closed-form analytical solution
+                - **solutions**: 
+                    - iterative numerical optimization
+                        - gradient-based optimization
+                    - EM algorithm
+            - **problem 2**: maximization of MoG likelihood is not a well posed problem because "**singularities**" will always be present
+                - **solution**:
+                    - see section [Overfitting in Maximum Likelihood](#MoG_overfitting)
+            - **problem 3**: "**identifiability**": $K!$ equivalent solutions
+                - important issue when we want to interpret the parameter values
+                - however, not relevant for density estimation
+    - Bayesian:
+        - Variational Inference
+            - little additional computation compared with EM algorithm
+            - resolves the principle difficulties of maximum likelihood
+            - allows the number of components to be inferred **automatically** from the data
+- can be written in two ways:
+    - standard formulation
+    - latent variable formulation [[9.10-12]](/assets/images/equations/eq_9_10_to_12.png)
+        - **why useful?**
+            - for ancestral sampling
+            - **simplifications of the ML solution of MoG**<a name="MoG_ML_lat_var_form"></a>: we can work with the joint distribution $P(\mathbf{x},\mathbf{z})$ instead of the marginal $P(\mathbf{x})$ $\Rightarrow$ we can write the **complete-data** log-likelihood in the form
+                - simplifies maximum likelihood solution of MoG
+                    - using latent variables the complete-data log-likelihood can be written as [[9.35]](/assets/images/equations/eq_9_35.png), which is basically $p(\mathbf{X},\mathbf{Z})=\prod_{n=1}^N p(\mathbf{z}_n)p(\mathbf{x}_n\vert\mathbf{z}_n)$ (recall: there is one $\mathbf{z}_n$ for each $\mathbf{x}_n$)
+                        - do not sum over $\mathbf{z}$ as in [[9.12]](/assets/images/equations/eq_9_10_to_12.png)! 9.12 is $p(\mathbf{x})$ and not $p(\mathbf{x},\mathbf{z})$! Simply insert [[9.10]](/assets/images/equations/eq_9_10_to_12.png) and [[9.11]](/assets/images/equations/eq_9_10_to_12.png) in $p(\mathbf{X},\mathbf{Z})$.
+                        - this leads to a **closed form** solution for the MoG maximum likelihood (which is useless in practice, though)
+                            - maximization w.r.t. mean and covariance is exactly as for the single Gaussian, except that it involves only the data points that are assigned to each component. The mixing coefficients are equal to the fractions of data points assigned to the corresponding components.
+                                - this simplification would not be possible **without** the introduction of latent variables!
+                            - however, the latent variables are not known, in practice
+                                - but we can maximize the **expectation of the complete-data log likelihood function** (w.r.t. the posterior distribution of the latent variables) [[9.40]](/assets/images/equations/eq_9_40.png)
+                                    - we can calculate this expectation by choosing some initial parameters in order to calculate $\gamma(z_{nk})$ and then maximizing [[9.40]](/assets/images/equations/eq_9_40.png) w.r.t. the parameters (while keeping the responsibilities fixed)
+                                    - $\Rightarrow$ EM algorithm
+                        - Note: the MoG likelihood **without** latent variables (see 9.14) **cannot** be maximized in closed form, but the EM algorithm gives closed form expressions for $\mu_k$, $\Sigma_k$ and $\pi_k$. 
+                            - ("closed form expression" only means "a mathematical expression that uses a finite number of standard operations" and hence, $\mu_k$, $\Sigma_k$ and $\pi_k$ are in closed form) 
+                        - Interpreting 9.36 is much easier than interpreting 9.14!
+
+### Mixture Models in general
+
+- use cases:
+    - framework for building more complex probability distributions
+    - clustering data
+        - clustering with hard assignments (K-means algorithm)
+        - clustering with soft assignments (EM algorithm)
+
+#### Applications of Mixture Models
+
+- applications typically model the distribution of pixel colors and learn a MoG to represent the class-conditional densities:
+    - image segmentation
+        - mark two regions to learn MoGs and classify background VS foreground
+    - tracking
+        - train background MoG model with an **empty** scene (i.e. the object to be tracked is not in this scene at first) in order to model common appearance variations for each pixel
+        - anything that cannot be explained by this model will be labeled as foreground, i.e. the object to be tracked
+        - Note: in order to adapt to e.g. lighting changes the MoG can be updated over time
 
 # Outlier removal
 
@@ -106,6 +364,14 @@ We have to understand the concepts of **posterior** and **prior** probabilities,
 
 # The Curse of Dimensionality
 
+## Why important?
+
+- For all classifiers, the more dimensions we have in the input space (= **feature space**), the more training data we need.
+    - Consider the simple classifier described in Bishop, Chapter 1.4 "The Curse of Dimensionality". 
+        - The problem with an exponentially large number of cells in the input space is that we would need an exponentially large number of training data points in order to ensure that the cells are not empty. Therefore, applying this classifier to more input variables (here: only two input variables (= **features**): $x_6$ and $x_7$) becomes infeasible.
+
+> "In machine learning problems [...] typically an enormous amount of training data is required to ensure that there are several samples with each combination of values. A typical rule of thumb is that there should be at least 5 training examples for each dimension in the representation. [...] This ["Curse of Dimensionality"] phenomenon states that with a fixed number of training samples, <mark>the average (expected) predictive power of a classifier</mark> or regressor <mark>first increases</mark> as the number of dimensions or features used is increased but <mark>beyond a certain dimensionality it starts deteriorating</mark> instead of improving steadily." - [Wikipedia](https://en.wikipedia.org/wiki/Curse_of_dimensionality#Machine_Learning)
+
 - TODO
 
 # Decision Theory
@@ -113,56 +379,241 @@ We have to understand the concepts of **posterior** and **prior** probabilities,
 ## Why important?
 
 The **classification problem** can be broken down into two stages:
-- **Inference Stage**: use training data to learn a model for $P(C_k|\mathbf{x})$
-- **Decision Stage**: use these $P(C_k|\mathbf{x})$ to make optimal class assignments
+- **Inference Stage**: use training data to learn a model for $P(C_k\vert\mathbf{x})$
+- **Decision Stage**: use these $P(C_k\vert\mathbf{x})$ to make optimal class assignments
 
-Both generative and discriminative models use this "two stage" approach.
+Generative and discriminative models use this "two stage" approach. Discriminant functions do **not** have access to the posteriors $P(C_k\vert\mathbf{x})$! 
+
+# ML for Mixture Models
+
+## K-means algorithm
+
+- corresponds to a particular nonprobabilistic limit of EM applied to MoGs (see EM algorithm)
+- **goal**: find values for all $r_{nk}$ and $\pmb{\mu}_k$ so as to minimize $J$ (= "sum of all distances")
+---
+**K-means intuitively**
+
+- E step: determine all $r_{nk}$ ("assign $\mathbf{x}_n$ to closest cluster center")
+- M step: determine all $\pmb{\mu}_k$ ("set $\pmb{\mu}_k$ equal to the mean of all $\mathbf{x}_n$ assigned to cluster $k$")
+
+---
+- Note: this algorithm is guaranteed to reduce the value of the objective function $J$ in each phase and hence, is **guaranteed to converge after a finite number of iterations**
+    - $J$ corresponds to the negative expectation of the complete-data log likelihood in the EM algorithm, see 9.43 and disussion of general EM algorithm
+
+### Initialization of K-means
+
+- choose the initial $\pmb{\mu}_k$ to be equal to a random subset of $K$ data points
+
+### Advantages 
+
+- simple and fast to compute
+- guaranteed convergence in finite number of iterations
+    - convergence faster than for standard EM algorithm
+
+### Issues in practice
+
+- may converge to a local rather than global minimum (like the EM algorithm)
+    - i.e. the final result **depends on initialization**
+- E step may be slow because it requires computing all distances
+    - **solution**: speed up by
+        - precompute a data structure (e.g. a tree, where nearby points are in same subtree)
+        - avoid unnecessary distance calculations (e.g. using the triangle inequality)
+- detects spherical clusters only
+- sensitive to outliers
+- choosing $K$
+
+### Online version
+
+- above a batch version of K-means is described, but there is also a sequential update online version
+- via Robbins-Monro procedure ([MacQueen, 1967](https://projecteuclid.org/ebooks/berkeley-symposium-on-mathematical-statistics-and-probability/Some-methods-for-classification-and-analysis-of-multivariate-observations/chapter/Some-methods-for-classification-and-analysis-of-multivariate-observations/bsmsp/1200512992))
+    - see Bishop, 2.3.5 "Sequential estimation"
+
+### K-medoids algorithm
+
+- uses other dissimilarity measure $J$
+    - hence, its M step is potentially more complex
+        - **solution**: restrict each cluster prototype to be equal to one of the $\mathbf{x}_n$ assigned to that cluster
+- **advantages compared to K-means**:
+    - cluster means are more robust to outliers
+    - limits the data types that can be considered
+        - e.g. for categorical inputs a Euclidean distance cannot be calculated
+
+### Complexity
+
+- E step: $\mathcal{O}(KN)$ (for both K-means and K-medoids)
+- M step: $\mathcal{O}(N_k^2)$ for each cluster $k$
+
+### Elliptical K-means
+
+- **idea**: EM gives an estimate for $\Sigma$, however, standard K-means (which is a special case of an EM algorithm) does not estimate $\Sigma$
+    - $\Rightarrow$ hard assignments with general $\Sigma$ instead of $\Sigma=\epsilon\mathbf{I}$ for $\epsilon\to 0$ (Sung, Poggio, 1994)
+
+### Applications of K-means
+
+- Image Segmentation
+- Image Compression 
+    - using **vector quantization**
+
+## Latent variable formulation of Mixture Distributions
+
+- this is basically an alternative (i.e. equivalent) formulation of mixture models (e.g. MoGs) that simplifies certain calculations (see e.g. "latent variable view of EM algorithm")
+- Merke: <mark>"For every observed data point $\mathbf{x}_n$ there is a corresponding latent variable $\mathbf{z}_n$."</mark>
+    - i.e. there are $N$ latent variables $\mathbf{z}_n$, so to speak
+    - $\mathbf{z}_n$ is not known
+        - in ancestral sampling $\mathbf{z}$ is known because we sample from $P(\mathbf{z})$ first, so we know the value of $\mathbf{z}$
+            - and, therefore, we know the component that generates $\mathbf{x}$ 
+                - corresponding to the $z_k$ which is equal to $1$
+    - $\mathbf{z}_n$ encodes which mixture component $\mathbf{x}_n$ belongs to
+- $\{\mathbf{X},\mathbf{Z}\}$ is called **complete** data set 
+    - the corresponding log-likelihood is $\ln P(\mathbf{X},\mathbf{Z}\vert\mathbf{\vec{\theta}})$, where $P(\mathbf{X},\mathbf{Z}\vert\mathbf{\vec{\theta}})=\prod_{n=1}^N P(\mathbf{z}_n)P(\mathbf{x}_n\vert\mathbf{z}_n)$
+        - this is basically a generalization of $\ln P(\mathbf{X}\vert\mathbf{\vec{\theta}})$ <mark>which simplifies the Maximum Likelihood treatment for MoGs</mark> (in theory, not in practice, see [theoretical ML for MoG](#MoG_ML_lat_var_form)) 
+- actual observed data $\mathbf{X}$ is called **incomplete**
+- can be interpreted as defining assignments of data points to specific components of the mixture
+
+## EM algorithm
+
+- **goal**: find maximum likelihood solutions for <mark>models having latent variables</mark>
+- use cases:
+    - find MAP solutions for models in which a prior $P(\mathbf{\vec{\theta}})$ is defined
+    - **Handling missing values**: can also be applied when the unobserved variables correspond to missing values in the data set
+        - only applicable, if values are missing at random (MAR)
+            > "Under the classical missing at random mechanism (MAR) assumption, the parameters can thus be estimated by maximizing the observed likelihood. To do so, it is possible to use an Expectation-Maximization (EM) algorithm (Dempster, Laird, and Rubin, 1977) [...]." - [source: section 11.1.1.3 Two recommended methods: EM / Multiple imputation](https://julierennes.github.io/MAP573/handling-missing-values.html)
+---
+**General EM Algorithm**
+
+- **E step**: 
+    - find $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$ 
+        - in the standard EM algorithm this corresponding to: find $\gamma(z_{nk})$
+    - find the expectation (w.r.t this $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$) of the complete-data log likelihood $Q(\pmb{\theta},\pmb{\theta}^{old})$ 
+- **M step**: update $\pmb{\theta}^{new}=\argmax_{\pmb{\theta}}Q(\pmb{\theta},\pmb{\theta}^{old})$ 
+
+---
+- Note: this algorithm is guaranteed to increase the incomplete-data log likelihood in each cycle
+
+### Initialization of EM
+
+1. Run K-means (e.g. M times) 
+2. pick the best result (i.e. lowest error $J$)
+3. initialize EM parameters:
+    - initialize $\Sigma_k$ to $\Sigma$ of clusters found by K-means
+    - initialize $\pi_k$ to fraction of $\mathbf{x}$ assigned to clusters found by K-means
+
+### Issues in practice
+
+- **MoG singularities**: employ techniques to avoid singularities (see [overfitting MoGs](#MoG_overfitting))
+- **multiple local maxima**: the log likelihood has in general multiple local maxima 
+    - the EM algorithm is not guaranteed to converge to the largest maximum!
+
+### Credit Assignment problem
+
+- **problem**: when we are given $\mathbf{x}_n$, we don't know which component generated this point
+- **solution**: we can calculate the responsibilities of each component $\gamma_k(\mathbf{x}_n)=\gamma(z_{kn})=p(z_k=1\vert\mathbf{x}_n)$ for explaining $\mathbf{x}_n$
+    - corresponds to a **soft assignment** of each sample $\mathbf{x}_n$ to a mixture component $\Rightarrow$ this is why the EM algorithm is sometimes referred to as "**Clustering with soft assignments**"
+        - $\mathbf{x}_n$ is assigned to **all** mixture components (with some probability $\gamma_k(\mathbf{x}_n)$ for each component) instead of only one component (cf. hard assignments of the K-means algorithm)
+    - <mark>This is what the E-step of the EM algorithm does!</mark>
+
+### Relation to K-means
+
+- corresponds to a particular nonprobabilistic limit of EM applied to MoGs
+    - consider a MoG where each mixture component has covariance $\epsilon\mathbf{I}$ and thus looks like [[9.41]](/assets/images/equations/eq_9_41.png)
+        - then the responsibilities $\gamma(z_{nk})$ for a data point $\mathbf{x}$ all go to zero except for one which will go to unity (in other words: $\gamma(z_{nk})\to r_{nk}$)
+            - this corresponds to a hard assignment of the data point $\mathbf{x}_n$
+        - the $\pmb{\mu}_k$ will go to the K-means $\pmb{\mu}_k$
+        - the $\pi_k$ will be reset to the fraction of data points assigned to cluster $k$ (as usual in the EM algorithm) 
+            - however, the $\pi_k$ are irrelevant for the algorithm now
+        - the expected complete-data log likelihood $Q(\pmb{\theta},\pmb{\theta}^{old})$ will go to the negative of the distortion measure $J$ for the K-means algorithm
+
+# Linear models for regression
+
+- the polynomial is one example of a broad class of functions called **linear regression models**
+- linear regression models:
+    - <mark>are always **linear functions of the parameters**</mark>
 
 # Linear models for classification
 
+**Difference to DNNs/MLPs**: linear models use **fixed** basis functions, whereas DNNs/MLPs use **learned** basis functions [via hidden layers]
+
 > Note:
 > - linear models (i.e. <mark>WITHOUT</mark> activation function) 
+>     - these models are linear in the parameters! 
+>     - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
+>         - ($D-1$-dimenstional hyperplanes) 
 > - generalized linear models (i.e. <mark>WITH</mark> activation function)
+>     - these models are **not** linear in the parameters! 
+>         - (in cotrast to the linear models for regression discussed in [Bishop_2006](#Bishop_2006))
+>     - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
+>         - ($D-1$-dimenstional hyperplanes) 
+>         - because decision surfaces correspond to $y(\mathbf{x})=\text{const}$, which implies $\mathbf{w}^\top\mathbf{x}+w_0=\text{const}$
+>     - Open Questions: 
+>         - lecture slides: if the activation function is not monotonous, the decision surface is not a linear function of $\mathbf{x}$, why?
+>     - why decision surface**s** plural and not singular?
 
-## linear discriminant functions
+## discriminant functions
+
+> Note: [Bishop_2006](#Bishop_2006) only discusses **linear** discriminants in chapter 4.1 (i.e. the decision surfaces are $D-1$-dimensional hyper**planes**) which does not mean that discriminant functions must always be linear! In particular, 
+> - the introduction to chapter 4 [mentions](/assets/images/bishop_ml/discriminant_functions_intro.png) that all algorithms discussed in this chapter are equally applicable using nonlinear transformations $\pmb{\phi}$.
+> - this is also mentioned in chapter "4.3.1 Fixed basis functions" 
+
 - 2 classes
+    - single 2-class discriminant $y(\mathbf{x})=\mathbf{w}^\top\mathbf{x}+w_{0}$
+    - equivalently: single 2-class discriminant comprising $2$ linear functions $y_k(\mathbf{x})=\mathbf{w}^\top_k\mathbf{x}+w_{k0}$
+    - Rosenblatt's perceptron
 - K classes
     - one-vs-rest
     - one-vs-one
-    - single K-class discriminant
+    - single K-class discriminant comprising $K$ linear functions $y_k(\mathbf{x})=\mathbf{w}^\top_k\mathbf{x}+w_{k0}$
+        - decision regions are convex (proof in [Bishop_2006](#Bishop_2006)) 
+            - "Every convex subset of $\mathbb{R}^n$ is simply [= singly] connected." - [Wikipedia](https://en.wikipedia.org/wiki/Simply_connected_space)
+                - $\Rightarrow$ decision regions are also singly connected 
 - learning the parameters
     - least squares
+        - wrong tool for binary (i.e. 1-of-K coded) targets because binary targets do not have a Gaussian distribution and least squares corresponds to ML under the assumption of a Gaussian target distribution (see [Bishop_2006](#Bishop_2006), 1.2.5)
     - Fisher's linear discriminant
     - perceptron algorithm
 
 ## probabilistic generative models (indirect modeling of posterior)
 
-- $P(C_k|\mathbf{x})$ can be written as logistic sigmoid [4.57](/assets/images/equations/eq_4_57.png)
-    - i.e. $P(C_k|\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png)    
+- $P(C_k\vert\mathbf{x})$ can be written as logistic sigmoid [4.57](/assets/images/equations/eq_4_57.png)
+    - i.e. $P(C_k\vert\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png)    
     is linear in $\mathbf{x}$!
-- first model $P(\mathbf{x}|C_k)$ and $P(C_k)$, then use 4.57-58 to find $P(C_k|\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](/assets/images/equations/eq_1_82.png) and [1.83](/assets/images/equations/eq_1_83.png))
+- first model $P(\mathbf{x}\vert C_k)$ and $P(C_k)$, then use [4.57](/assets/images/equations/eq_4_57.png)-[4.58](/assets/images/equations/eq_4_58.png) to find $P(C_k\vert\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](/assets/images/equations/eq_1_82.png) and [1.83](/assets/images/equations/eq_1_83.png))
     - Examples:
-        - model $P(\mathbf{x}|C_k)$ as Gaussian [4.64](/assets/images/equations/eq_4_64.png) $\Rightarrow$ posterior $P(C_k|\mathbf{x})$ is the logistic sigmoid [4.65](/assets/images/equations/eq_4_65.png), i.e. a **generalized linear model**
-            - (i.e. linear decision boundaries, but not linear in parameters!)
-            - decision boundaries are where (the 2 largest) posteriors are equal
-            - use Maximum Likelihood to determine parameters of Gaussian 4.64 and priors $P(C_k)$ (requires data set)
-            - priors enter only through $w_0$ [4.67](/assets/images/equations/eq_4_67.png)
-                - i.e. priors shift the decision boundary parallelly (vgl. 4.65 mit distance from the origin to the decision surface 4.5)
-                - i.e. priors shift the parallel contours of constant posterior probability
+        - **Continuous Inputs**: (Gaussian distribution)
+            - model each $P(\mathbf{x}\vert C_k)$ as a Gaussian [4.64](/assets/images/equations/eq_4_64.png), <mark>where all classes share the same $\pmb{\Sigma}$</mark> $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ is the logistic sigmoid [4.65](/assets/images/equations/eq_4_65.png) (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.68](), i.e. a **generalized linear model**
+                - (i.e. linear decision boundaries, but not linear in parameters!)
+                - decision boundaries are where (the 2 largest) posteriors are equal
+                - use Maximum Likelihood to determine parameters of Gaussian 4.64 and priors $P(C_k)$ (requires data set)
+                - priors enter only through $w_0$ [4.67](/assets/images/equations/eq_4_67.png)
+                    - i.e. priors shift the decision boundary parallelly (vgl. [4.65](/assets/images/equations/eq_4_65.png) mit distance from the origin to the decision surface [4.5](/assets/images/equations/eq_4_5.png))
+                    - i.e. priors shift the parallel contours of constant posterior probability
+                - the argument of the sigmoid (2 classes) or the $a_k(\mathbf{x})$ of the softmax ($K\geq2$ classes) are linear functions of the inputs $\mathbf{x}$
+                - Note: if the classes do **not** share the same $\pmb{\Sigma}$, the decision boundaries will be **quadratic**, i.e. the $P(C_k|\mathbf{x})$ are **not** governed by a generalized linear model!
+        - **Discrete Inputs**: (Bernoulli distribution)
+            - model $P(\mathbf{x}\vert C_k)$ as [Bernoulli naive Bayes](#https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Bernoulli_na%C3%AFve_Bayes) model $P(\mathbf{x}\vert C_k)=\prod_{i=1}^Dp_{ki}^{x_i}(1-p_{ki})^{(1-x_i)}$ $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ a logistic sigmoid (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.82](), i.e. again a **generalized linear model**
+                - $x_i\in\{0,1\}$ (e.g. "spam or ham")
+                - $p_{ki}$ is the probability of class $C_k$ generating the term $x_i$
+                - $a_k(\mathbf{x})$ are again linear functions of the inputs $x_i$
+                - also holds for discrete variables with $M>2$ states
+                - App: popular for document classification tasks
+        - **Exponential Family**:
+            - above results are special cases: If class-conditional densities are members of the exponential family, the posterior $P(C_k\vert\mathbf{x})$ is a logistic sigmoid (2 classses) with argument [4.85]() or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.86](), i.e. again a **generalized linear model**
+
 
 ## probabilistic discriminative models (direct modeling of posterior)
-- maximize likelihood function defined through p(Ck\|x)
+
+- maximize likelihood function defined through $P(C_k\vert\mathbf{x})$
     - fewer adaptive parameters to be determined than for generative models
-        - zB. M parameters for logistic regression vs. M (M + 5) / 2 + 1 for Gaussian generative model approach as described above, which grows quadratically with M ! 
-    - may lead to better predictive performance than generative models, particularly when the p(x\|Ck) assumptions of the generative models are not accurate
+        - zB. $M$ parameters for logistic regression vs. $M (M + 5) / 2 + 1$ for Gaussian generative model approach as described above, which grows quadratically with $M$ ! 
+    - may lead to better predictive performance than generative models, particularly when the $P(\mathbf{x}\vert C_k)$ assumptions of the generative models are not accurate
     - Examples:
         - logistic regression (2 classes)
         - softmax regression/multiclass logistic regression (multiple classes)
 
-# Linear Basis Function Models
+# Linear Basis Function Models<a name="LBF"></a>
 
-- decision boundaries are linear in feature space (phi space), but nonlinear in input space (x space)
-- nonlinear transformations phi cannot remove class conditional densities' overlap (i.e. region where posteriors are not 0 or 1) ! 
+- decision boundaries are linear in feature space ($\pmb{\phi}$ space), but nonlinear in input space ($\mathbf{x}$ space)
+- Note: nonlinear transformations $\pmb{\phi}$:
+    - cannot remove class conditional densities' overlap (i.e. region where posteriors are not $0$ or $1$) ! 
 	- they can even increase the level of overlap ! 
 	- they can also create overlap where none existed !
 
@@ -208,6 +659,14 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 - perceptrons are **generalized linear models** ("generalized" because of the activation function)
 - more specifically: perceptrons are **generalized linear discriminants** (because they map the input **x** directly to a class label t in {-1,+1} [see above: "Linear models for classification": approach 1.])
+- original version: 
+    - 2-class linear discriminant 
+    - with fixed [i.e. not learned!] nonlinear transformation $\vec{\phi}(\pmb{x})$
+    - activation function: step function
+    - learned via minimization of "**perceptron criterion**" $\Rightarrow$ SGD
+    - exact solution guaranteed for linearly separable data set (**Perceptron Convergence Theorem**)
+        - **BUT:** in practice, convergence can be slow
+            - it's hard to decide, if a problem is not linearly separable or just slowly converging!
 
 ## Terminology
 
@@ -467,3 +926,11 @@ source: LeCun et al. "Efficient BackProp"
 - [MLP_in_numpy](https://github.com/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
 - [MLP_selbst_versucht](https://github.com/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
 - [WofuerIst__name__gut](https://github.com/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
+    
+# REFERENCES
+
+- <a name="Bishop_2006"></a> [Bishop, Christopher M., *Pattern Recognition and Machine Learning (Information Science and Statistics)* (2006), Springer-Verlag, Berlin, Heidelberg, 0387310738.][1]
+- <a name="Goodfellow_2016"></a> [Ian J. Goodfellow and Yoshua Bengio and Aaron Courville, *Deep Learning* (2016), MIT Press, Cambridge, MA, USA][2]
+
+[1]: https://www.amazon.de/Pattern-Recognition-Learning-Information-Statistics/dp/0387310738
+[2]: http://www.deeplearningbook.org

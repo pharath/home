@@ -199,6 +199,10 @@ omf install bobthefish | install powerline in fish
 
 sudo snap install postman | http client 
 
+<hr>
+
+dive | for docker image dependencies tree (see [github repo](https://github.com/wagoodman/dive))
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -259,15 +263,28 @@ ps | wie `top`, aber keine real-time updates (dh. nur ein snapshot)
 echo $$ | show PID of current shell
 kill *PID* | stop process with id *PID*
 
+<hr>
+
+realpath foo.bar | get path to file "foo.bar" (like `pwd` + foo.bar)
+readlink -f foo.bar | get path to file "foo.bar" (like `pwd` + foo.bar)
+
+<hr>
+
+ls \| wc -l | count files in a directory
+history \| tail -n 30 | show last 30 commands
+
 # apt, apt-get, snap, dpkg, pkg-config
 
 ## Difference between apt and apt-get + apt-cache:
+
 - `apt` = most commonly used command options from `apt-get` and `apt-cache` see [here](https://itsfoss.com/apt-vs-apt-get-difference/)
 - So with `apt`, you get all the necessary tools in one place. You won’t be lost under tons of command options. The main aim of `apt` is to provide an efficient way of handling packages in a way “pleasant for end users”.
 - `apt`:
     - shows progress bar while installing or removing a program
     - prompts number of packages that can be upgraded when you update the repository database (i.e. `apt update`)
     - same can be achieved with apt-get (but you need additional options)
+- When you use `apt` to install a package, under the hood it uses `dpkg`. When you install a package using `apt`, it first creates a list of all the dependencies and downloads it from the repository.
+    - Once the download is finished it calls `dpkg` to install all those files, satisfying all the dependencies.
 
 | command | description |
 | :---: | :---: |
@@ -276,6 +293,12 @@ sudo apt [-y] upgrade		|	-y oder —yes für automatic yes to prompts
 apt --help |
 sudo apt autoremove |   remove not needed packages (NOTE: This command will remove all unused packages (orphaned dependencies). Explicitly installed packages will remain.)
 sudo apt-mark auto $PACKAGES | mark $PACKAGES as "automatically installed", if accidentally marked as "manually installed"
+
+## apt
+
+| command | description |
+| :---: | :---: |
+sudo apt install ./name.deb | install a .deb file
 
 ## dpkg
 
@@ -301,7 +324,7 @@ vim /var/log/apt/history.log | view apt history
 
 <hr>
 
-sudo dpkg -i package_file.deb |	install package_file.deb
+sudo dpkg -i package_file.deb |	install package_file.deb (alternative: `sudo apt install ./name.deb`)
 sudo apt remove package |		uninstall package_file.deb
 
 <hr>
@@ -419,6 +442,7 @@ sudo docker run -d ... | start a container in detached mode [docs](https://docs.
 sudo docker run --rm ... | Automatically remove the container when it exits
 docker run --name test -it *image_name* | This example runs a container named test using the image *image_name*. The `-it` instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container.
 docker run --rm --name ubuntu_phth -it --entrypoint=/bin/bash deep_braket:v4 | start deep_braket:v4 in bash shell instead of starting in Jupyter Lab.
+docker run -e "TERM=xterm-256color" ... | enable color output in docker bash terminal
 
 <hr>
 
@@ -478,6 +502,7 @@ Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/te
 | :---: | :---: |
 docker login registry.git.rwth-aachen.de | login to Container Registry
 docker image tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | tag local image "galaxis_simulation:phth-8" (Note: the tag registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 must have this form!)
+docker tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | see `docker image tag`
 docker push registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | push image to Gitlab Container Registry
 
 # bash
@@ -519,6 +544,10 @@ find /opt/ -iname pattern -type f |					nur files suchen
 find /opt/ -iname pattern -type d |					nur dirs suchen
 find /opt/ ( -iname pattern1 -o -iname pattern2 ) |	-o für oder
 find /opt/ -size +1G |							nur files, die über 1GB groß sind
+
+<hr>
+
+sed 's/unix/linux/' geekfile.txt | replaces the word 'unix' with 'linux' in the file 'geekfile.txt'. `sed` is mostly used to replace text in a file. Examples: see [here](https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/).
 
 <hr>
 
@@ -593,6 +622,11 @@ cp -iv |
 
 echo "blabla" >> *filename* | write output to file *filename*
 echo "blabla" \| tee *filename* | write output to file *filename*
+
+<hr>
+
+history | get a list of the last 1000 commands 
+history \| grep command_to_search | search some pattern within the history generated list
 
 # Unzipping
 

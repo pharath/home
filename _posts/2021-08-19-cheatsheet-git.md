@@ -2,6 +2,12 @@
 title: "Git Cheatsheet"
 read_time: false
 excerpt_separator: "<!--more-->"
+header:
+  teaser: /assets/images/Vim.jpg
+  overlay_image: /assets/images/Vim.jpg
+  overlay_filter: 0.5 
+toc: true
+toc_sticky: true
 categories:
   - Cheatsheet
 tags:
@@ -9,11 +15,21 @@ tags:
   - cheatsheet
 ---
 
+# Terminology
+
+**remote** = remote-repository (e.g. in `git push *remote* *branch*`)
+
 # Basics
 
 | command | description |
 | :---: | :---: |
 git clone --recurse-submodules repo \<Ziel directory\> | 
+git branch -a | show/list all branches (local and remote)
+git branch -r | show/list all branches (only remote)
+git show-branch -a | show/list all branches **and commits** (local and remote)
+git show-branch -r | show/list all branches **and commits** (only remote)
+git checkout \<existing\_branch\> | switch to an existing branch (or: git switch *branch*)
+git checkout -b \<new\_branch\> | switch to a non-existing branch (or: git switch -c *branch*)
 git reflog |	view history of checkout operations
 git log	|	view history of commits
 git revert \<commit-hash\>	| commit \<commit-hash\> rückgängig machen
@@ -102,3 +118,11 @@ git branch -M main
 git push -u origin main
 ```
 
+# Troubleshooting/Errors
+
+```bash
+ ! [remote rejected] origin/parking -> origin/parking (deny updating a hidden ref)
+error: failed to push some refs to 'https://git.rwth-aachen.de/team_galaxis/carolo-cup-2021.git'
+```
+
+**Solution**: The branch name is wrong. Use `git push origin parking` instead of `git push origin origin/parking`.

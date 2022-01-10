@@ -28,3 +28,6 @@ Start new bash shell in running container:
 2. `docker exec -it <tab-tab>container bash` 
 
 
+Start new bash shell in running container with color support:
+1. `xhost +local:root`
+2. `docker exec -it <tab-tab>container env TERM=xterm-256color bash`

@@ -70,6 +70,7 @@ tags:
 | :---: | :---: |
 | vim .  |			öffne netrw in current dir
 | vim -r *file.swp* | restore *file.swp*
+| vim -u vimrc-file file | use another vimrc-file (to specify other .vim location `set runtimepath` in .vimrc, further details below in section "General facts/Change default .vim .vimrc location")
 
 # netrw
 
@@ -95,6 +96,12 @@ a |				gehe in INSERT modus
 ctrl + g | show current file name
 1 + ctrl + g | show current file name + path
 :r !xsel | paste from clipboard
+
+## Saving
+
+| command | description |
+| :---: | :---: |
+:sav(eas) new_file_name | save as new_file_name and set new_file_name as current file (:sav and :saveas are the same)
 
 ## Mehrere Zeilen auskommentieren: 
 [how-to-comment-and-uncomment-multiple-line-vi-terminal-editor](https://discuss.devopscube.com/t/how-to-comment-and-uncomment-multiple-line-vi-terminal-editor/64)
@@ -227,3 +234,13 @@ Swap files also provide a way to avoid multiple instances of Vim from editing th
 ## Freeze/Freezing
 
 Press CTRL + S to freeze vim and press CTRL + Q to unfreeze. 
+
+## Change default .vim .vimrc location
+
+- `:set runtimepath?`
+- copy the displayed runtimepath
+- in new `.vimrc` which is in an arbitrary location write `set runtimepath=` and paste the copied paths behind it
+- add path of new `.vim` behind it
+- start vim with `vim -u path/to/new/.vimrc some_other_file` 
+    - or create alias e.g. `vvim` for `vim -u path/to/new/.vimrc`
+    - or create `.bash_aliases` file with content `alias vvim="vim -u .vimrc"` and source it on startup using `source .bash_aliases` command
