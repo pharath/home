@@ -97,6 +97,22 @@ ctrl + g | show current file name
 1 + ctrl + g | show current file name + path
 :r !xsel | paste from clipboard
 
+## Tabs
+
+| command | description |
+| :---: | :---: |
+:gt | next Tab
+:gT | previous Tab
+:tabe *file* | open *file* in a new Tab
+:4gt | switch to Tab number 4
+
+### Re-open closed Tab
+
+| command | description |
+| :---: | :---: |
+:ls | get the buffer number of all files edited in this session
+:tabnew +Nbuf | re-open closed tab (where N is the buffer number of the closed tab which you can get via `:ls`), e.g. `:tabnew +18buf` in order to reopen buffer 18
+
 ## Saving
 
 | command | description |
