@@ -672,6 +672,9 @@ Die 2nd order Taylor expansion ist ein Polynom zweiten Grades am Punkt wtau (Par
 
 ## GD vs Newton-Raphson
 
+- Newton's method fails to converge on problems that have **non-differentiable** kinks.  [[Wiki: subgradient methods]](https://en.wikipedia.org/wiki/Subgradient_method)
+- For non-differentiable functions use subgradient methods. (see below)
+
 source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method](https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method)
 
 <h3 data-id="1-description-of-newtons-method">Description of Newton&#8217;s Method</h3>
@@ -684,6 +687,14 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 <p>Let&#8217;s define <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-a7ee323bc5a3f73ad5e066b13bed5504_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;&#40;&#120;&#41;" title="Rendered by QuickLaTeX.com" height="19" width="34" style="vertical-align: -5px;" /> as the cost function of a model on which we apply Newton&#8217;s method. The terms <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-b4caaf19541a3bc05129a71ac72b0bd0_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;&#39;&#40;&#120;&#41;" title="Rendered by QuickLaTeX.com" height="19" width="38" style="vertical-align: -5px;" /> and <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-4c8cfa363454f830de83c5485c0f8de0_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;&#39;&#39;&#40;&#120;&#41;" title="Rendered by QuickLaTeX.com" height="19" width="42" style="vertical-align: -5px;" /> thus indicate, respectively, the first and second-order derivatives of <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-a7ee323bc5a3f73ad5e066b13bed5504_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;&#40;&#120;&#41;" title="Rendered by QuickLaTeX.com" height="19" width="34" style="vertical-align: -5px;" />. If we start from a point <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-2c83758b12d1eb192c053e5f0ac1a434_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#120;&#95;&#110;" title="Rendered by QuickLaTeX.com" height="11" width="18" style="vertical-align: -3px;" /> that&#8217;s sufficiently close to the minimum of <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-9c09a708375fde2676da319bcdfe8b24_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;" title="Rendered by QuickLaTeX.com" height="16" width="10" style="vertical-align: -4px;" />, we can then get a better approximation by computing this formula:</p>
 <p style="text-align: center"><img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-b27a1fd79b3b8caf4ca68b859a4a510f_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#120;&#95;&#123;&#110;&#43;&#49;&#125;&#32;&#61;&#32;&#120;&#95;&#110;&#32;&#43;&#32;&#92;&#102;&#114;&#97;&#99;&#32;&#123;&#102;&#39;&#40;&#120;&#95;&#110;&#41;&#125;&#32;&#123;&#102;&#39;&#39;&#40;&#120;&#95;&#110;&#41;&#125;" title="Rendered by QuickLaTeX.com" height="29" width="146" style="vertical-align: -10px;" /></p>
 <p>The term <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-4f53a422f42b582f3c4262da7fc2348c_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#92;&#102;&#114;&#97;&#99;&#32;&#123;&#102;&#39;&#40;&#120;&#41;&#125;&#32;&#123;&#102;&#39;&#39;&#40;&#120;&#41;&#125;" title="Rendered by QuickLaTeX.com" height="29" width="35" style="vertical-align: -10px;" />, here, indicates that we&#8217;re approximating the function <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-b4caaf19541a3bc05129a71ac72b0bd0_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#102;&#39;&#40;&#120;&#41;" title="Rendered by QuickLaTeX.com" height="19" width="38" style="vertical-align: -5px;" /> with a linear model, in proximity of <img loading="lazy" src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-2c83758b12d1eb192c053e5f0ac1a434_l3.png" class="ql-img-inline-formula quicklatex-auto-format" alt="&#120;&#95;&#110;" title="Rendered by QuickLaTeX.com" height="11" width="18" style="vertical-align: -3px;" />.</p>
+
+# Subgradient Methods
+
+- "subgradient methods are convergent when applied even to a **non-differentiable** objective function." [Wiki:Subgradient method](https://en.wikipedia.org/wiki/Subgradient_method)
+- Examples:
+    - Stochastic Subgradient Descent
+- use cases:
+    - SVMs (objective: hinge loss)
 
 # Kernel functions
 
@@ -735,6 +746,28 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
     - in contrast, **relevance vector machines (RVM)** do
         - RVMs are based on a Bayesian formulation
         - they have typically **much sparser solutions** than SVMs!
+
+## Training/Solving the Quadratic Programming Problem
+
+- **Training phase** (i.e., the determination of the parameters $\mathbf{a}$ and $b$) makes use of the **whole** data set, as opposed to the test phase, which only makes use of the support vectors
+    - Direct solution is often infeasible (demanding computation and memory requirements)
+- Most popular approach to training SVMs: **Sequential minimal optimization (SMO)**
+    - SMO uses an extreme form of the **chunking** method 
+    - standard chunking method:
+        - i.e., identifies <mark>**all**</mark> of the nonzero Lagrange multipliers and discards the others
+            - works because Lagrangian does not change, if the rows and columns of the kernel matrix corresponding to Lagrange multipliers that have value zero are removed 
+                - $\Rightarrow$ size of the matrix in the quadratic function is reduced from $N^2$ to $\left(\#(\text{nonzero Lagrange multipliers})\right)^2$, where $N$ is the number of data points
+                    - **Problem:** still needs too much memory for large-scale applications
+    - SMO considers just <mark>**two**</mark> Lagrange multipliers at a time, so that the subproblem can be solved analytically instead of numerically
+        - those two Lagrange multipliers are chosen using heuristics at each step 
+    - SMO scaling in practice: between $\mathcal{O}(N)$ and $\mathcal{O}(N^2)$
+
+## Probabilistic Outputs
+
+- SVM does not provide probabilistic outputs
+- [Platt_2000](https://www.researchgate.net/publication/2594015_Probabilistic_Outputs_for_Support_Vector_Machines_and_Comparisons_to_Regularized_Likelihood_Methods) has proposed fitting a logistic sigmoid to the outputs of a **trained** SVM
+    - **Problem:** SVM training process is not geared towards this
+        - therefore, the SVM can give poor approximations to the posteriors
 
 # Neural Networks
 

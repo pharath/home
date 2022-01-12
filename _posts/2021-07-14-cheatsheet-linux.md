@@ -760,7 +760,7 @@ ssh-keygen -R 10.14.14.92 | remove 10.14.14.92 from .ssh/known_hosts (falls aus 
 
 | command | description |
 | :---: | :---: |
-scp *source* *target* | 
+scp *source* *target* | immer Anführungszeichen um den *source* Pfad setzen!
 scp -rv Macbook:"~/Desktop/Uni/FS1/Essential\ Astrophysics\ WS1819" ~/Desktop/ | spaces DOPPELT escapen (hier: 1. mit " **UND** 2. mit \) 
 `scp -r [!.]* source target` | exclude hidden files
 
