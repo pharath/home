@@ -702,6 +702,7 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - symmetric function of its arguments $k(\mathbf{x},\mathbf{x}^\prime)=k(\mathbf{x}^\prime,\mathbf{x})$
 - Examples:
     - **linear kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\mathbf{x}^\top\mathbf{x}^\prime$
+    - **polynomial kernels** $k(\mathbf{x},\mathbf{x}^\prime)=(\mathbf{x}^\top\mathbf{x}^\prime+c)^M$
     - **stationary kernels** $k(\mathbf{x},\mathbf{x}^\prime)=k(\mathbf{x}-\mathbf{x}^\prime)$
         - function only of the difference between the arguments
         - invariant to translations (hence, "stationary")
@@ -712,6 +713,10 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
                     - **Gaussian kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\exp(-||\mathbf{x}-\mathbf{x}^\prime||^2/2\sigma^2)$
                         - the feature vector $\pmb{\phi}(\mathbf{x})$ corresponding to the Gaussian kernel has infinite dimensionality!
                         - not restricted to the use of Euclidean distance
+    - **sigmoidal kernel/hyperbolic tangent kernel** $k(\mathbf{x},\mathbf{x}^\prime)=\tanh(a\mathbf{x}^\top\mathbf{x}^\prime+b)$
+        - **<mark>not a valid kernel!</mark>** 
+            - Gramian in general is not positive semidefinite. 
+        - However, it has been used in practice (Vapnik, 1995).
 - **idea**: if an algorithm is formulated in such a way that the input vector only enters through scalar products, then this scalar product can be replaced with some (other) kernel.
 - **necessary and sufficient condition for $k$ to be a valid kernel**: Gram matrix with elements $k(\mathbf{x}_n,\mathbf{x}_m)$ must be positive semidefinite for all possible choices of the set $\{\mathbf{x}_n\}$
     - Note: Not only the Gram matrix but also the kernel itself can be positive-definite, see [Wikipedia](https://en.wikipedia.org/wiki/Positive-definite_kernel)
@@ -721,16 +726,24 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
     - sets
     - strings
     - text documents
+    - sequences
+    - relational data
+    - genomic data
     - etc.
+- **use cases**:
+    - SVMs
+    - Kernel PCA
+    - Kernel FLD (kernel Fisher discriminant analysis, [KFD](https://en.wikipedia.org/wiki/Kernel_Fisher_discriminant_analysis))
+        - "kernelized version of linear discriminant analysis (LDA)" - [Wikipedia](https://en.wikipedia.org/wiki/Kernel_Fisher_discriminant_analysis)
 
 # SVMs
 
 - **motivation 1**: 
     - **Problem**: 
         - kernel-based algorithms must evaluate the kernel function for all possible pairs of data points
-            - can be computationally infeasible during training
-            - can lead to slow predictions (because of long computing times)
-    - **Solution**:
+            1. can be computationally infeasible during training
+            2. can lead to slow predictions (because of long computing times) at test time
+    - **Solution (for ii.)**:
         - **SVMs** only need to evaluate the kernel function at a subset of the training data points (SVMs are kernel-based algorithms that have **sparse** solutions)
 - **motivation 2**: 
     - **Problem**:
@@ -742,6 +755,9 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
         - it can be shown that <mark>"the larger the classifier's margin the lower its VC dimension (= capacity for overfitting)"</mark> 
             - $\Rightarrow$ the classifier that has the maximal margin will find the desired decision boundary that has the best generalization performance
                 - $\Rightarrow$ the SVM will find the decision boundary with the best generalization performance
+
+## Limitations of SVMs
+
 - do not provide posterior probabilistic outputs
     - in contrast, **relevance vector machines (RVM)** do
         - RVMs are based on a Bayesian formulation
@@ -768,6 +784,21 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 - [Platt_2000](https://www.researchgate.net/publication/2594015_Probabilistic_Outputs_for_Support_Vector_Machines_and_Comparisons_to_Regularized_Likelihood_Methods) has proposed fitting a logistic sigmoid to the outputs of a **trained** SVM
     - **Problem:** SVM training process is not geared towards this
         - therefore, the SVM can give poor approximations to the posteriors
+
+## Apps
+
+- Text Classification
+    - "Spam or Ham", spam filter
+        - "Bag-of-words" approach
+        - Histogram of word counts
+            - very **high-dimensional** feature space ($\approx 10000$ dimensions)
+            - few irrelevant features
+- OCR, Handwritten digit recognition
+    - Virtual SVM (V-SVM), Schölkopf, **0.8% error rate on MNIST**
+        - LeNet-1, 1.7% error rate
+        - LeNet-5, 0.95% error rate
+    - comparison: [overview](/assets/images/LeNetvsSVM.png), see [LeNet-5 paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)
+    - Note: LeNet in general refers to LeNet-5
 
 # Neural Networks
 
