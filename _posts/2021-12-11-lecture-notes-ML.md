@@ -736,6 +736,10 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
     - Kernel FLD (kernel Fisher discriminant analysis, [KFD](https://en.wikipedia.org/wiki/Kernel_Fisher_discriminant_analysis))
         - "kernelized version of linear discriminant analysis (LDA)" - [Wikipedia](https://en.wikipedia.org/wiki/Kernel_Fisher_discriminant_analysis)
 
+# Linearly separable
+
+- By **<mark>definition</mark>**, the two sets of points $\{\mathbf{x}_n\}$ and $\{\mathbf{y}_n\}$ will be linearly separable if there exists a vector $\mathbf{w}$ and a scalar $w_0$ such that $\mathbf{w}^\top \mathbf{x}_n + w_0 \gt 0$ for all $\mathbf{x}_n$, and $\mathbf{w}^\top \mathbf{y}_n + w_0 \lt 0$ for all $\mathbf{y}_n$. - [Bishop_2006](#Bishop_2006), Exercise 4.1
+
 # SVMs
 
 - **motivation 1**: 
@@ -755,6 +759,27 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
         - it can be shown that <mark>"the larger the classifier's margin the lower its VC dimension (= capacity for overfitting)"</mark> 
             - $\Rightarrow$ the classifier that has the maximal margin will find the desired decision boundary that has the best generalization performance
                 - $\Rightarrow$ the SVM will find the decision boundary with the best generalization performance
+- hence, SVMs are robust to "too correct" points !
+
+## Canonical representation of the decision hyperplane
+
+![SVM_canonical_form](/assets/images/SVM_canonical_form.png)
+
+[source](https://ufal.mff.cuni.cz/~hladka/jsmath/test/svm.pdf)
+
+## Soft-margin SVM
+
+- points **inside** the margin are also support vectors! ![slack_variables_SVM](/assets/images/bishop_ml/slack_variables_SVM.png) [[source]](#Bishop_2006)
+- for overlapping class distributions
+- still sensitive to outliers because the penalty for misclassification increases linearly with $\xi$
+- misclassified points have $\xi_n>1$
+- $C$ controls the trade-off between the $\xi_n$ penalty and the margin
+- $\sum_n\xi_n$ is an **upper bound** on the number of misclassified points
+    - because $\xi_n>1$
+- Note: kernel trick does **not** avoid curse of dimensionality 
+    - because any set of points in the original, say, two-dimensional input space $\mathbf{x}$ would be **constrained** to lie exactly on a two-dimensional **nonlinear manifold** (depending on the kernel) embedded in the higher-dimensional feature space
+        - Note: there are **elliptic** and **hyperbolic** paraboloids
+- Note: choose monotonically decreasing error function (if the objective is to minimize the misclassification rate)
 
 ## Limitations of SVMs
 
@@ -766,7 +791,9 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 ## Training/Solving the Quadratic Programming Problem
 
 - **Training phase** (i.e., the determination of the parameters $\mathbf{a}$ and $b$) makes use of the **whole** data set, as opposed to the test phase, which only makes use of the support vectors
-    - Direct solution is often infeasible (demanding computation and memory requirements)
+    - **Problem:** Direct solution is often infeasible (demanding computation and memory requirements)
+- $\tilde{L}(\mathbf{a})$ is quadratic
+    - linear constraints $\Rightarrow$ constraints define a convex region $\Rightarrow$ any local optimum will be a global optimum
 - Most popular approach to training SVMs: **Sequential minimal optimization (SMO)**
     - SMO uses an extreme form of the **chunking** method 
     - standard chunking method:
@@ -799,6 +826,15 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
         - LeNet-5, 0.95% error rate
     - comparison: [overview](/assets/images/LeNetvsSVM.png), see [LeNet-5 paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)
     - Note: LeNet in general refers to LeNet-5
+    - <mark>SVMs show **almost no overfitting** with higher-degree kernels!</mark>
+- Object Detection
+    - SVMs are **real-time capable**
+        - sliding-window approach
+            - **idea**: classify "object vs non-object" for each window
+                - e.g. pedestrian vs non-pedestrian
+- High-energy physics
+- protein secondary structure prediction
+- etc.
 
 # Neural Networks
 
