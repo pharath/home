@@ -49,3 +49,6 @@ ctrl + shift + m | show mobile version of website
 - Web Search Navigator
 - Vimium-FF (by Stephen Blott, Phil Crosby)
 - GNOME Shell integration
+- Reload in address bar
+- StickyNotes
+- Tab Session Manager

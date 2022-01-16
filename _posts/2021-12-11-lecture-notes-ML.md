@@ -1107,9 +1107,9 @@ source: LeCun et al. "Efficient BackProp"
 ### Shuffling the Examples
 
 - [Expl_NN_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/Expl_NN_in_numpy.ipynb)
-- [MLP_in_numpy](https://github.com/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
-- [MLP_selbst_versucht](https://github.com/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
-- [WofuerIst__name__gut](https://github.com/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
+- [MLP_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
+- [MLP_selbst_versucht](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
+- [WofuerIst__name__gut](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
     
 # REFERENCES
 
