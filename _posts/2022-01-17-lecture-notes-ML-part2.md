@@ -578,9 +578,29 @@ function fib(n)
         - If, on the other hand, your activations become **larger and larger**, 
             - then your **activations will saturate** and become meaningless, with **gradients approaching 0**.
 
-### Xavier Initialization
+### Dying ReLU problem
 
-- vanishing gradients problem: [code example](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/Weight\ Initialization\ in\ Neural\ Networks\ A\ Journey\ From\ the\ Basics\ to\ Kaiming\ \|\ by\ James\ Dellinger\ \|\ Towards\ Data\ Science.html)
+- causes:
+    - too high learning rate
+    - too large negative bias
+- solutions:
+    - use a lower learning rate
+    - use a variation of ReLU, e.g.
+        - Leaky ReLU: $\max\{\beta a, a\}$
+            - pro: avoids stuck-at-zero units
+            - pro: weaker offset bias
+        - ELU: $e^a-1$ for $a \leq 0$
+            - pro: no offset bias
+            - con: need to store activations
+    - modification of the initialization method
+        - do **not** use He initialization (i.e. initializing weights and biases through **symmetric** probability distributions)
+            - instead, use **randomized asymmetric initialization** [[Lu, Shin, Su, Karniadakis](https://arxiv.org/abs/1903.06733)]
+
+### Xavier Glorot Initialization
+
+- [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
+- Xavier Glorot is the author's full name
+- vanishing gradients problem: [code example](<https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/Weight\ Initialization\ in\ Neural\ Networks\ A\ Journey\ From\ the\ Basics\ to\ Kaiming\ \|\ by\ James\ Dellinger\ \|\ Towards\ Data\ Science.html>)
 
 ## MLP Example Implementations
 
