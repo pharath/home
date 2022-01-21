@@ -30,8 +30,9 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 - read [A Simple Custom Module](https://pytorch.org/docs/stable/notes/modules.html#a-simple-custom-module)
 - "Note that the module itself is callable, and that calling it invokes its `forward()` function. This name is in reference to the concepts of “forward pass” and “backward pass”, which apply to each module. 
-	- The “forward pass” is responsible for applying the computation represented by the module to the given input(s) (as shown in the above snippet). 
-	- The “backward pass” computes gradients of module outputs with respect to its inputs, which can be used for “training” parameters through gradient descent methods. PyTorch’s **autograd system** automatically takes care of this backward pass computation, so it is not required to manually implement a `backward()` function for each module."
+	- The <mark>“forward pass”</mark> is responsible for applying the computation represented by the module to the given input(s) (as shown in the above snippet). 
+	- The <mark>“backward pass”</mark> **computes gradients** of module outputs with respect to its inputs, which can be used for “training” parameters through gradient descent methods. 
+        - PyTorch’s **autograd system** automatically takes care of this backward pass computation, so it is not required to manually implement a `backward()` function for each module."
 
 # How does PyTorch create a computational graph? 
 

@@ -90,6 +90,7 @@ tags:
 | :---: | :---: |
 a |				gehe in INSERT modus
 |shift + z q	|	wie :q!
+|ctrl + w, q	|	wie `:q` (ohne `!`), schließe aktiven split window
 |shift + z z	|	wie :x ( dasselbe wie :wq, aber :wq überschreibt auch wenn keine modification [nur wichtig, falls modification times matter] )
 1. ctrl + z     |        pause and switch to terminal
 2. in terminal: fg |   go back to vim
@@ -103,8 +104,10 @@ ctrl + g | show current file name
 | :---: | :---: |
 :gt | next Tab
 :gT | previous Tab
+:tabe . | open netrw in a new Tab
 :tabe *file* | open *file* in a new Tab
 :4gt | switch to Tab number 4
+:tab ter | open terminal in new Tab
 
 ### Re-open closed Tab
 
@@ -118,6 +121,13 @@ ctrl + g | show current file name
 | command | description |
 | :---: | :---: |
 :sav(eas) new_file_name | save as new_file_name and set new_file_name as current file (:sav and :saveas are the same)
+
+## Sessions
+
+| command | description |
+| :---: | :---: |
+:mks ~/.vim-sessions/some-project-session.vim | save vim session
+:so ~/.vim-sessions/some-project-session.vim | restore vim session
 
 ## Mehrere Zeilen auskommentieren: 
 [how-to-comment-and-uncomment-multiple-line-vi-terminal-editor](https://discuss.devopscube.com/t/how-to-comment-and-uncomment-multiple-line-vi-terminal-editor/64)
@@ -197,7 +207,7 @@ ctrl - k *digraph_id* | to type special characters that are not on the keyboard
 |ctrl + w, &lt;h j k l&gt;|	change active viewport
 |ctrl + r		|	rotate viewport (zum Anordnen der viewports)
 |ctrl + R|
-|ctrl + w, q	|	schließe aktiven split window
+|ctrl + w, q	|	wie `:q` (ohne `!`), schließe aktiven split window
 |ctrl + w, =	|	resize viewports to be of equal size
 |ctrl + w, &lt;	|	decrease active viewport size (für 8 Einheiten Verkleinerung: ctrl + w, 8, &lt;)
 |ctrl + 	|		zoom in (anschließend ctrl + w, =)

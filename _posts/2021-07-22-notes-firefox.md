@@ -7,11 +7,24 @@ categories:
 tags:
   - firefox
   - setup
+toc: true
+toc_label: "Contents"
+
 ---
 
-1. [Tools](#tools)
-2. [Shortcuts](#shortcuts)  
-3. [Addons](#addons)
+# Profiles
+
+## Profile Directory
+
+about:support -> "Profile Directory" -> "Open Directory" Button
+
+## History
+
+[source](https://support.mozilla.org/en-US/questions/1176169)
+
+Firefox stores your history and bookmarks together in a database file named *places.sqlite* which is in your profile folder. 
+
+- Just copy *places.sqlite* to another profile folder in order to transfer the history of one profile to another one.
 
 # Tools
 
@@ -21,6 +34,7 @@ tags:
 - about:config
 - about:addons (**besser**: about:addons#extensions) 
 - about:memory
+- about:support -> "Profile Directory" -> "Open Directory" Button
 
 # Shortcuts
 

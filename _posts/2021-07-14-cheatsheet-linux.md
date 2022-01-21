@@ -203,6 +203,10 @@ sudo snap install postman | http client
 
 dive | for docker image dependencies tree (see [github repo](https://github.com/wagoodman/dive))
 
+<hr>
+
+barrier | share keyboard and mouse between multiple computers (client-server model) [**Note:** uncheck "enable SSL" box in barrier "Menu" -> "Change Settings" (on all devices)]
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -524,6 +528,8 @@ echo Variable |		display content of the variable "Variable"
 echo $$ | display PID of current shell
 bash | start new bash shell instance in current bash shell (the new shell will have a different PID than the old one, check shell PID via `echo $$`)
 exec > some_file | redirect all shell output to some_file
+cat /etc/shells | list all shells
+chsh | change shell (you will be prompted to enter one of the shells in `cat /etc/shells`)
 
 <hr>
 
