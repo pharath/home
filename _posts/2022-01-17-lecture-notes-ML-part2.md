@@ -600,7 +600,7 @@ function fib(n)
 
 - [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
 - Xavier Glorot is the author's full name
-- vanishing gradients problem: [code example](<https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/Weight\ Initialization\ in\ Neural\ Networks\ A\ Journey\ From\ the\ Basics\ to\ Kaiming\ \|\ by\ James\ Dellinger\ \|\ Towards\ Data\ Science.html>)
+- vanishing gradients problem: [code example](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science.html)
 
 ## MLP Example Implementations
 
