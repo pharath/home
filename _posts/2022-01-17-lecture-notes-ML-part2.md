@@ -286,7 +286,7 @@ function fib(n)
 		- because the noise present in the updates can result in the weights jumping into the basin of another, possibly deeper, local minimum. This has been demonstrated in certain simplified cases
 	- can be used for tracking changes
 		-  useful when the function being modeled is changing over time
-
+    - Small batches can offer a **regularizing effect** (Wilson and Martinez, 2003), **perhaps due to the noise they add** to the learning process. **Generalization error is often best** for a batch size of 1.
 - Cons:
 	- noise also prevents full convergence to the minimum 
 		- Instead of converging to the exact minimum, the convergence stalls out due to the **weight fluctuations**: 
@@ -545,7 +545,7 @@ function fib(n)
         - (2) decorrelate inputs, and 
         - (3) equalize covariances.
 
-## Sigmoids
+### Sigmoids
 
 - LeCun, "Efficient BackProp":
     1. Symmetric sigmoids such as hyperbolic tangent often converge faster than the standard logistic function. 
@@ -563,7 +563,7 @@ function fib(n)
         - **Adding a small linear term** to the sigmoid can sometimes help avoid the flat regions (see chapter 9).
 - Sigmoids that are symmetric about the origin are preferred for the same reason that inputs should be normalized, namely, because they are more likely to produce outputs (which are inputs to the next layer) that are on average close to zero.
 
-## Weight initialization
+### Weight initialization
 
 - **sigmoidal** activation functions have the "vanishing gradients" problem, **ReLU** does not!
     > Nevertheless, this Xavier initialization (after Glorot’s first name) is a neat trick that works well in practice. However, along came rectified linear units (ReLU), a non-linearity that is scale-invariant around 0 and does not saturate at large input values. This seemingly solved both of the problems the sigmoid function had; or were they just alleviated? I am unsure of how widely used Xavier initialization is, but if it is not, perhaps it is because ReLU seemingly eliminated this problem. [http://deepdish.io/](http://deepdish.io/)
@@ -577,6 +577,12 @@ function fib(n)
                 - That is, you **gradually lose your non-linearity**, which means there is **no benefit to having multiple layers**. 
         - If, on the other hand, your activations become **larger and larger**, 
             - then your **activations will saturate** and become meaningless, with **gradients approaching 0**.
+
+#### Xavier Glorot Initialization
+
+- [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
+- Xavier Glorot is the author's full name
+- vanishing gradients problem: [code example](https://github.com/pharath/home/tree/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science) (download this directory and view the html file locally, else it does not work)
 
 ### Dying ReLU problem
 
@@ -596,20 +602,45 @@ function fib(n)
         - do **not** use He initialization (i.e. initializing weights and biases through **symmetric** probability distributions)
             - instead, use **randomized asymmetric initialization** [[Lu, Shin, Su, Karniadakis](https://arxiv.org/abs/1903.06733)]
 
-### Xavier Glorot Initialization
+### Dropout
 
-- [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
-- Xavier Glorot is the author's full name
-- vanishing gradients problem: [code example](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science.html)
+- [Srivastava, Hinton](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf)
+    - Abstract: 
+        - [...] **overfitting** is a serious problem in such networks. 
+        - Large networks are also slow to use, making it **difficult to deal with overfitting by combining the predictions of many different large neural nets at test time**. 
+        - **Dropout** is a technique for addressing this problem. 
+            - The key idea is to randomly drop units (along with their connections) from the neural network during training. 
+                - This prevents units from co-adapting too much. 
+            - During training, dropout samples from an **exponential number** of different “thinned” networks. 
+            - At test time, it is easy to **approximate the effect of averaging the predictions of all these thinned networks** by simply using a single unthinned network that has smaller weights. 
+            - This significantly **reduces overfitting** and gives major **improvements over other regularization methods**.
+    - there are $2^n$ (Mächtigkeit der Potenzmenge für n Elemente) thinned NNs, where $n$ is the number of hidden units
+        - but still only $\mathcal{O}(n^2)$ parameters (soll heißen Dropout führt keine neuen Parameter ein)
+            - Das $\mathcal{O}(n^2)$ ist ein upper bound? [[VC dimension of a NN](https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension#VC_dimension_of_a_neural_network)]
+    - at test time use $p\mathbf{w}$, so that the output of a node **at test time** is the expected output **at training time**
+        - [source](https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/): Note: The rescaling of the weights can be performed at training time instead, after each weight update at the end of the mini-batch. This is sometimes called “inverse dropout” and does not require any modification of weights during training. Both the Keras and PyTorch deep learning libraries implement dropout in this way.
+        - [mulipliziere $\mathbf{w}$ mit $p$ heißt das "Neuron" feuert nur in einem Bruchteil $p$ aller Fälle, sodass der gesamte Erwartungswert über **alle** "Neuronen", d.h. der Output des gesamten NN, aber stimmt (auch wenn $p\mathbf{w}$ nur ein **geschätzter** Erwartungswert **eines bestimmten** "Neurons" ist)]
+    - ![dropout.png](/assets/images/optimization/dropout.png)
+- [source](https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/):
+    - **Ensembles of neural networks** with different model configurations are known to **reduce overfitting**, **but** require the **additional computational expense** of training and maintaining multiple models.
+    - A single model can be used to **simulate having a large number of different network architectures** by randomly dropping out nodes during training. 
+        - This is called **dropout** and offers a very **computationally cheap** and remarkably effective **regularization method** to **reduce overfitting** and **improve generalization error** in deep neural networks of all kinds.
+    - **Large weights** in a neural network **are a sign** of a more complex network that has overfit the training data.
+    - Probabilistically dropping out nodes in the network is a simple and effective **regularization** method.
+    - A **large** network with **more training** and the use of a **weight constraint** are **suggested** when using dropout.
+        - large NN:
+            - It is common for **larger** networks (more layers or more nodes) to **more easily overfit** the training data.
+            - When using dropout regularization, it is possible to use larger networks with less risk of overfitting. In fact, a large network (more nodes per layer) may be required as dropout will probabilistically reduce the capacity of the network.
+            - A good **rule of thumb** is to divide the number of nodes in the layer before dropout by the proposed dropout rate and use that as the number of nodes in the new network that uses dropout. For example, a network with 100 nodes and a proposed dropout rate of 0.5 will require 200 nodes (100 / 0.5) when using dropout.
+        - grid search parameters:
+            - Rather than guess at a suitable dropout rate for your network, test different rates systematically.
+        - weight constraint:
+            - Network weights will increase in size in response to the probabilistic removal of layer activations.
+            - Large weight size can be a sign of an unstable network.
+            - To counter this effect a **weight constraint** can be imposed to force the norm (magnitude) of all weights in a layer to be below a specified value. 
+                - For example, the **maximum norm constraint** is recommended with a value between 3-4.
 
-## MLP Example Implementations
-
-- [Expl_NN_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/Expl_NN_in_numpy.ipynb)
-- [MLP_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
-- [MLP_selbst_versucht](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
-- [WofuerIst__name__gut](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
-
-# Classical 2nd order optimization methods<a name="2nd_order_methods"></a>
+## Classical 2nd order optimization methods<a name="2nd_order_methods"></a>
 
 [source: LeCun et al. "Efficient BackProp"]
 
@@ -634,6 +665,15 @@ function fib(n)
     - (2) are **mainly designed for batch learning**, 
     - (3) have a complexity of $\mathcal{O}(N^3)$ and 
     - (4) most important, they work only for mean squared error loss functions.
+
+## MLP Example Implementations
+
+- [Expl_NN_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/Expl_NN_in_numpy.ipynb)
+- [MLP_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
+- [MLP_selbst_versucht](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
+- [WofuerIst__name__gut](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
+
+# CNNs
 
 # REFERENCES
 

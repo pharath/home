@@ -26,11 +26,66 @@ beschrieben, die restlichen dependencies installieren (ohne 2. funktioniert ROS2
 ```bash
 $ mkdir -p ~/dev_ws/src
 $ cd ~/dev_ws/src
+$ source /opt/ros/eloquent/setup.bash
+$ ros2 pkg create --build-type ament_cmake --node-name my_node my_package
+```
+
+## package.xml
+
+- make sure to fill in the `<description>`, `<maintainer>` and `<license>` tags in package.xml
+- Add a new line after the `ament_cmake` buildtool dependency and paste the following dependencies corresponding to your node’s include statements:
+
+```xml
+<depend>rclcpp</depend>
+<depend>std_msgs</depend>
+```
+
+## CMakeLists.txt
+
+```cmake
+# Now open the CMakeLists.txt file. Below the existing dependency find_package(ament_cmake REQUIRED), add the lines:
+
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+
+# After that, add the executable and name it talker so you can run your node using ros2 run:
+
+add_executable(talker src/publisher_member_function.cpp)
+ament_target_dependencies(talker rclcpp std_msgs)
+
+# Finally, add the install(TARGETS…) section so ros2 run can find your executable:
+
+install(TARGETS
+  talker
+  DESTINATION lib/${PROJECT_NAME})
+```
+
+## Adding a node to CMakeLists.txt
+
+E.g. in order to add the node `listener` write:
+
+```cmake
+add_executable(listener src/subscriber_member_function.cpp)
+ament_target_dependencies(listener rclcpp std_msgs)
+
+install(TARGETS
+  talker
+  listener
+  DESTINATION lib/${PROJECT_NAME})
+```
+
+## Build
+
+```bash
 $ rosdep install -i --from-path src --rosdistro eloquent -y
 # check output of resdep install: "#All required rosdeps installed successfully"
 # in root of ws, here: "dev_ws": 
-$ colcon build
+$ cd ~/dev_ws
+$ colcon build --packages-select my_package
 ```
+
+## Run
+
 >**Important**: open a new terminal, separate from the one where you built the workspace (for **both**, underlay and overlay) !
 
 ```bash
@@ -125,3 +180,18 @@ Source: [http://gazebosim.org/tutorials?tut=build_model](http://gazebosim.org/tu
 # Troubleshooting
 
 - `rosnode kill -a; killall -9 rosmaster; killall -9 roscore`, if nodes do not stop automatically
+
+## Fiese Fehler
+
+```bash
+/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+make[2]: *** [HoughLinesNode] Error 1
+make[1]: *** [CMakeFiles/HoughLinesNode.dir/all] Error 2
+make: *** [all] Error 2
+---
+Failed   <<< galaxis_HoughLines_pkg [12.8s, exited with code 2]
+```
+
+- this simply means you forgot to write a `main.cpp` or a `main()` function for your ROS node
