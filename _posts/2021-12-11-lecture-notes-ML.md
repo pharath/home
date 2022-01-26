@@ -333,7 +333,7 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
                     - iterative numerical optimization
                         - gradient-based optimization
                     - EM algorithm
-            - **problem 2**: maximization of MoG likelihood is not a well posed problem because "**singularities**" will always be present
+            - **problem 2**: maximization of MoG likelihood is not a well posed problem because "**singularities**" will always be present (for both the univariate and the multivariate case, but not for a **single** Gaussian!) 
                 - **solution**:
                     - see section [Overfitting in Maximum Likelihood](#MoG_overfitting)
             - **problem 3**: "**identifiability**": $K!$ equivalent solutions
