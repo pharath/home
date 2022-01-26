@@ -311,7 +311,7 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
 
 ### Proof: Covariance $\Sigma$ symmetric w.l.o.g.
 
-![proof-Gaussian-cov-symmetric-wlog](/assets/images/proofs/Gaussian_cov_symmetric_wlog.png)
+see [[proof-Gaussian-cov-symmetric-wlog](https://github.com/pharath/home/blob/master/assets/images/proofs/Gaussian_cov_symmetric_wlog.png)]
 
 - **<mark>Key point:</mark>** If $\mathbf{A}=\mathbf{\Sigma}^{-1}$ is not symmetric, then there is another symmetric matrix $\mathbf{B}$ so that $\Delta^2=(\mathbf{x}-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}-\mathbf{\mu})$ is equal to $\Delta^2=(\mathbf{x}-\mathbf{\mu})^T\mathbf{B}(\mathbf{x}-\mathbf{\mu})$.
 - **Why is this important?**
@@ -346,7 +346,7 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
             - allows the number of components to be inferred **automatically** from the data
 - can be written in two ways:
     - standard formulation
-    - latent variable formulation [[9.10-12]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png)
+    - latent variable formulation [[9.10-12]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png) (see section [[MoG_latent_var](#MoG_latent_var)])
         - **why useful?**
             - for ancestral sampling
             - **simplifications of the ML solution of MoG**<a name="MoG_ML_lat_var_form"></a>: we can work with the joint distribution $P(\mathbf{x},\mathbf{z})$ instead of the marginal $P(\mathbf{x})$ $\Rightarrow$ we can write the **complete-data** log-likelihood in the form [[9.35]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_35.png)
@@ -362,7 +362,9 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
                                     - $\Rightarrow$ EM algorithm
                         - Note: the MoG likelihood **without** latent variables (see 9.14) **cannot** be maximized in closed form, ~~but the EM algorithm gives closed form expressions for $\mu_k$, $\Sigma_k$ and $\pi_k$.~~ 
                             - (["closed form expression"](https://en.wikipedia.org/wiki/Closed-form_expression) only means "a mathematical expression that uses a **finite** number of standard operations" and hence, $\mu_k$, $\Sigma_k$ and $\pi_k$ are in closed form) 
-                        - Interpreting 9.36 is much easier than interpreting 9.14!
+                        - Interpreting [[9.36]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_36.png) is much easier than interpreting 9.14!
+                            -  maximization **wrt a mean** or a **covariance**: 
+                                -  in 9.36: $z_{nk}$ "filtert" die Punkte, die zu Component $\mathcal{N}_k$ assigned wurden, ansonsten **alles wie bei ML bei einem single Gaussian**
 
 ### Mixture Models in general
 
@@ -419,13 +421,11 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 - corresponds to a particular nonprobabilistic limit of EM applied to MoGs (see EM algorithm)
 - **goal**: find values for all $r_{nk}$ and $\pmb{\mu}_k$ so as to minimize $J$ (= "sum of all distances")
----
-**K-means intuitively**
+
+### K-means intuitively
 
 - E step: determine all $r_{nk}$ ("assign $\mathbf{x}_n$ to closest cluster center")
 - M step: determine all $\pmb{\mu}_k$ ("set $\pmb{\mu}_k$ equal to the mean of all $\mathbf{x}_n$ assigned to cluster $k$")
-
----
 - Note: this algorithm is guaranteed to reduce the value of the objective function $J$ in each phase and hence, is **guaranteed to converge after a finite number of iterations**
     - $J$ corresponds to the negative expectation of the complete-data log likelihood in the EM algorithm, see 9.43 and disussion of general EM algorithm
 
@@ -483,7 +483,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 - Image Compression 
     - using **vector quantization**
 
-## Latent variable formulation of Mixture Distributions
+## Latent variable formulation of Mixture Distributions<a name="MoG_latent_var"></a>
 
 - this is basically an alternative (i.e. equivalent) formulation of mixture models (e.g. MoGs) that simplifies certain calculations (see e.g. "latent variable view of EM algorithm")
 - Merke: <mark>"For every observed data point $\mathbf{x}_n$ there is a corresponding latent variable $\mathbf{z}_n$."</mark>
@@ -507,16 +507,14 @@ Generative and discriminative models use this "two stage" approach. Discriminant
     - **Handling missing values**: can also be applied when the unobserved variables correspond to missing values in the data set
         - only applicable, if values are missing at random (MAR)
             > "Under the classical missing at random mechanism (MAR) assumption, the parameters can thus be estimated by maximizing the observed likelihood. To do so, it is possible to use an Expectation-Maximization (EM) algorithm (Dempster, Laird, and Rubin, 1977) [...]." - [source: section 11.1.1.3 Two recommended methods: EM / Multiple imputation](https://julierennes.github.io/MAP573/handling-missing-values.html)
----
-**General EM Algorithm**
+
+### General EM Algorithm
 
 - **E step**: 
     - find $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$ 
         - in the standard EM algorithm this corresponding to: find $\gamma(z_{nk})$
     - find the expectation (w.r.t this $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$) of the complete-data log likelihood $Q(\pmb{\theta},\pmb{\theta}^{old})$ 
 - **M step**: update $\pmb{\theta}^{new}=\argmax_{\pmb{\theta}}Q(\pmb{\theta},\pmb{\theta}^{old})$ 
-
----
 - Note: this algorithm is guaranteed to increase the incomplete-data log likelihood in each cycle
 
 ### Initialization of EM
