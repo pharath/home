@@ -23,7 +23,7 @@ toc_label: "Contents"
 
 # General Remarks
 
-Don't lose sight of the bigger picture ! Only learn stuff when you need it !
+- Don't lose sight of the bigger picture ! Only learn stuff when you need it !
 
 > As Feynman said: don't read everything about a topic before starting to work on it. Think about the problem for yourself, figure out what's important, then read the literature. This will allow you to interpret the literature and tell what's good from what's bad. - Y. LeCun
 
@@ -60,7 +60,10 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 
 - reduce number of model parameters
 - increase number of data points $N$
-- increase regularization parameter lambda (in statistics: shrinkage methods)
+- increase regularization parameter $\lambda$ (in statistics: shrinkage methods)
+    - **Note: Do not include the bias term $w_0$ in the penalty term! Otherwise the procedure would depend on the origin chosen for the target.**
+        > Note that often the coefficient $w_0$ is omitted from the regularizer because its inclusion causes the results to depend on the choice of origin for the target variable (Hastie et al., 2001), or it may be included but with its own regularization coefficient - [Bishop_2006](#Bishop_2006)
+        - see also [here](https://stats.stackexchange.com/a/161689)
     - $q=2$ in 3.29: quadratic regularization: 
         - **advantage**: error function remains a quadratic function of $\mathbf{w}$ $\Rightarrow$ exact minimum can be found in closed form
         - **terminology**:
@@ -84,11 +87,13 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 #### Bias 
 
 - maximum likelihood approach systematically underestimates the **true** variance of the univariate Gaussian distribution (*bias*)
-	- this is related to the problem of over-fitting (e.g. too many parameters in polynomial curve fitting):
-		> - $\mu_{ML}$ and $\sigma_{ML}^2$ are functions of $x_1, \ldots, x_N$
-		> - $x_1, \ldots, x_N$ come from a Gaussian distribution with (separate) $\mu$ and $\sigma^2$
-		> - one can show that the expectations of $\mu_{ML}$ and $\sigma_{ML}^2$ wrt this distribution are $\mathbb{E}[\mu_{ML}]=\mu$ and $\mathbb{E}[\sigma_{ML}^2]=\frac{N-1}{N}\sigma^2$, i.e. $\sigma_{ML}$ is biased and underestimates the **true sample variance** $\sigma$
-		> - Correcting for this bias yields the **unbiased sample variance** $\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2$
+    - this is related to the problem of over-fitting (e.g. too many parameters in polynomial curve fitting):
+        > - $\mu_{ML}$ and $\sigma_{ML}^2$ are functions of $x_1, \ldots, x_N$
+        >     - $\mu_{ML}=\frac{1}{N}\sum_{n=1}^N x_n$ and $\sigma^2_{ML}=\frac{1}{N}\sum_{n=1}^N (x_n - \mu_{ML})^2$
+        > - $x_1, \ldots, x_N$ come from a Gaussian distribution with (separate) $\mu$ and $\sigma^2$
+        >     - see rules for sums of i.i.d. random variables (for $\mu$) and [here](https://en.wikipedia.org/wiki/Bias_of_an_estimator#Sample_variance) (for $\sigma^2$)
+        > - one can show that the expectations of $\mu_{ML}$ and $\sigma_{ML}^2$ wrt this distribution are $\mathbb{E}[\mu_{ML}]=\mu$ and $\mathbb{E}[\sigma_{ML}^2]=\frac{N-1}{N}\sigma^2$, i.e. $\sigma_{ML}$ is biased and underestimates the **true sample variance** $\sigma$
+        > - Correcting for this bias yields the **unbiased sample variance** $\tilde{\sigma}^2=\frac{N}{N-1}\sigma_{ML}^2$
 - increasing data size $N$ alleviates this problem (and reduces over-fitting [see above])
 - this bias lies at the root of the over-fitting problem
 - for anything other than small $N$ this bias is not a problem, in practice
@@ -176,7 +181,7 @@ Hence, understanding the basic concepts of probability theory is crucial for und
 
 - $P(\mathbf{x}\vert\vec{\theta})=L_{\mathbf{x}}(\vec{\theta})$ expresses how probable the observed data point $\mathbf{x}$ is (as a function of the parameter vector $\vec{\theta}$)
     - the likelihood is not a probability distribution **<mark>over w</mark>**, and its integral **<mark>with respect to w</mark>** does not (necessarily) equal one.
-        - not $\mathbf{x}$ because integral w.r.t. $\mathbf{x}$ **is** $1$.
+        - however, it **is** a probability distribution **<mark>over x</mark>** because integral w.r.t. $\mathbf{x}$ **is** $1$.
 - **MoGs**: Similarly, in MoGs $P(\mathbf{x}\vert k)$ expresses the likelihood of $\mathbf{x}$ given mixture component $k$
     - i.e. the MoG likelihood itself is composed of several individual Gaussian likelihoods
 
@@ -217,7 +222,7 @@ confidence
 
 - this also holds for the **multivariate** Gaussian (i.e. the multivariate distribution with maximum entropy, for a given mean and covariance, is a Gaussian)
     - Proof: 
-        - maximize the entropy of a distribution $p(x)$ $H[x]$ over all distributions $p(x)$ (likelihoods) subject to the constraints that $p(x)$ be normalized and that it has a specific mean and covariance
+        - maximize the (differential) entropy of a distribution $p(x)$ $H[x]$ over all distributions $p(x)$ (likelihoods) subject to the constraints that $p(x)$ be normalized and that it has a specific mean and covariance
         - the maximum likelihood distribution is given by the multivariate Gaussian
 
 ### Central Limit Theorem (CLT)
@@ -265,6 +270,12 @@ $x_1,\ldots,x_N\sim \mathcal{U}[0,1]\xrightarrow[]{N \to \infty} \frac{1}{N}(x_1
     - diagonal $\Sigma=\mathop{\mathrm{diag}}(\sigma_i)$ $\qquad\Rightarrow 2D$ independent parameters (shape: axis-aligned hyperellipsoids)
     - isotropic $\Sigma=\sigma^2\mathbf{I}$ $\qquad\qquad\Rightarrow D+1$ independent parameters (shape: hyperspheres)
 
+### Conditionals and Marginals of Gaussians
+
+- Conditionals and Marginals of Gaussians are again Gaussians
+
+![joint_marginal_conditional_of_Gaussian.gif](/assets/images/joint_marginal_conditional_of_Gaussian.gif)
+
 ### Limitations of Gaussians
 
 #### Problem
@@ -309,9 +320,11 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
         - in other words, it's important in order to apply the spectral theorem:
             > "The finite-dimensional **spectral theorem says** that any symmetric matrix whose entries are real can be diagonalized by an orthogonal matrix. More explicitly: For every real symmetric matrix $A$ there exists a real orthogonal matrix $Q$ such that $D = Q^{\mathrm{T}} A Q$ is a diagonal matrix. Every real symmetric matrix is thus, up to choice of an orthonormal basis, a diagonal matrix." - Wikipedia
 
-## MoG
+## MoG/GMM
 
-- MoGs are probabilistic generative models (see below), if we view each mixture component $k$ as a class
+- **Motivation**: 
+    - The K-means (hard-assignments) and the EM algorithm (soft-assignments) result from Maximum Likelihood estimation of the parameters of MoGs.
+- MoGs are **probabilistic generative models** (see below), if we view each mixture component $k$ as a class
 - parameters are determined by:
     - Frequentist:
         - Maximum Likelihood:
@@ -347,8 +360,8 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
                                 - but we can maximize the **expectation of the complete-data log likelihood function** (w.r.t. the posterior distribution of the latent variables) [[9.40]](/assets/images/equations/eq_9_40.png)
                                     - we can calculate this expectation by choosing some initial parameters in order to calculate $\gamma(z_{nk})$ and then maximizing [[9.40]](/assets/images/equations/eq_9_40.png) w.r.t. the parameters (while keeping the responsibilities fixed)
                                     - $\Rightarrow$ EM algorithm
-                        - Note: the MoG likelihood **without** latent variables (see 9.14) **cannot** be maximized in closed form, but the EM algorithm gives closed form expressions for $\mu_k$, $\Sigma_k$ and $\pi_k$. 
-                            - ("closed form expression" only means "a mathematical expression that uses a finite number of standard operations" and hence, $\mu_k$, $\Sigma_k$ and $\pi_k$ are in closed form) 
+                        - Note: the MoG likelihood **without** latent variables (see 9.14) **cannot** be maximized in closed form, ~~but the EM algorithm gives closed form expressions for $\mu_k$, $\Sigma_k$ and $\pi_k$.~~ 
+                            - (["closed form expression"](https://en.wikipedia.org/wiki/Closed-form_expression) only means "a mathematical expression that uses a **finite** number of standard operations" and hence, $\mu_k$, $\Sigma_k$ and $\pi_k$ are in closed form) 
                         - Interpreting 9.36 is much easier than interpreting 9.14!
 
 ### Mixture Models in general
@@ -589,9 +602,10 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 ## probabilistic generative models (indirect modeling of posterior)
 
+- Examples:
+    - MoGs
 - $P(C_k\vert\mathbf{x})$ can be written as logistic sigmoid [4.57](/assets/images/equations/eq_4_57.png)
-    - i.e. $P(C_k\vert\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png)    
-    is linear in $\mathbf{x}$!
+    - i.e. $P(C_k\vert\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png) is linear in $\mathbf{x}$!
 - first model $P(\mathbf{x}\vert C_k)$ and $P(C_k)$, then use [4.57](/assets/images/equations/eq_4_57.png)-[4.58](/assets/images/equations/eq_4_58.png) to find $P(C_k\vert\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](/assets/images/equations/eq_1_82.png) and [1.83](/assets/images/equations/eq_1_83.png))
     - Examples:
         - **Continuous Inputs**: (Gaussian distribution)
