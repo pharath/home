@@ -255,7 +255,7 @@ $x_1,\ldots,x_N\sim \mathcal{U}[0,1]\xrightarrow[]{N \to \infty} \frac{1}{N}(x_1
 - new coordinate system defined by eigenvectors $\mathbf{u}_i$ with axes $y_i=\mathbf{u}_i^T(\mathbf{x}-\mathbf{\mu})$ for $i=1,\ldots,D$
     > "In linear algebra, **eigendecomposition** is the factorization of a matrix into a canonical form, whereby the matrix is represented in terms of its eigenvalues and eigenvectors. Only diagonalizable matrices can be factorized in this way. When the matrix being factorized is a normal or real symmetric matrix, the decomposition is called **"spectral decomposition"**, derived from the spectral theorem." - [Wikipedia](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix) 
     - origin of new coordinate system is at $\mathbf{y}=\mathbf{0}$, i.e. at $\mathbf{x}=\mathbf{\mu}$ in the old coordinate system!
-- **Normalization:** one can show that ![eq_2_56](/assets/images/equations/eq_2_56.png)
+- **Normalization:** one can show that ![eq_2_56](https://github.com/pharath/home/blob/master/assets/images/equations/eq_2_56.png)
     i.e. in the EV coordinate system the joint PDF factorizes into $D$ independent **univariate** Gaussians! The integral is then $\int{p(\mathbf{y})d\mathbf{y}}=1$, which shows that the multivariate Gaussian is normalized.
 - **1st order and 2nd order moments**:
     - Note: 2nd order moment (i.e. $\mu\mu^T+\Sigma$) $\neq$ covariance of $\mathbf{x}$ (i.e. $\Sigma$)
@@ -351,14 +351,14 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
             - for ancestral sampling
             - **simplifications of the ML solution of MoG**<a name="MoG_ML_lat_var_form"></a>: we can work with the joint distribution $P(\mathbf{x},\mathbf{z})$ instead of the marginal $P(\mathbf{x})$ $\Rightarrow$ we can write the **complete-data** log-likelihood in the form
                 - simplifies maximum likelihood solution of MoG
-                    - using latent variables the complete-data log-likelihood can be written as [[9.35]](/assets/images/equations/eq_9_35.png), which is basically $p(\mathbf{X},\mathbf{Z})=\prod_{n=1}^N p(\mathbf{z}_n)p(\mathbf{x}_n\vert\mathbf{z}_n)$ (recall: there is one $\mathbf{z}_n$ for each $\mathbf{x}_n$)
-                        - do not sum over $\mathbf{z}$ as in [[9.12]](/assets/images/equations/eq_9_10_to_12.png)! 9.12 is $p(\mathbf{x})$ and not $p(\mathbf{x},\mathbf{z})$! Simply insert [[9.10]](/assets/images/equations/eq_9_10_to_12.png) and [[9.11]](/assets/images/equations/eq_9_10_to_12.png) in $p(\mathbf{X},\mathbf{Z})$.
+                    - using latent variables the complete-data log-likelihood can be written as [[9.35]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_35.png), which is basically $p(\mathbf{X},\mathbf{Z})=\prod_{n=1}^N p(\mathbf{z}_n)p(\mathbf{x}_n\vert\mathbf{z}_n)$ (recall: there is one $\mathbf{z}_n$ for each $\mathbf{x}_n$)
+                        - do not sum over $\mathbf{z}$ as in [[9.12]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png)! 9.12 is $p(\mathbf{x})$ and not $p(\mathbf{x},\mathbf{z})$! Simply insert [[9.10]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png) and [[9.11]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png) in $p(\mathbf{X},\mathbf{Z})$.
                         - this leads to a **closed form** solution for the MoG maximum likelihood (which is useless in practice, though)
                             - maximization w.r.t. mean and covariance is exactly as for the single Gaussian, except that it involves only the data points that are assigned to each component. The mixing coefficients are equal to the fractions of data points assigned to the corresponding components.
                                 - this simplification would not be possible **without** the introduction of latent variables!
                             - however, the latent variables are not known, in practice
-                                - but we can maximize the **expectation of the complete-data log likelihood function** (w.r.t. the posterior distribution of the latent variables) [[9.40]](/assets/images/equations/eq_9_40.png)
-                                    - we can calculate this expectation by choosing some initial parameters in order to calculate $\gamma(z_{nk})$ and then maximizing [[9.40]](/assets/images/equations/eq_9_40.png) w.r.t. the parameters (while keeping the responsibilities fixed)
+                                - but we can maximize the **expectation of the complete-data log likelihood function** (w.r.t. the posterior distribution of the latent variables) [[9.40]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_40.png)
+                                    - we can calculate this expectation by choosing some initial parameters in order to calculate $\gamma(z_{nk})$ and then maximizing [[9.40]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_40.png) w.r.t. the parameters (while keeping the responsibilities fixed)
                                     - $\Rightarrow$ EM algorithm
                         - Note: the MoG likelihood **without** latent variables (see 9.14) **cannot** be maximized in closed form, ~~but the EM algorithm gives closed form expressions for $\mu_k$, $\Sigma_k$ and $\pi_k$.~~ 
                             - (["closed form expression"](https://en.wikipedia.org/wiki/Closed-form_expression) only means "a mathematical expression that uses a **finite** number of standard operations" and hence, $\mu_k$, $\Sigma_k$ and $\pi_k$ are in closed form) 
@@ -544,7 +544,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 ### Relation to K-means
 
 - corresponds to a particular nonprobabilistic limit of EM applied to MoGs
-    - consider a MoG where each mixture component has covariance $\epsilon\mathbf{I}$ and thus looks like [[9.41]](/assets/images/equations/eq_9_41.png)
+    - consider a MoG where each mixture component has covariance $\epsilon\mathbf{I}$ and thus looks like [[9.41]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_41.png)
         - then the responsibilities $\gamma(z_{nk})$ for a data point $\mathbf{x}$ all go to zero except for one which will go to unity (in other words: $\gamma(z_{nk})\to r_{nk}$)
             - this corresponds to a hard assignment of the data point $\mathbf{x}_n$
         - the $\pmb{\mu}_k$ will go to the K-means $\pmb{\mu}_k$
@@ -604,17 +604,17 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 - Examples:
     - MoGs
-- $P(C_k\vert\mathbf{x})$ can be written as logistic sigmoid [4.57](/assets/images/equations/eq_4_57.png)
-    - i.e. $P(C_k\vert\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](/assets/images/equations/eq_4_58.png) is linear in $\mathbf{x}$!
-- first model $P(\mathbf{x}\vert C_k)$ and $P(C_k)$, then use [4.57](/assets/images/equations/eq_4_57.png)-[4.58](/assets/images/equations/eq_4_58.png) to find $P(C_k\vert\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](/assets/images/equations/eq_1_82.png) and [1.83](/assets/images/equations/eq_1_83.png))
+- $P(C_k\vert\mathbf{x})$ can be written as logistic sigmoid [4.57](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_57.png)
+    - i.e. $P(C_k\vert\mathbf{x})$ has a sigmoidal shape (when viewed as function of $\mathbf{x}$), **if** "$a$" [4.58](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_58.png) is linear in $\mathbf{x}$!
+- first model $P(\mathbf{x}\vert C_k)$ and $P(C_k)$, then use [4.57](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_57.png)-[4.58](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_58.png) to find $P(C_k\vert\mathbf{x})$ (or use equivalently Bayes' theorem [1.82](https://github.com/pharath/home/blob/master/assets/images/equations/eq_1_82.png) and [1.83](https://github.com/pharath/home/blob/master/assets/images/equations/eq_1_83.png))
     - Examples:
         - **Continuous Inputs**: (Gaussian distribution)
-            - model each $P(\mathbf{x}\vert C_k)$ as a Gaussian [4.64](/assets/images/equations/eq_4_64.png), <mark>where all classes share the same $\pmb{\Sigma}$</mark> $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ is the logistic sigmoid [4.65](/assets/images/equations/eq_4_65.png) (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.68](), i.e. a **generalized linear model**
+            - model each $P(\mathbf{x}\vert C_k)$ as a Gaussian [4.64](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_64.png), <mark>where all classes share the same $\pmb{\Sigma}$</mark> $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ is the logistic sigmoid [4.65](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_65.png) (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.68](), i.e. a **generalized linear model**
                 - (i.e. linear decision boundaries, but not linear in parameters!)
                 - decision boundaries are where (the 2 largest) posteriors are equal
                 - use Maximum Likelihood to determine parameters of Gaussian 4.64 and priors $P(C_k)$ (requires data set)
-                - priors enter only through $w_0$ [4.67](/assets/images/equations/eq_4_67.png)
-                    - i.e. priors shift the decision boundary parallelly (vgl. [4.65](/assets/images/equations/eq_4_65.png) mit distance from the origin to the decision surface [4.5](/assets/images/equations/eq_4_5.png))
+                - priors enter only through $w_0$ [4.67](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_67.png)
+                    - i.e. priors shift the decision boundary parallelly (vgl. [4.65](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_65.png) mit distance from the origin to the decision surface [4.5](https://github.com/pharath/home/blob/master/assets/images/equations/eq_4_5.png))
                     - i.e. priors shift the parallel contours of constant posterior probability
                 - the argument of the sigmoid (2 classes) or the $a_k(\mathbf{x})$ of the softmax ($K\geq2$ classes) are linear functions of the inputs $\mathbf{x}$
                 - Note: if the classes do **not** share the same $\pmb{\Sigma}$, the decision boundaries will be **quadratic**, i.e. the $P(C_k|\mathbf{x})$ are **not** governed by a generalized linear model!
