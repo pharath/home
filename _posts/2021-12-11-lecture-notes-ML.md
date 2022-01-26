@@ -346,7 +346,7 @@ Tipping and Bishop (1997, 1999b) and by [Roweis (1998)](http://www.stat.columbia
             - allows the number of components to be inferred **automatically** from the data
 - can be written in two ways:
     - standard formulation
-    - latent variable formulation [[9.10-12]](/assets/images/equations/eq_9_10_to_12.png)
+    - latent variable formulation ![[9.10-12]](https://github.com/pharath/home/blob/master/assets/images/equations/eq_9_10_to_12.png)
         - **why useful?**
             - for ancestral sampling
             - **simplifications of the ML solution of MoG**<a name="MoG_ML_lat_var_form"></a>: we can work with the joint distribution $P(\mathbf{x},\mathbf{z})$ instead of the marginal $P(\mathbf{x})$ $\Rightarrow$ we can write the **complete-data** log-likelihood in the form
