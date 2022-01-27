@@ -504,9 +504,11 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 - **goal**: find maximum likelihood solutions for <mark>models having latent variables</mark>
 - use cases:
     - find MAP solutions for models in which a prior $P(\mathbf{\vec{\theta}})$ is defined
-    - **Handling missing values**: can also be applied when the unobserved variables correspond to missing values in the data set
+    - **Handling missing values**: the EM algorithm can also be applied when the unobserved variables $\mathbf{z}$ correspond to missing values in the data set
         - only applicable, if values are missing at random (MAR)
             > "Under the classical missing at random mechanism (MAR) assumption, the parameters can thus be estimated by maximizing the observed likelihood. To do so, it is possible to use an Expectation-Maximization (EM) algorithm (Dempster, Laird, and Rubin, 1977) [...]." - [source: section 11.1.1.3 Two recommended methods: EM / Multiple imputation](https://julierennes.github.io/MAP573/handling-missing-values.html)
+        - see probabilistic PCA
+            > "Because we now have a fully probabilistic model for PCA, we can deal with missing data, provided that it is missing at random, by marginalizing over the distribution of the unobserved variables. Again these missing values can be treated using the EM algorithm. We give an example of the use of this approach for data visualization in Figure 12.11." - [Bishop_2006](#Bishop_2006)
 
 ### General EM Algorithm
 
@@ -534,7 +536,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 ### Credit Assignment problem
 
 - **problem**: when we are given $\mathbf{x}_n$, we don't know which component generated this point
-- **solution**: we can calculate the responsibilities of each component $\gamma_k(\mathbf{x}_n)=\gamma(z_{kn})=p(z_k=1\vert\mathbf{x}_n)$ for explaining $\mathbf{x}_n$
+- **solution**: we can calculate the responsibilities of each component for explaining $\mathbf{x}_n$ $\gamma_k(\mathbf{x}_n)=\gamma(z_{kn})=p(z_k=1\vert\mathbf{x}_n)$ 
     - corresponds to a **soft assignment** of each sample $\mathbf{x}_n$ to a mixture component $\Rightarrow$ this is why the EM algorithm is sometimes referred to as "**Clustering with soft assignments**"
         - $\mathbf{x}_n$ is assigned to **all** mixture components (with some probability $\gamma_k(\mathbf{x}_n)$ for each component) instead of only one component (cf. hard assignments of the K-means algorithm)
     - <mark>This is what the E-step of the EM algorithm does!</mark>
