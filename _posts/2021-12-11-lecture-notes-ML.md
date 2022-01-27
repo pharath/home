@@ -514,7 +514,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
     - find $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$ 
         - in the standard EM algorithm this corresponding to: find $\gamma(z_{nk})$
     - find the expectation (w.r.t this $P(\mathbf{Z}\vert\mathbf{X},\pmb{\theta}^{old})$) of the complete-data log likelihood $Q(\pmb{\theta},\pmb{\theta}^{old})$ 
-- **M step**: update $\pmb{\theta}^{new}=\argmax_{\pmb{\theta}}Q(\pmb{\theta},\pmb{\theta}^{old})$ 
+- **M step**: update $\pmb{\theta}^{new}=\text{arg max}_{\pmb{\theta}}Q(\pmb{\theta},\pmb{\theta}^{old})$ 
 - Note: this algorithm is guaranteed to increase the incomplete-data log likelihood in each cycle
 
 ### Initialization of EM
@@ -554,7 +554,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 - the polynomial is one example of a broad class of functions called **linear regression models**
 - linear regression models:
-    - <mark>are always **linear functions of the parameters**</mark>
+    - are always **<mark>linear functions of the parameters</mark>**
 
 # Linear models for classification
 
