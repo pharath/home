@@ -329,10 +329,42 @@ function fib(n)
 
 ## Hyperparameter Tuning and Optimization
 
+### Capacity
+
+#### Forms of Capacity
+
+- **representational capacity** of a model
+    - which family of functions the learning algorithm can choose from when varying the parameters
+- **effective capacity**<a name="effective_capacity"></a>
+    - the **effective capacity** may be less than the **representational capacity** because of additional limitations, e.g.:
+        - **imperfection of the optimization algorithm**: in practice, the learning algorithm does not actually find the best function, but merely one that significantly reduces the training error.
+
+#### Changing a Model's Capacity
+
+- change the number of input features
+    - (and accordingly adding new parameters associated with those features)
+
+#### Quantifying a Model's Capacity (Statistical Learning Theory)
+
+- VC dimension
+- The most important results in statistical learning theory show that 
+    - the **discrepancy between training error and generalization error** is bounded from above by a quantity that grows as the model capacity grows but shrinks as the number of training examples increases (Vapnik and Chervonenkis, 1971; Vapnik, 1982; Blumer et al., 1989; Vapnik, 1995).
+        - these bounds provide intellectual justification that machine learning algorithms can work
+        - however, these bounds are rarely used in practice because:
+            - bounds are often quite loose
+            - it is difficult to determine the capacity of deep learning models
+                - because "effective capacity is limited by the capabilities of the optimization algorithm, and we have little theoretical understanding of the very general non-convex optimization problems involved in deep learning."
+
+#### Relationship between Capacity and Error
+
+- **Note**: Figure 5.3 shows the **capacity** on the x-axis and **not** the training epochs!
+![capacity_and_error.png](/home/assets/images/goodfellow_ml/capacity_and_error.png)
+source: [Goodfellow_2016](#Goodfellow_2016)
+
 ### Learning Rate
 
 - [Goodfellow_2016](#Goodfellow_2016)
-    - **controls the effective capacity of the model** in a more complicated way than other hyperparameters 
+    - **controls the [effective capacity](#effective_capacity) of the model** in a more complicated way than other hyperparameters 
         - the effective capacity of the model is highest when the learning rate is **correct** for the optimization problem, **not when the learning rate is especially large or especially small** 
     - The learning rate has a U-shaped curve for training error, illustrated in figure 11.1. 
         - When the learning rate is **too large**, gradient descent can inadvertently increase rather than decrease the training error. 
