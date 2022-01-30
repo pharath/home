@@ -654,7 +654,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
                     - i.e. priors shift the decision boundary parallelly (vgl. [4.65](/home/assets/images/equations/eq_4_65.png) mit distance from the origin to the decision surface [4.5](/home/assets/images/equations/eq_4_5.png))
                     - i.e. priors shift the parallel contours of constant posterior probability
                 - the argument of the sigmoid (2 classes) or the $a_k(\mathbf{x})$ of the softmax ($K\geq2$ classes) are linear functions of the inputs $\mathbf{x}$
-                - Note: if the classes do **not** share the same $\pmb{\Sigma}$, the decision boundaries will be **quadratic**, i.e. the $P(C_k|\mathbf{x})$ are **not** governed by a generalized linear model!
+                - Note: if the classes do **not** share the same $\pmb{\Sigma}$, the decision boundaries will be **quadratic**, i.e. the $P(C_k\vert\mathbf{x})$ are **not** governed by a generalized linear model!
         - **Discrete Inputs**: (Bernoulli distribution)
             - model $P(\mathbf{x}\vert C_k)$ as [Bernoulli naive Bayes](#https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Bernoulli_na%C3%AFve_Bayes) model $P(\mathbf{x}\vert C_k)=\prod_{i=1}^Dp_{ki}^{x_i}(1-p_{ki})^{(1-x_i)}$ $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ a logistic sigmoid (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.82](), i.e. again a **generalized linear model**
                 - $x_i\in\{0,1\}$ (e.g. "spam or ham")
