@@ -110,7 +110,7 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 - if the data set is linearly separable, ML can overfit
     - magnitude of $\mathbf{w}$ (which corresponds to the "slope" of the sigmoid in the feature space) goes to $\infty$
         - $\Rightarrow$ logistic sigmoid $\to$ Heaviside function
-        - $\Rightarrow$ **every** point from each class $k$ is assigned posterior $P(C_k|\mathbf{x})=1$ (i.e. all posteriors are either $0$ or $1$ and there are no points with posteriors **in between** $0$ and $1$)
+        - $\Rightarrow$ **every** point from each class $k$ is assigned posterior $P(C_k\vert\mathbf{x})=1$ (i.e. all posteriors are either $0$ or $1$ and there are no points with posteriors **in between** $0$ and $1$)
     - there is a continuum of such solutions
         - ML does not provide a way to favor one specific solution
         - which solution is found will depend on:
@@ -762,10 +762,10 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
         - function only of the difference between the arguments
         - invariant to translations (hence, "stationary")
         - Examples:
-            - **homogeneous kernels** = **radial basis functions** $k(\mathbf{x},\mathbf{x}^\prime)=k(||\mathbf{x}-\mathbf{x}^\prime||)$
+            - **homogeneous kernels** = **radial basis functions** $k(\mathbf{x},\mathbf{x}^\prime)=k(\lVert\mathbf{x}-\mathbf{x}^\prime\rVert)$
                 - depend only on the magnitude of the distance
                 - Examples:
-                    - **Gaussian kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\exp(-||\mathbf{x}-\mathbf{x}^\prime||^2/2\sigma^2)$
+                    - **Gaussian kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\exp(-\lVert\mathbf{x}-\mathbf{x}^\prime\rVert^2/2\sigma^2)$
                         - the feature vector $\pmb{\phi}(\mathbf{x})$ corresponding to the Gaussian kernel has infinite dimensionality!
                         - not restricted to the use of Euclidean distance
     - **sigmoidal kernel/hyperbolic tangent kernel** $k(\mathbf{x},\mathbf{x}^\prime)=\tanh(a\mathbf{x}^\top\mathbf{x}^\prime+b)$
