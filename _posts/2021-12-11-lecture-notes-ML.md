@@ -424,6 +424,7 @@ see [[proof-Gaussian-cov-symmetric-wlog](https://github.com/pharath/home/blob/ma
 # Outlier removal
 
 - by choosing a suitable nonlinearity (e.g. sigmoid, tanh)
+    - cf. [least-squares discriminant](#least_squares_discriminant) example
 - remove outlier data point completely from the data set
 
 # Model Selection / Comparison
@@ -632,7 +633,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
             - "Every convex subset of $\mathbb{R}^n$ is simply [= singly] connected." - [Wikipedia](https://en.wikipedia.org/wiki/Simply_connected_space)
                 - $\Rightarrow$ decision regions are also singly connected 
 - learning the parameters
-    - least squares
+    - least squares<a name="least_squares_discriminant"></a>
         - wrong tool for binary (i.e. 1-of-K coded) targets because binary targets do not have a Gaussian distribution and least squares corresponds to ML under the assumption of a Gaussian target distribution (see [Bishop_2006](#Bishop_2006), 1.2.5)
     - Fisher's linear discriminant
     - perceptron algorithm
