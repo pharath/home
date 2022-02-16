@@ -485,6 +485,7 @@ docker run -v data-volume:/var/opt/project bash:latest bash -c "ls /var/opt/proj
 - **Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
 In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG) [source](https://stackoverflow.com/a/40791752)
 
+| command | description |
 | :---: | :---: |
 docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
 docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
