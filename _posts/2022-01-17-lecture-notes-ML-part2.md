@@ -599,9 +599,12 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 
 ### Weight initialization
 
-- **sigmoidal** activation functions have the "vanishing gradients" problem, **ReLU** does not!
+#### Vanishing Gradients Problem
+
+- **sigmoidal** activation functions have the "vanishing gradients" problem
+- **ReLU** does **not** have a "vanishing gradients" problem!
     > Nevertheless, this Xavier initialization (after Glorot’s first name) is a neat trick that works well in practice. However, along came rectified linear units (ReLU), a non-linearity that is scale-invariant around 0 and does not saturate at large input values. This seemingly solved both of the problems the sigmoid function had; or were they just alleviated? I am unsure of how widely used Xavier initialization is, but if it is not, perhaps it is because ReLU seemingly eliminated this problem. [http://deepdish.io/](http://deepdish.io/)
-- [http://deepdish.io/](http://deepdish.io/):
+- [http://deepdish.io/](http://deepdish.io/) What happens for sigmoidal activations?:
     - First, let’s go back to the time of sigmoidal activation functions and initialization of parameters using i.i.d. Gaussian or uniform distributions with fairly **arbitrarily set variances**. 
         - Building deep networks was difficult because of **exploding or vanishing activations and gradients**. 
     - Let’s take **activations** first: 
@@ -611,12 +614,42 @@ source: [Goodfellow_2016](#Goodfellow_2016)
                 - That is, you **gradually lose your non-linearity**, which means there is **no benefit to having multiple layers**. 
         - If, on the other hand, your activations become **larger and larger**, 
             - then your **activations will saturate** and become meaningless, with **gradients approaching 0**.
+- vanishing gradients problem: [code example](https://github.com/pharath/home/tree/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science) (download this directory and view the html file locally, else it does not work)
+- Leibe: 
+    - Main problem is **getting the gradients back to the early layers**
+        - because if the gradients do not come through to the early layers, the early layers will compute random suboptimal features ("garbage") 
+        - furthermore, since the gradients do not get backpropagated to the early layers those suboptimal features will not get updated and so the training accuracy gets stuck
+    - **for RNNs**: 
+        - they severely restrict the dependencies the RNN can learn
+        - problem gets more severe the deeper the network is
+        - can be very hard to diagnose that vanishing gradients occur
+            - you just see that learning gets stuck
+- **Solutions**:
+    - Glorot/He initialization
+    - ReLU
+    - **for RNNs**: more complex hidden units (e.g. LSTM, GRU)
+- [Goodfellow_2016](#Goodfellow_2016):
+    - **for RNNs**: gradients through such a [RNN] graph are also scaled according to $\text{diag}(\vec{\lambda})^t$ 
+    - **Vanishing gradients** make it difficult to know which direction the parameters should move to improve the cost function, while **exploding gradients** can make learning unstable. 
 
 #### Xavier Glorot Initialization
 
+- for tanh nonlinearities
 - [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
 - Xavier Glorot is the author's full name
-- vanishing gradients problem: [code example](https://github.com/pharath/home/tree/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science) (download this directory and view the html file locally, else it does not work)
+
+#### He Initialization
+
+- for ReLU nonlinearities
+
+#### Dependence on NN depth
+
+- lec 17 (from He et al paper):
+    - **The deeper the NNs are the more the right initialization method matters**
+        - e.g. 
+            - 22-layer ReLU NN will converge with Xavier initialization, although this initialization method is wrong for ReLU nonlinearities
+                - albeit convergence will be slower than with He initialization
+            - however, a 30-layer ReLU NN with Xavier initialization will not converge and gets stuck, whereas with He initialization it does converge!
 
 ### Dying ReLU problem
 
@@ -629,12 +662,31 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - Leaky ReLU: $\max\{\beta a, a\}$
             - pro: avoids stuck-at-zero units
             - pro: weaker offset bias
+            - **con**: does not have the **non-informative deactivation states** property (cf. below) like ReLU, i.e. inactive Leaky ReLU units carry information because the gradient is not zero for negative inputs!
         - ELU: $e^a-1$ for $a \leq 0$
-            - pro: no offset bias
-            - con: need to store activations
+            - **pro**: <mark>no offset bias</mark> ("bias" means that ReLUs have an average activation $\gt 0$ which increases the chances of internal covariate shift)
+                - [[source](https://paperswithcode.com/method/elu)] 
+                    - In contrast to ReLUs, ELUs have negative values which allows them to push mean unit activations closer to zero **like batch normalization** but with lower computational complexity. Mean shifts toward zero speed up learning by bringing the normal gradient closer to the unit natural gradient because of a **reduced bias shift** effect. 
+                        - "**bias**" means that ReLUs have an average activation $\gt 0$ which increases the chances of internal covariate shift (cf. below)
+                - [[source](https://numpy-ml.readthedocs.io/en/latest/numpy_ml.neural_nets.activations.html)] 
+                    - ELUs are intended to address the fact that **ReLUs** are strictly nonnegative and thus have an average activation $\gt 0$, **increasing the chances of internal covariate shift** and slowing down learning. ELU units address this by 
+                        - (1) allowing negative values when $x\lt0$, which 
+                        - (2) are bounded by a value −α. 
+                    - **Similar to LeakyReLU**, the negative activation values help to push the average unit activation towards 0. 
+                        - **Unlike LeakyReLU**, however, the boundedness of the negative activation allows for greater robustness in the face of large negative values, allowing the function to **avoid** conveying the degree of “absence” (negative activation) in the input. 
+                            - "degree of absence" soll heißen, wir wollen **nicht** quantifizieren wie stark negativ die activation ist! Wir wollen möglichst nur die positiven activations propagieren. Die "nicht aktiven" units sollen möglichst keine Information propagieren! Es ist also gut, dass ReLUs zero gradient haben für negative inputs. Leaky ReLUs haben das nicht! (diese Eigenschaft "non-informative deactivation states" ist nützlich in Anwendungen, s. Hochreiter paper)
+                                - Hochreiter paper: 
+                                    - "ELUs code the degree of presence of input concepts, while they neither quantify the degree of their absence nor distinguish the causes of their absence. This property of **non-informative deactivation states** is also present at ReLUs and allowed to detect biclusters corresponding to biological modules in gene expression datasets (Clevert et al., 2015) and to identify toxicophores in toxicity prediction (Unterthiner et al., 2015; Mayr et al., 2015). The enabling features for these interpretations is that activation can be clearly distinguished from deactivation and that **only active units carry relevant information and can crosstalk**"
+            - **con**: need to store activations
     - modification of the initialization method
         - do **not** use He initialization (i.e. initializing weights and biases through **symmetric** probability distributions)
             - instead, use **randomized asymmetric initialization** [[Lu, Shin, Su, Karniadakis](https://arxiv.org/abs/1903.06733)]
+
+### Batch Norm
+
+- effect:
+    1. greatly improved convergence speed
+    2. often better accuracy (i.e. w/o BN accuracy would not even reach this level in the first place!)
 
 ### Dropout
 
@@ -706,8 +758,6 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 - [MLP_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
 - [MLP_selbst_versucht](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
 - [WofuerIst__name__gut](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
-
-# CNNs
 
 # REFERENCES
 

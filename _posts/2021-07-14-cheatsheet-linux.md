@@ -482,11 +482,10 @@ docker run -v data-volume:/var/opt/project bash:latest bash -c "ls /var/opt/proj
 
 ## Remove dangling images
 
-**Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
-In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG)
+- **Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
+In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG) [source](https://stackoverflow.com/a/40791752)
 
-[source](https://stackoverflow.com/a/40791752)
-
+| :---: | :---: |
 docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
 docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
 
@@ -519,6 +518,8 @@ ctrl + w | delete the word in front of the cursor
 alt + d | delete the word after the cursor
 ctrl + a | jump to the beginning of the line
 ctrl + e | jump to the end of the line
+ctrl + s | freeze/block terminal
+ctrl + q | unfreeze/unblock terminal
 
 ## terminal commands and bash scripting
 

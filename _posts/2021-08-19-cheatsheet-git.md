@@ -43,6 +43,7 @@ git submodule update |
 git config --get remote.origin.url | get only the URL of the current remote
 git remote show [remote-name] command | get more details about a particular remote
 git remote show origin | get more details about the current remote
+git remote update origin --prune | To update the local list of remote branches
 
 # Checkout another branch after modifying files in current branch
 
