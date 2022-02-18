@@ -1,7 +1,7 @@
 ---
 title: "Git Cheatsheet"
 read_time: false
-excerpt_separator: "<!--more-->"
+excerpt: "Some essential git commands"
 header:
   teaser: /assets/images/Vim.jpg
   overlay_image: /assets/images/Vim.jpg
@@ -45,13 +45,20 @@ git remote show [remote-name] command | get more details about a particular remo
 git remote show origin | get more details about the current remote
 git remote update origin --prune | To update the local list of remote branches
 
+# Reset/undo changes
+
+| command | description |
+| :---: | :---: |
+git reflog | get SHA-1 list of previous states
+git reset --hard *SHA-1* | reset to a previous state (**Warning**: All changes will be lost.)
+
 # Checkout another branch after modifying files in current branch
 
 When files modified wrt how you checked them out, you will not be able to `git checkout` another branch. 
 Therefore, either discard via
 
 ```bash
-git reset —hard	   # reset all tracked files to original states
+git reset --hard   # reset all tracked files to original states
 git clean -f -d	   # delete all untracked/new files and dirs
 ```
 
@@ -118,6 +125,13 @@ git remote add origin https://github.com/pharath/documentation.git
 git branch -M main
 git push -u origin main
 ```
+
+# submodules
+
+## populate a repository's submodules
+
+1. `git submodule init`
+2. `git submodule update`
 
 # Troubleshooting/Errors
 

@@ -43,15 +43,24 @@ curl https://pyenv.run | bash
 | :---: | :---: |
 pip install pip-autoremove | utility to remove a package plus unused dependencies
 
-## venv
+# venv (python3)
 
-**Warning:** Do not move or copy the `env` folder to other locations! Always re-create environments by using `python3 -m venv env` and re-installing all packages from a `requirements.txt` file. 
+- **Warning:** Do not move or copy the `env` folder to other locations! Always re-create environments by using `python3 -m venv env` and re-installing all packages from a `requirements.txt` file. 
 
 | command | description |
 | :---: | :---: |
 python3 -m venv env | create the environment `env`
 source env/bin/activate | activate the environment `env`
 deactivate | deactivate the environment that is currently activated
+rm -r env/ | delete the environment `env`
+
+# virtualenv (python2)
+
+| command | description |
+| :---: | :---: |
+virtualenv -p /home/username/opt/python-2.7.15/bin/python venv | create a virtualenv with name "venv"
+
+- the rest is similar to venv
 
 ## requirements.txt files
 

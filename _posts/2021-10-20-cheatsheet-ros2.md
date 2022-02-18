@@ -21,6 +21,10 @@ toc_sticky: true
 
 beschrieben, die restlichen dependencies installieren (ohne 2. funktioniert ROS2 nicht!).
 
+# Uninstall
+
+- `sudo apt remove ~nros-galactic-* && sudo apt autoremove`
+
 # Create Package
 
 ```bash

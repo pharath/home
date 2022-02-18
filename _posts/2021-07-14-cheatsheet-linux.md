@@ -417,6 +417,7 @@ docker pull |
 | :---: | :---: |
 sudo docker ps -a | -a flag: Show all containers (default shows just running)
 sudo docker images | show all images
+sudo docker system df | Show docker disk usage (size of all images together)
 
 <hr>
 
