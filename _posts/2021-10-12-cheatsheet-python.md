@@ -62,14 +62,14 @@ virtualenv -p /home/username/opt/python-2.7.15/bin/python venv | create a virtua
 
 - the rest is similar to venv
 
-## requirements.txt files
+# requirements.txt files
 
 | command | description |
 | :---: | :---: |
 pip install -r requirements.txt | install all packages from a `requirements.txt` file
 pip freeze > requirements.txt | write all packages in the current environment to a `requirements.txt` file
 
-## pipenv
+# pipenv
 
 - **Warning**: not much development here, i.e. maybe official support ends soon? Use `poetry` instead !
 
@@ -80,10 +80,11 @@ pipenv install | install right python version, environment and all dependencies
 pipenv lock --clear | if `ERROR: No matching distribution found for markupsafe==1.0 ERROR: Couldn't install package: MarkupSafe Package installation failed...` (and after this command run `pipenv install` again)
 pipenv | shows help 
 pipenv shell | activates env (similar to `source /env/bin/activate` for `pip`)
+pipenv --rm | remove the virtualenv created under /home/bra-ket/.local/share/virtualenvs
 pipenv run python blockchain.py | Spawns a command installed into the virtualenv.
 pipenv graph | shows installed dependencies
 
-## poetry
+# poetry
 
 | command | description |
 | :---: | :---: |

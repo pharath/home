@@ -329,6 +329,10 @@ function fib(n)
 
 ## Hyperparameter Tuning and Optimization
 
+### Biases Initialization
+
+- perform a **grid search** [Le, Hinton 2015]
+
 ### Capacity
 
 #### Forms of Capacity
