@@ -14,6 +14,13 @@ toc_label: "Contents"
 
 ---
 
+# python packages and modules
+
+- [source](https://realpython.com/absolute-vs-relative-python-imports/)
+- `.py` files are **modules**
+- folders (containing modules) are **packages**
+    - importing a package essentially imports the package's `__init__.py` file as a module
+
 # pyenv
 
 - For Python version management, e.g. 
@@ -42,6 +49,7 @@ curl https://pyenv.run | bash
 | command | description |
 | :---: | :---: |
 pip install pip-autoremove | utility to remove a package plus unused dependencies
+pip show *package* | show location of *package*
 
 # venv (python3)
 
@@ -114,3 +122,9 @@ python3 -v | zeige Details der ausgeführten Befehle (eg. automatische imports, 
 | :---: | :---: |
 jupyter nbconvert --to html notebook.ipynb | pass --execute flag, if cells should be run before converting
 jupyter nbconvert --to pdf notebook.ipynb |
+
+# package source code location
+
+| command | description |
+| :---: | :---: |
+pip show torch | show the location of package "torch" (there you can find the source code of the package)

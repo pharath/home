@@ -6,6 +6,7 @@ categories:
   - Notes 
 tags:
   - notes
+
 ---
 
 1. docker starten mit `./scripts/start_docker.sh`

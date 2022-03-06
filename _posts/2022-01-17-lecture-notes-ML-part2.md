@@ -46,6 +46,29 @@ toc_label: "Contents"
 
 - However, when calculating the **depth** of a deep neural network, we only consider the layers that have tunable weights. [source](https://datascience.stackexchange.com/a/14033/115254)
 
+## Gradient Descent
+
+- follows the direction of the **negative** gradient
+    - gradients $\vec{\nabla}f$ point towards the direction of steepest **ascent**
+
+## Computational Differentiation Methods
+
+- Automatic Differentiation
+- Symbolic Differentiation (Computer Algebra System (CAS))
+    - use a method to **represent mathematical data** in a computer
+        - data representation:
+            - numbers
+                - efficient implementation of the arithmetic operations:
+                    - GMP library (*de facto* standard)
+            - variables
+            - expressions
+    - e.g.
+        - Mathematica (using GMP)
+        - Maple (using GMP)
+- Numerical Differentiation
+    - e.g.
+        - Finite Differences method
+
 ## Automatic Differentiation
 
 ### Forward-mode vs Reverse-mode differentiation
@@ -182,6 +205,8 @@ toc_label: "Contents"
 
 ## Forward Propagation
 
+### Inputs/Outputs
+
 - inputs:
     - depth $l$
     - $l$ weight matrices of the model $\mathbf{W}^{(i)}$
@@ -196,6 +221,8 @@ toc_label: "Contents"
  
 ## Backprop
 
+### Inputs/Outputs
+
 - inputs:
     - depth $l$
     - $l$ weight matrices of the model $\mathbf{W}^{(i)}$
@@ -206,18 +233,27 @@ toc_label: "Contents"
         - also computes all $\nabla_{\mathbf{a}^{(k)}}J$ and $\nabla_{\mathbf{h}^{(k)}}J$ in the process
             - $\nabla_{\mathbf{a}^{(k)}}J$ can be interpreted as an indication of how each layer’s output should change to reduce error
                 - es gibt ein $\nabla_{\mathbf{a}^{(k)}}J$ pro layer k: jede unit in layer k entspricht einer Komponente von $\nabla_{\mathbf{a}^{(k)}}J$
+
+### Terminology
+
 - refers only to the **method used to compute all necessary gradients**, whereas another algorithm (e.g. SGD) is used to perform **learning** using these gradients!
     - "however, the term is often used loosely to refer to the entire learning algorithm, including how the gradient is used, such as by stochastic gradient descent" [source](https://en.wikipedia.org/wiki/Backpropagation)
         > <a name="reverse_mode_accumulation"></a>"More generally, the field of **automatic differentiation** is concerned with how to compute derivatives algorithmically. The back-propagation algorithm described here is only one approach to automatic differentiation. It is a special case of a broader class of techniques called **reverse mode accumulation**." (Goodfellow, Bengio)
+
+### Modular Implementation
+
 - "layer below builds upon (gradient) result of layer above" (basically, chain rule)
     - this is why it's called "backprop"
     - "propagates the gradient backwards through the layers"
     - this suggests a modular (layerwise) implementation:
         - each layer is a module
         ![modular_implementation.png](/home/assets/images/ML_part2/modular_implementation.png)
+
+### Complexity
+
 - "performs on the order of one **Jacobian product** per node in the graph" (Goodfellow, Bengio)
     - This can be seen from the fact that Backprop visits each edge (of the computational graph for this problem) only once 
-- "[...] the amount of computation required for performing the back-propagation **scales linearly with the number of edges** in $\mathcal{G}$, where the computation **for each edge** corresponds to computing 
+- "[...] the amount of computation required for performing the back-propagation **scales linearly with the number of edges** in $\mathcal{G}$, where the computation **<mark>for each edge</mark>** corresponds to computing 
     - a partial derivative (of one node with respect to one of its parents) as well as performing 
     - one multiplication and 
     - one addition." (Goodfellow, Bengio)
@@ -261,7 +297,16 @@ function fib(n)
 - similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
 - "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 ![6.52](/assets/images/goodfellow_ml/Goodf_6_50-6_53.png) is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
 
-## Implementing Softmax Correctly
+## Softmax
+
+- Softmax loss: 
+    - die inputs $\mathbf{w}_k^\top\mathbf{x}$ und $\mathbf{w}_j^\top\mathbf{x}$ für $j=1,\ldots,K$ kommen vom vorigen FC layer (`.Linear` layer), d.h. die $\mathbf{w}_j$ sind Spalten der FC layer parameter Matrix $\mathbf{W}$ 
+    - **der Softmax layer selbst hat keine Parameter** 
+    - der Softmax layer kann als eine Art activation function gesehen werden, der $\mathbf{Wx}$ transformiert [ähnlich wie RELU]
+- [[source](https://stackoverflow.com/a/52662650)] Softmax is a **parameter free** activation function like RELU, Tanh or Sigmoid: it doesn't need to be trained. It only computes the exponential of every logit and then normalize the output vector by the sum of the exponentials.
+- ![softmax.png](/home/assets/images/ML_part2/softmax.png)
+
+### Implementing Softmax Correctly
 
 - Problem: Exponentials get very big and can have very different magnitudes
     - Solution: 
@@ -278,19 +323,24 @@ function fib(n)
 
 [source: LeCun et al. "Efficient BackProp"]
 
-### SGD
+### SGD (one at a time)
+
+#### Pros
 
 - Pros:
-    - is usually much faster than batch learning
+    1. is usually much faster than batch learning
         - consider large redundant data set
             - example: training set of size 1000 is inadvertently composed of 10 identical copies of a set with 100 samples
-    - also often results in better solutions because of the noise in the updates
+    2. also often results in better solutions because of the noise in the updates
         - because the noise present in the updates can result in the weights jumping into the basin of another, possibly deeper, local minimum. This has been demonstrated in certain simplified cases
-    - can be used for tracking changes
+    3. can be used for tracking changes
         -  useful when the function being modeled is changing over time
-    - Small batches can offer a **regularizing effect** (Wilson and Martinez, 2003), **perhaps due to the noise they add** to the learning process. **Generalization error is often best** for a batch size of 1.
+    4. Small batches can offer a **regularizing effect** (Wilson and Martinez, 2003), **perhaps due to the noise they add** to the learning process. **Generalization error is often best** for a batch size of 1.
+
+#### Cons
+
 - Cons:
-    - noise also prevents full convergence to the minimum 
+    1. noise also prevents full convergence to the minimum 
         - Instead of converging to the exact minimum, the convergence stalls out due to the **weight fluctuations**: 
             - **size** of the fluctuations depend on the degree of noise of the stochastic updates:
                 - The variance of the fluctuations around the local minimum is proportional to the learning rate $\eta$
@@ -306,7 +356,15 @@ function fib(n)
             - however, this weight fluctuation problem may be "less severe than one thinks because of **generalization**"
                 - i.e. "**Overtraining** may occur long before the **noise regime** is even reached."
 
-### Batch GD
+#### Convergence
+
+- konvergiert **nicht** immer, im Ggs. zu Batch GD!
+    - Wikipedia "SGD":
+        - The convergence of stochastic gradient descent has been analyzed using the theories of **convex minimization** and of **stochastic approximation**. 
+        - Briefly, when the learning rates $\eta$ decrease with an appropriate rate, and subject to relatively mild assumptions, stochastic gradient descent converges **almost surely** to a **global minimum** when the objective function is **convex** or pseudoconvex, and **otherwise** converges almost surely to a **local minimum**. 
+            - This is in fact a consequence of the **Robbins-Siegmund theorem**.
+
+### Batch GD (entire training set)
 
 - Pros:
     - Conditions of convergence are **well understood**.
@@ -329,30 +387,68 @@ function fib(n)
 
 ## Hyperparameter Tuning and Optimization
 
-### Biases Initialization
+### Manual Hyperparameter Search
 
-- perform a **grid search** [Le, Hinton 2015]
+- The primary **goal** of manual hyperparameter search is to adjust the effective capacity of the model to match the complexity of the task.
+
+### Overfitting
+ 
+- **Problem**: training error and test error diverge (see below: **generalization gap**), if we use too many parameters
+- **Solution**: 
+    - add weight decay/regularization term
+        - does **not** reduce the generalization gap, but rather reduces the capacity of the model!
+    - Dropout (i.e. randomly switching off units during training)
+    - data augmentation (i.e. artificially enlarge the dataset using label-preserving transformation)
+    - (validation-based) early stopping
+        1. split training data into training and test set
+        2. train only on training set and evaluate test error once in a while (e.g. after every 5th epoch)
+        3. stop training as soon as error on test set is higher than it was the last time it was checked
+        4. use the weights the NN had in the previous iteration as final weights
+        5. **extension**: use cross-validation
+            - **complication**: multiple local minima
+            - there are many ad hoc rules to decide when overfitting has truly begun
+    - reduce number of parameters (if there is no other way)
+    - use a different model
+        - use transfer learning
 
 ### Capacity
 
-#### Forms of Capacity
+#### Forms of Capacity<a name="forms_capacity"></a>
 
-- **representational capacity** of a model
-    - which family of functions the learning algorithm can choose from when varying the parameters
-- **effective capacity**<a name="effective_capacity"></a>
-    - the **effective capacity** may be less than the **representational capacity** because of additional limitations, e.g.:
-        - **imperfection of the optimization algorithm**: in practice, the learning algorithm does not actually find the best function, but merely one that significantly reduces the training error.
+- [Goodfellow_2016](#Goodfellow_2016)
+    - **representational capacity** of a model
+        - which family of functions the learning algorithm can choose from when varying the parameters
+    - **effective capacity**<a name="effective_capacity"></a>
+        - the **effective capacity** may be less than the **representational capacity** because of additional limitations, e.g.:
+            - **imperfection of the optimization algorithm**: in practice, the learning algorithm does not actually find the best function, but merely one that significantly reduces the training error.
+- [Goodfellow_2016](#Goodfellow_2016)
+    - Effective capacity is **constrained by three factors**: 
+        - the representational capacity of the model, 
+        - the ability of the learning algorithm to successfully minimize the cost function used to train the model, and 
+        - the degree to which the cost function and training procedure regularize the model. 
+    - A model with more layers and more hidden units per layer has higher **representational capacity** - it is capable of representing more complicated functions. 
+    - It can **not** necessarily actually **learn all of these functions** though, if the training algorithm cannot discover that certain functions do a good job of minimizing the training cost, or if regularization terms such as weight decay forbid some of these functions.
 
 #### Changing a Model's Capacity
 
-- change the number of input features
-    - (and accordingly adding new parameters associated with those features)
+- [Goodfellow_2016](#Goodfellow_2016)
+    - [Representation Capacity:]
+        - by changing the number of input features it [the model] has, 
+            - and simultaneously adding new parameters associated with those features
+        - **Note**: 
+            - In polynomial regression example: 
+                - nur **ein** input feature (mit polynomial basis function)
+    - [Effective Capacity:]
+        - see [forms_capacity](#forms_capacity)
 
 #### Quantifying a Model's Capacity (Statistical Learning Theory)
 
 - VC dimension
 - The most important results in statistical learning theory show that 
-    - the **discrepancy between training error and generalization error** is bounded from above by a quantity that grows as the model capacity grows but shrinks as the number of training examples increases (Vapnik and Chervonenkis, 1971; Vapnik, 1982; Blumer et al., 1989; Vapnik, 1995).
+    - (Vapnik and Chervonenkis, 1971; Vapnik, 1982; Blumer et al., 1989; Vapnik, 1995)
+        - the **discrepancy between training error and generalization error** ["generalization gap"] is bounded from above by a quantity that 
+            - grows as the model capacity grows but 
+            - shrinks as the number of training examples increases.
         - these bounds provide intellectual justification that machine learning algorithms can work
         - however, these bounds are rarely used in practice because:
             - bounds are often quite loose
@@ -361,9 +457,11 @@ function fib(n)
 
 #### Relationship between Capacity and Error
 
+- terminology: test error = generalization error
 - **Note**: Figure 5.3 shows the **capacity** on the x-axis and **not** the training epochs!
 ![capacity_and_error.png](/home/assets/images/goodfellow_ml/capacity_and_error.png)
 source: [Goodfellow_2016](#Goodfellow_2016)
+- basically the same plot as in [Bishop_2006](#Bishop_2006) "polynomial curve fitting" training and test error $E_{\text{RMS}}$ vs. order of the polynomial $M$ (where $M$ corresponds to **capacity** here)
 
 ### Learning Rate
 
@@ -376,32 +474,50 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - When the learning rate is **too small**, training is **not only slower, but may become permanently stuck** with a high training error. 
             - This effect is poorly understood (it **would not happen for a convex loss function**). 
 
-#### Adaptive Learning Rate Methods
+### Adaptive Learning Rate Methods
 
-##### Methods, if Directions of Sensitivity are NOT axis-aligned (momentum based methods)
+#### Methods, if Directions of Sensitivity are NOT axis-aligned (momentum based methods)
 
 - the smoothing effects of momentum based techniques also result in **overshooting** and **correction**. (see [Alec Radford](https://imgur.com/a/Hqolp))
 - handle large / dynamic gradients much more poorly than gradient scaling based algorithms and vanilla SGD
 
-###### Momentum Method
+##### Momentum Method
 
-###### Nesterov-accelerated gradient
+- start with $0.5$
+- once the large gradients have disappeared (plot gradient norm) and the weights are stuck in a ravine increase the momentum to $0.9$ or even $0.99$
 
-##### Methods, if Directions of Sensitivity are axis-aligned (gradient scaling based methods)
+##### Nesterov-accelerated gradient
 
-###### Separate, Adaptive Learning Rates (delta-bar-delta algorithm)
+#### Methods, if Directions of Sensitivity ARE axis-aligned 
 
-- only for full batch learning
-- **global** learning rate multiplied by a **local gain per weight**
-- [Robert A. Jacobs, 1988](https://www.sciencedirect.com/science/article/pii/0893608088900032)
-    - **delta-bar-delta** algorithm
+##### Separate, Adaptive Learning Rates based methods
+
 - Hinton, Lecture 6.4 — Adaptive learning rates for each connection: 
     - **only** deals with **axis-aligned effects** [Goodfellow: "If we believe that the directions of sensitivity are somewhat **axis-aligned**, it can make sense to use a separate learning rate for each parameter, and automatically adapt these learning rates throughout the course of learning." **{d.h. die Achsen sind entlang der $w_{ij}$}**]
         - as opposed to momentum which can deal with these diagonal ellipses [i.e. correlated $\mathbf{w}_{ij}$] and go in that diagonal direction quickly
+- **Motivation**:
+    - **magnitudes of gradients** very different for different layers (smaller in early layers)
+        - therefore, **learning rates** should be allowed to be different for different **layers**
+    - **fan-in** very different for different layers (the fan-in determines size of **"overshoot" effect**: the larger the fan-in of a unit the more prone to overshooting the "local minimum **for that unit**")
+        - therefore, **learning rates** should be allowed to be different for different ~~**units**~~ **layers** (assuming the fan-in is the same for all units in a layer)
+        - therefore, **weights** should be initialized inversely proportional to the fan-in of the units $\Rightarrow$ Glorot initialization
+
+###### Robert A. Jacobs' method (delta-bar-delta algorithm)
+
+- designed for full batch learning
+    - use large minibatch
+        - ensures that changes of sign are **not** due to sampling error of a minibatch, but due to really going to the other side of the ravine
+- **global** learning rate multiplied by a **local gain per weight**
+    - ensures that big gains decay rapidly when oscillations across a ravine start
+- [Robert A. Jacobs, 1988](https://www.sciencedirect.com/science/article/pii/0893608088900032)
+    - **delta-bar-delta** algorithm
 
 ###### Rprop
 
 - only for full batch learning
+    - why: Rprop violates the fundamental property of SGD "averaging over minibatches" (i.e. over sufficiently many minibatches the SGD gradient will approximate the full batch gradient)
+        - Rprop gradients $\frac{\textbf{grad}}{\Vert grad\Vert}$ always have magnitude 1, so that "magnitudinal averaging" is not possible over minibatches (although "directional averaging" would be possible, but, since the gradients always have magnitude 1, this "directional averaging" does not work, too)
+    - make it work for minibatches, enforce "averaging over minibatches" $\Rightarrow$ **RMSprop**
 - **local** learning rate per weight (unlike RMSprop), but **global gain** $\eta^+$ or $\eta^-$ respectively
     - one initial learning rate $\gamma_{ij}^{(0)}$ per weight $w_{ij}$ which will be updated in each iteration by a **global gain** $\eta^+$ or $\eta^-$ respectively
 - Hinton, Lecture 6.5 — Rmsprop: normalize the gradient:
@@ -410,30 +526,32 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - we could not achieve that just by turning up the learning rate because then the steps we took for weights that had big gradients would be much too big
     - combines the idea of just using the **sign of the gradient** with the idea of making the **step size** depend on which weight it is
         - so to decide how much to change a weight 
-            - you **don't** look at the magnitude of the gradient, 
-                - we just look at the **sign of the gradient**, 
-            - but you do look at the **step size** that you have decided on for that weight and that step size **adapts over time**, again, without looking at the magnitude of the gradient
+            - you **don't** look at the **magnitude of the gradient** $\frac{\partial E}{\partial w_{ij}}$, 
+            - we just look at the **sign of the gradient** $\frac{\partial E}{\partial w_{ij}}$, 
+            - but you do look at the **step size** $\eta_{ij}$ that you have decided on for that weight and that step size **adapts over time**, again, without looking at the magnitude of the gradient
                 - increase step size multiplicatively (if last 2 gradient signs agree)
                     - as opposed to Robert Jacobs' "Adpative Learning Rate" method which increases **additively**
                 - decrease step size multiplicatively (if last 2 gradient signs disagree)
+
+##### Gradient Scaling based methods
 
 ###### AdaGrad
 
 - [Goodfellow_2016](#Goodfellow_2016):
     - "The AdaGrad algorithm, shown in algorithm 8.4, 
-        - individually adapts the learning rates of all model parameters by scaling them **inversely proportional to the square root of the sum of <mark>all</mark> of their historical squared values** [(Duchi et al., 2011)](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf). 
-    - The parameters with the **largest partial derivative of the loss** have a correspondingly **rapid decrease** in their learning rate, while parameters with **small partial derivatives** have a relatively **small decrease** in their learning rate. 
-    - The **net effect** is greater progress in the more gently sloped directions of parameter space. 
+        - individually adapts the learning rates of all model parameters by scaling them **inversely proportional to the square root of the sum of <mark>all</mark> [im Ggs. zu RMSprop] of their historical squared values** [(Duchi et al., 2011)](https://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf). 
+    - [Effekt wie bei Momentum, nur axis-aligned error surface contours] 
+        - The parameters with the largest partial derivative of the loss **[largest gradients]** have a correspondingly **rapid decrease** in their learning rate, while parameters with small partial derivatives **[small gradients]** have a relatively **small decrease** in their learning rate. 
+            - The **net effect** is greater progress in the more gently sloped directions of parameter space [wie bei Momentum]. 
     -  empirically it has been found that - for training deep neural network models - the accumulation of squared gradients *from the beginning of training* can result in a **premature and excessive decrease in the effective learning rate**. 
     -  AdaGrad performs well for some but not all deep learning models.
-
 
 ###### RMSprop
 
 - **global** learning rate
 - eigentlich eine Verbesserung von AdaGrad:
     - Zaheer, Shaziya, "A Study of the Optimization Algorithms in Deep Learning":
-        - RMSProp changes the adagrad in a way how the gradient is accumulated. 
+        - RMSProp changes ~~the~~ adagrad in a way how the gradient is accumulated. 
             - Gradients are accumulated into an exponentially weighted average. 
             - RMSProp **discards the history** and **maintains only recent gradient information**.
 - Andrew Ng, Oscillation sketch:
@@ -451,7 +569,7 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - efficiency of mini-batches
         - averaging of gradients over mini-batches
     - Hinton:
-        - notice, that we are not adapting the learning rate separately for each connection here! 
+        - notice, that we are **not adapting the learning rate separately for each connection** here! 
         - This is a simpler method, where we simply, **for each connection**, keep a running average of the root mean square gradient and divide by that.
         - Extensions:
             - can be combined with **momentum**, but does not help as much as momentum normally does 
@@ -461,6 +579,16 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 
 ![RMSprop](/assets/images/goodfellow_ml/RMSprop.png)
 [source: Goodfellow_2016](#Goodfellow_2016)
+
+### Learning rate schedules
+
+- can be used **instead of** using "adaptive learning rate methods" (see above)
+- [source](https://en.wikipedia.org/wiki/Learning_rate):
+    - A learning rate schedule changes the learning rate during learning and is most often changed between epochs/iterations. 
+    - This is mainly [in most implementations] done with **two parameters**: 
+        - **decay**
+        - **momentum**
+    - There are many different learning rate schedules but the most common are **time-based**, **step-based** and **exponential**.
 
 ### The Condition Number of the Hessian
 
@@ -491,21 +619,22 @@ source: [Goodfellow_2016](#Goodfellow_2016)
                     - **except**, if you are at the bottom of your high-dimensional landscape, i.e. near the global minimum
                         - because if you have a minimum near the global minimum you cannot go further down, so all the directions have to go up 
                             - this means, you have local minima [for high-dimensional functions], but they are very close to the global minimum in terms of their objective function
-            - Note in talk: "Of course, you could always construct a high-dimensional function, where there is a local minimum which is **not** close to the global minimum. You could just place a local minimum by hand at some higher point of the error surface. I just argue that local minima are very likely not the problem, when training gets stuck."
+            - Note in talk: "Of course, you could always construct a high-dimensional function, where there is a local minimum which is **not** close to the global minimum. You could just place a local minimum by hand at some higher point of the error surface. I just argue that local minima are very **likely** not the problem, when training gets stuck."
             - plot: training error and norm of the gradients:
                 - you see the error go down and it plateaus and then, if you are lucky, something happens and then it goes down again and it plateaus again and then we might think this is the best we can get, **but** the gradients do not approach zero, what's going on?
                     - this looks like we are approaching a **saddle point**
                         - the gradient is bouncing around and not finding the escape route<a name="gradient_fluctuating_on_plateau"></a>
                     - my intuition is that this such a high-dimensional space that there is only a few dimensions where it is going down and somehow simple Gradient Descent is not finding them (maybe because of curvature problems [Goodfellow_2016, Fig. 4.5] or other things)
                         - What I'm saying is, yes, it is worthwhile to continue exploring other optimization algorithms beyond simple GD, but we need to take into account the fact that maybe what we are fighting is not local minima, it might be something else. It might be something classical like differences of curvature or something more subtle.
-                - as you go further down it spends more and more time on these plateaus (and it gets harder and harder to decide whether we are still on a saddle point), presumably because there are less directions going down [i.e. we are close to the global minimum]
-                - Goodfellow_2016:
-                    - experts now suspect that, for sufficiently large neural networks, most local minima have a low cost function value, and that it is not important to find a true global minimum rather than to find a point in parameter space that has low but not minimal cost
+                - as you go further down it **spends more and more time** on these plateaus (and it gets harder and harder to decide whether we are still on a saddle point), presumably **because there are less directions going down** [i.e. we are close to the global minimum]
+                - cite: [Goodfellow_2016](#Goodfellow_2016):
+                    - experts now suspect that, for sufficiently large neural networks, **most local minima have a low cost function value**, and that it is not important to find a true global minimum rather than to find a point in parameter space that has low but not minimal cost
                     - Many practitioners attribute nearly all difficulty with neural network optimization to **local minima**. 
                         - We encourage practitioners to **carefully test** for specific problems. 
                             - A **test** that can rule out local minima as the problem is to **<mark>plot the norm of the gradient over time</mark>**. If the norm of the gradient does not shrink to insignificant size [same problem as discussed [here](#gradient_fluctuating_on_plateau)], the problem is neither local minima nor any other kind of critical point. [then it's either a saddle point or something more subtle]
                             - This kind of negative test can rule out local minima. 
-                        - In high dimensional spaces, it can be very difficult to positively establish that local minima are the problem. Many structures other than local minima also have small gradients.
+                                - [also einfach beim training die Gradient Norm mitplotten und nur wenn diese Norm plötzlich 0 wird ist es ein **local Minimum**, sonst nicht!]
+                        - [those practitioners are wrong because] In high dimensional spaces, it can be very difficult to positively establish that local minima are the problem. Many structures other than local minima also have small gradients.
             - Note in talk: stopping criterion? You should be ready to wait. People discarded NNs in part because they were not ready to wait long enough (when I was a PhD student, we were ready to wait weeks, people are getting lazy these days ;))
 - [source](http://www.marekrei.com/blog/26-things-i-learned-in-the-deep-learning-summer-school/)
     - The team of Yoshua Bengio have experimentally found that when optimising the parameters of high-dimensional neural nets, there effectively are no local minima. Instead, there are saddle points which are local minima in some dimensions but not all. This means that training can slow down quite a lot in these points, until the network figures out how to escape, but as long as we’re willing to wait long enough then it will find a way.
@@ -520,9 +649,12 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 
 ### Shuffling the Examples
 
+- **Example**: Within the training set, the images are ordered in such a way that all the dog images come first and all the cat images come after. The classes are balanced.
+    - **Effect**: The optimization is much harder with mini-batch gradient descent because the loss function moves by a lot when going from the one type of image to another.
+    - **Solution**: Shuffle before training
 - Müller, Montavon:
     - Networks learn the fastest from the most unexpected sample. Therefore, it is advisable to <mark>**choose a sample at each iteration that is the most unfamiliar to the system**</mark>. 
-        - Note, this applies only to stochastic learning since the order of input presentation is irrelevant for batch. 
+        - Note, this applies only to stochastic learning since the **order** of input presentation **is irrelevant for batch**. 
         - Of course, there is no simple way to know **which inputs are information rich**, 
             - however, a very simple **trick** that crudely implements this idea is to simply **choose successive examples that are from different classes** since training examples belonging to the same class will most likely contain similar information. 
     - Another heuristic for judging how much new information a training example contains is to **examine the error between the network output and the target value** when this input is presented. 
@@ -535,8 +667,14 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - For example, this technique applied to data containing **outliers** can be disastrous because outliers can produce large errors yet should not be presented frequently. 
         - On the other hand, this technique can be particularly beneficial for **boosting the performance for infrequently occurring inputs**, e.g. /z/ in phoneme recognition.
 
-### Transforming the inputs
+### Transforming the inputs (shift, scale, decorrelate)
 
+- **Note**: many possible methods for image data:
+    - [normalization, centering, standardization](https://machinelearningmastery.com/how-to-manually-scale-image-pixel-data-for-deep-learning/)
+        - also many possible **orders** in which these steps are done
+- **Note**: [source](https://cs230.stanford.edu/files/cs230exam_fall18_soln.pdf)
+    - Normalizing the input impacts the landscape of the loss function.
+    - The normalizing mean and variance computed on the **training** set, and used to train the model, should be used to normalize **test** data.
 - Hinton, Lecture 6.2 — A bag of tricks for mini batch gradient descent:
     - **red line** corresponds to the bottom of the "trough" defined by the training point $x_1=(101,99)$, the corresponding output of the simple 2 unit NN shown below is $0$
         - "trough" in 2-D: "parabolic cylinder", see below: graph in the middle: $z=x^2$ 
@@ -586,14 +724,17 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 ### Sigmoids
 
 - LeCun, "Efficient BackProp":
-    1. Symmetric sigmoids such as hyperbolic tangent often converge faster than the standard logistic function. 
+    1. **Symmetric sigmoids** such as hyperbolic tangent [$\tanh$] often **converge faster** than the standard logistic function. 
     2. A recommended sigmoid is: $f(x) = 1.7159\tanh\frac{2}{3}x$. Since the $\tanh$ function is sometimes computationally expensive, an approximation of it by a ratio of polynomials can be used instead. 
         - The constants in the recommended sigmoid given above have been chosen so that, when used with transformed inputs (see previous discussion), the **variance of the outputs will also be close to 1** 
             - because the **effective gain of the sigmoid is roughly 1** over its useful range.
         - Properties:
             - (a) $f(±1) = ±1$, 
+                - [why good? später im Text] set the target values [d.h. 1 und -1] to be within the range of the sigmoid, rather than at the asymptotic values [and at the same time] **ensure that the node is not restricted to only the linear part**
             - (b) the second derivative is a maximum at $x = 1$ [siehe "1.4.5 Choosing Target Values"], and 
+                - [why good? später im Text] Setting the target values to the point of the maximum second derivative on the sigmoid is the **best way to take advantage of the nonlinearity without saturating the sigmoid**.
             - \(c\) the effective gain is close to $1$.
+                - [why good?] if the variance of the inputs is 1, then the variance of the outputs will also be close to 1
     3. Sometimes it is helpful to add a small linear term, e.g. $f(x) = \tanh(x) + ax$ so as to avoid flat spots.
         - One of the potential problems with using symmetric sigmoids is that the **error surface can be very flat near the origin**.
             - For this reason it is good to **avoid initializing with very small weights**. 
@@ -601,13 +742,117 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - **Adding a small linear term** to the sigmoid can sometimes help avoid the flat regions (see chapter 9).
 - Sigmoids that are symmetric about the origin are preferred for the same reason that inputs should be normalized, namely, because they are more likely to produce outputs (which are inputs to the next layer) that are on average close to zero.
 
+### Biases Initialization 
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - Typically, we set the **biases** for each unit to heuristically chosen constants, and initialize only the weights randomly. 
+    - The approach for setting the biases must be coordinated with the approach for settings the weights. Setting the biases to zero is compatible with most weight initialization schemes. There are a few situations where we may set some biases to non-zero values ... (see Goodfellow_2016)
+- perform a **grid search** [Le, Hinton 2015]
+
 ### Weight initialization
+
+#### Why does it matter?
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - The initial point can determine **whether the algorithm converges at all**, with some initial points being so unstable that the algorithm encounters numerical difficulties and fails altogether. 
+    - When learning does converge, the initial point can determine 
+        - **how quickly** learning converges and 
+        - whether it converges to a point with **high or low cost**. 
+    - Also, points of comparable cost can have wildly varying **generalization error**, and the initial point can affect the generalization as well
+
+#### Open Questions
+
+- Modern initialization strategies are simple and **heuristic** [i.e. strategies work, but we do not know why]. 
+- Designing improved initialization strategies is a difficult task because neural network **optimization is not yet well understood**. 
+- Most initialization strategies are based on achieving some nice properties **when the network is initialized**. 
+    - However, **we do not have a good understanding** of which of these properties are **preserved** under which circumstances after learning begins to proceed. 
+- A further difficulty is that some initial points may be beneficial from the viewpoint of optimization but detrimental from the viewpoint of **generalization**. 
+    - Our **understanding of how the initial point affects generalization is especially primitive**, offering little to no guidance for how to select the initial point. 
+
+#### Symmetry breaking Problem
+
+- [source](https://www.coursera.org/lecture/neural-networks-deep-learning/random-initialization-XtFPI)
+- for logistic regression we **can** initialize the weights with zeros, but for NNs this does **not** work
+    - in logistic regression:
+        - derivative of the binary cross entropy loss with respect to a single dimension in the weight vector $w_i$ is a function of $x_i$, which is in general different than $x_j$ when $i\neq j$
+            - d.h. weight update der Komponente $w_i$ i.e. $-\eta \frac{\partial E}{\partial w_i}$ wird sich i. Allg. vom weight update der anderen Komponenten $-\eta \frac{\partial E}{\partial w_j}$ mit $i\neq j$ unterscheiden
+                - aka weights werden asymmetrisch geupdatet 
+                - daher ist 0 initialization kein Problem
+- **Problem**: consider 2 layer NN below:
+    - if $W_1$ and $W_2$ are initialized with constants or with zeros, both hidden units will calculate the same function (i.e. they are symmetric) during forward **and** backward pass
+        - i.e. there is no reason to have more than one hidden unit here
+        - also applies to more than 2 hidden units
+    - proof by induction: 
+        - first iteration: both hidden units start off by computing the same function
+        - next iteration: still compute the same function
+        - by induction: they will always compute the same function during training
+- **Solution**: break this symmetry by using randomly initialized weights
+- too large initialization $\Rightarrow$ sigmoid/tanh will saturate $\Rightarrow$ slows down learning
+    - Thus initialize with **small** Gaussian numbers, here $0.01$
+- $b$ does not have this "Symmetry breaking problem", hence, it can be initialized with $0$
+
+![random_init.png](/home/assets/images/ML_part2/random_init.png)
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - Perhaps the only property known with complete certainty is that the initial parameters need to "**break symmetry**" between different units. 
+        - If two hidden units with the **same activation function** are connected to the **same inputs**, then these units <mark>must have different initial parameters</mark>. 
+        - If they have the **same initial parameters**, then a **deterministic learning** algorithm applied to a deterministic cost and model will constantly **update both of these units in the same way**. 
+            - Even if the model or training algorithm is capable of **using stochasticity** [as opposed to deterministic updates] to compute different updates for different units (for example, if one trains with **dropout**), it is usually best to initialize each unit to compute a different function from all of the other units. 
+    - This may help to make sure that no input patterns are lost in the null space of forward propagation and no gradient patterns are lost in the null space of back-propagation. 
+
+#### Random Initialization
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - The goal of having each unit compute a different function motivates **random initialization** of the parameters. 
+        - We could explicitly search for a large set of basis functions that are all mutually different from each other, but this often incurs a noticeable computational cost. 
+            - For example, if we have at most as many outputs as inputs, we could use Gram-Schmidt orthogonalization on an initial weight matrix, and be guaranteed that each unit computes a very different function from each other unit. 
+        - Random initialization from a high-entropy distribution over a high-dimensional space is computationally cheaper and unlikely to assign any units to compute the same function as each other. 
+
+#### Biases and other Parameters
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - Typically, we set the **biases** for each unit to heuristically chosen constants, and initialize only the weights randomly. 
+    - **Extra parameters**, for example, parameters encoding the conditional variance of a prediction, are usually set to heuristically chosen constants much like the biases are. 
+
+#### Gaussian or Uniform
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - We almost always initialize all the weights in the model to values drawn randomly from a **Gaussian** or **uniform distribution**. 
+        - The choice of Gaussian or uniform distribution does not seem to matter very much, but **has not been exhaustively studied**. 
+
+#### Scale
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - The **scale** of the initial distribution, however, does have a large effect on both the outcome of the optimization procedure and on the ability of the network to generalize. 
+        - **Larger initial weights** will yield a **stronger symmetry breaking** effect, helping to avoid redundant units. They also help to avoid losing signal during forward or back-propagation through the linear component of each layer - larger values in the matrix result in larger outputs of matrix multiplication. 
+            - Initial weights that are **too large** may, however, result in exploding values during forward propagation or back-propagation. 
+                - **In recurrent networks**, large weights can also result in **chaos** (such extreme sensitivity to small perturbations of the input that the behavior of the deterministic forward propagation procedure appears random). 
+                    - To some extent, the exploding gradient problem can be mitigated by **gradient clipping** (thresholding the values of the gradients before performing a gradient descent step). 
+                - Large weights may also result in extreme values that **cause the activation function to saturate**, causing complete loss of gradient through saturated units. 
+        - These **competing factors** determine the **ideal initial scale** of the weights. 
+
+#### Optimization vs Regularization Perspective
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - The perspectives of regularization and optimization can give very different insights into how we should initialize a network. 
+        - The **optimization** perspective suggests that the weights should be **large enough** to propagate information successfully, 
+        - but some **regularization** concerns encourage **making them smaller**.
+
+#### Implicit Prior of SGD
+
+- [Goodfellow_2016](#Goodfellow_2016)
+    - The use of an optimization algorithm such as stochastic gradient descent [...] expresses a prior that the final parameters should be close to the initial parameters.
 
 #### Vanishing Gradients Problem
 
+##### Difference: Sigmoidals vs ReLU
+
 - **sigmoidal** activation functions have the "vanishing gradients" problem
-- **ReLU** does **not** have a "vanishing gradients" problem!
+- ~~**ReLU** does **not** have a "vanishing gradients" problem!~~ Wrong, ReLU **does** have the "vanishing gradients" problem! Use He initialization to avoid this problem.
     > Nevertheless, this Xavier initialization (after Glorot’s first name) is a neat trick that works well in practice. However, along came rectified linear units (ReLU), a non-linearity that is scale-invariant around 0 and does not saturate at large input values. This seemingly solved both of the problems the sigmoid function had; or were they just alleviated? I am unsure of how widely used Xavier initialization is, but if it is not, perhaps it is because ReLU seemingly eliminated this problem. [http://deepdish.io/](http://deepdish.io/)
+
+##### Deepdish explanation
+
 - [http://deepdish.io/](http://deepdish.io/) What happens for sigmoidal activations?:
     - First, let’s go back to the time of sigmoidal activation functions and initialization of parameters using i.i.d. Gaussian or uniform distributions with fairly **arbitrarily set variances**. 
         - Building deep networks was difficult because of **exploding or vanishing activations and gradients**. 
@@ -618,7 +863,13 @@ source: [Goodfellow_2016](#Goodfellow_2016)
                 - That is, you **gradually lose your non-linearity**, which means there is **no benefit to having multiple layers**. 
         - If, on the other hand, your activations become **larger and larger**, 
             - then your **activations will saturate** and become meaningless, with **gradients approaching 0**.
+
+##### Code experiment
+
 - vanishing gradients problem: [code example](https://github.com/pharath/home/tree/master/_posts_html/Weight%20Initialization%20in%20Neural%20Networks%20A%20Journey%20From%20the%20Basics%20to%20Kaiming%20%7C%20by%20James%20Dellinger%20%7C%20Towards%20Data%20Science) (download this directory and view the html file locally, else it does not work)
+
+##### Leibe
+
 - Leibe: 
     - Main problem is **getting the gradients back to the early layers**
         - because if the gradients do not come through to the early layers, the early layers will compute random suboptimal features ("garbage") 
@@ -628,10 +879,16 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - problem gets more severe the deeper the network is
         - can be very hard to diagnose that vanishing gradients occur
             - you just see that learning gets stuck
+
+##### Solutions
+
 - **Solutions**:
-    - Glorot/He initialization
-    - ReLU
+    - use LeCun tanh with Glorot/He initialization
+    - use ReLU with He initialization
     - **for RNNs**: more complex hidden units (e.g. LSTM, GRU)
+
+##### RNNs
+
 - [Goodfellow_2016](#Goodfellow_2016):
     - **for RNNs**: gradients through such a [RNN] graph are also scaled according to $\text{diag}(\vec{\lambda})^t$ 
     - **Vanishing gradients** make it difficult to know which direction the parameters should move to improve the cost function, while **exploding gradients** can make learning unstable. 
@@ -639,10 +896,11 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 #### Xavier Glorot Initialization
 
 - for tanh nonlinearities
+    - because the derivation **assumes linearity around 0**
 - [Glorot, Bengio paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf)
 - Xavier Glorot is the author's full name
 
-#### He Initialization
+#### Kaiming He Initialization
 
 - for ReLU nonlinearities
 
@@ -686,18 +944,53 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - do **not** use He initialization (i.e. initializing weights and biases through **symmetric** probability distributions)
             - instead, use **randomized asymmetric initialization** [[Lu, Shin, Su, Karniadakis](https://arxiv.org/abs/1903.06733)]
 
-### Batch Norm
+### Batch Normalization (Ioffe, Szegedy 2015)
+
+- [basically, similar idea as zero mean and unit covariance in LeCun "Efficient BackProp", but **learn** $\mu$ and $\sigma^2$ instead of fixing them to zero or one, respectively]
+    - i.e. BN reduces **internal covariate shift** (see BN paper [Ioffe, Szegedy])
+        - We define Internal Covariate Shift as the change in the distribution of network activations due to the change in network parameters during training
+- source of the following: **all** Andrew Ng videos about BN
+
+#### Steps
+
+- Done 
+    - **in each layer** 
+    - after $\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$, but before the nonlinearity
+- Steps:
+    1. normalize: $z^{[l]}_{norm}=\frac{z^{[l]}-\mu}{\sqrt{\sigma^2+\epsilon}}$ (where $z^{[l]}=\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$)
+    2. learn scaling of $\mu$ and $\sigma^2$: $\tilde{z}^{[l]}=\gamma z^{[l]}_{norm}+\beta$
+        - $\gamma$ and $\beta$ are like additional weights of the NN!
+
+#### Additional weights $\gamma$ and $\beta$
+
+- $\gamma$ and $\beta$ 
+    - have the same dimension as $b^{[l]}$
+        - [technically step 2 should be $\tilde{z}^{[l]}=\text{diag}(\gamma) z^{[l]}_{norm}+\beta$ then???]
+    - are used to scale the mean and the variance of each hidden unit to whatever value the NN wants to set them to
+        - we do **not** want to force them to have mean 0 and unit covariance!
+            - because maybe some other unknown distribution [with $\mu\neq 0$ and $\sigma^2\neq 1$] will (1) make the NN converge faster or (2) take better advantage of the nonlinearity (better generalization), so let the NN **learn** that distribution
+
+#### Effect
 
 - effect:
     1. greatly improved convergence speed
+        - because of reduced **internal covariate shift**
     2. often better accuracy (i.e. w/o BN accuracy would not even reach this level in the first place!)
+        - because of regularization (multiplicative and additive noise)
+
+#### Implementation
+
+- BN makes the bias parameter $b^{[l]}$ of each layer redundant because the normalization step of BN zeros out the mean of $z^{[l]}=\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$ anyway
+    - the $\beta$ of the BN layer sort of replaces $b^{[l]}$ and ends up controlling the shift/bias of the layer
+    - therefore, $b^{[l]}$ can be left out in the implementation
 
 ### Dropout
 
 - [Srivastava, Hinton](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf)
     - Abstract: 
-        - [...] **overfitting** is a serious problem in such networks. 
-        - Large networks are also slow to use, making it **difficult to deal with overfitting by combining the predictions of many different large neural nets at test time**. 
+        - [at training time] Deep neural nets with a large number of parameters are very powerful machine learning systems. However, **overfitting** is a serious problem in such networks [weil "Modell hat zu viele Parameter" $\Rightarrow$ overfitting (vgl. polynomial curve fitting)]. 
+        - [at test time] Large networks are also slow to use, making it **difficult to deal with overfitting by combining the predictions of many different large neural nets at test time**. 
+            - wenn EIN "Large NN" at test time schon langsam ist, dann sind ZWEI doppelt so langsam und ein ENSEMBLE ist noch viel langsamer at test time
         - **Dropout** is a technique for addressing this problem. 
             - The key idea is to randomly drop units (along with their connections) from the neural network during training. 
                 - This prevents units from co-adapting too much. 
@@ -708,7 +1001,7 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - but still only $\mathcal{O}(n^2)$ parameters (soll heißen Dropout führt keine neuen Parameter ein)
             - Das $\mathcal{O}(n^2)$ ist ein upper bound? [[VC dimension of a NN](https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension#VC_dimension_of_a_neural_network)]
     - at test time use $p\mathbf{w}$, so that the output of a node **at test time** is the expected output **at training time**
-        - [source](https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/): Note: The rescaling of the weights can be performed at training time instead, after each weight update at the end of the mini-batch. This is sometimes called “inverse dropout” and does not require any modification of weights during training. Both the Keras and PyTorch deep learning libraries implement dropout in this way.
+        - [source](https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/): Note: The rescaling of the weights can be performed at training time instead, after each weight update at the end of the mini-batch. This is sometimes called “inverse dropout” and does not require any modification of weights during training. Both the **Keras** and **PyTorch** deep learning libraries implement dropout in this way.
         - [mulipliziere $\mathbf{w}$ mit $p$ heißt das "Neuron" feuert nur in einem Bruchteil $p$ aller Fälle, sodass der gesamte Erwartungswert über **alle** "Neuronen", d.h. der Output des gesamten NN, aber stimmt (auch wenn $p\mathbf{w}$ nur ein **geschätzter** Erwartungswert **eines bestimmten** "Neurons" ist)]
     - ![dropout.png](/assets/images/optimization/dropout.png)
 - [source](https://machinelearningmastery.com/dropout-for-regularizing-deep-neural-networks/):
@@ -724,11 +1017,14 @@ source: [Goodfellow_2016](#Goodfellow_2016)
             - A good **rule of thumb** is to divide the number of nodes in the layer before dropout by the proposed dropout rate and use that as the number of nodes in the new network that uses dropout. For example, a network with 100 nodes and a proposed dropout rate of 0.5 will require 200 nodes (100 / 0.5) when using dropout.
         - grid search parameters:
             - Rather than guess at a suitable dropout rate for your network, test different rates systematically.
-        - weight constraint:
-            - Network weights will increase in size in response to the probabilistic removal of layer activations.
+        - weight constraint [= regularization, s. Dropout paper] [e.g. `maxnorm`, L2, ...] [Genaue Erklärung: s. Kapitel 5.1, 2. Absatz in Dropout paper]:
+            - Network weights will increase in size in response to the probabilistic removal of layer activations. [?: Steht so nicht im paper. Eigentlich sollte Dropout einen regularizing effect haben, d.h. die weights shrinken.]
             - Large weight size can be a sign of an unstable network.
             - To counter this effect a **weight constraint** can be imposed to force the norm (magnitude) of all weights in a layer to be below a specified value. 
-                - For example, the **maximum norm constraint** is recommended with a value between 3-4.
+                - For example, the **maximum norm constraint** is recommended [im Dropout paper] with a value between 3-4.
+                    - [Genaue Erklärung: s. Kapitel 5.1, 2. Absatz bis letzter Absatz in Dropout paper]
+                        - eher Vermutungen als Erklärungen ?
+                            - "A possible justification is that constraining weight vectors to lie inside a ball of fixed radius makes it possible to use a huge learning rate without the possibility of weights blowing up. The noise provided by dropout then allows the optimization process to explore different regions of the weight space that would have otherwise been difficult to reach. As the learning rate decays, the optimization takes shorter steps, thereby doing less exploration and eventually settles into a minimum."
 
 ## Classical 2nd order optimization methods<a name="2nd_order_methods"></a>
 
