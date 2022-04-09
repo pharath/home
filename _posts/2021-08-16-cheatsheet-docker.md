@@ -31,3 +31,11 @@ Start new bash shell in running container:
 Start new bash shell in running container with color support:
 1. `xhost +local:root`
 2. `docker exec -it <tab-tab>container env TERM=xterm-256color bash`
+
+# Webcam
+
+- first enable x11 forwarding
+
+- `docker run --ipc=host --device=/dev/video0`
+
+- Check the webcam: `mplayer tv://device=/dev/video0`
