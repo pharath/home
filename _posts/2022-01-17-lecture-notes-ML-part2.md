@@ -1,7 +1,6 @@
 ---
 title: "Machine Learning (Part 2)"
 excerpt: "Notes on Machine Learning theory. Based on C. M. Bishop, \"Pattern Recognition and Machine Learning\" (2011) and Goodfellow, Bengio, Courville, \"Deep Learning\"."
-classes: wide
 header:
   teaser: /assets/images/lenet.png
   overlay_image: /assets/images/lenet.png
@@ -26,7 +25,7 @@ toc_label: "Contents"
 ## Perceptrons (Rosenblatt 1962)
 
 - perceptrons (SLPs) are **generalized linear models** ("generalized" because of the activation function)
-    - **BUT**: Deep Neural Networks (MLPs) are **nonlinear parametric models**.
+    - **BUT**: Deep Neural Networks (MLPs) are **nonlinear models**.
 - more specifically: perceptrons are **generalized linear discriminants** (because they map the input **x** directly to a class label t in {-1,+1} [see above: "Linear models for classification": approach 1.])
 - original version: 
     - 2-class linear discriminant 
@@ -394,6 +393,8 @@ function fib(n)
 ### Overfitting
  
 - **Problem**: training error and test error diverge (see below: **generalization gap**), if we use too many parameters
+- **Causes**: 
+    - large $\mathbf{w}$ magnitudes
 - **Solution**: 
     - add weight decay/regularization term
         - does **not** reduce the generalization gap, but rather reduces the capacity of the model!
@@ -463,6 +464,12 @@ function fib(n)
 source: [Goodfellow_2016](#Goodfellow_2016)
 - basically the same plot as in [Bishop_2006](#Bishop_2006) "polynomial curve fitting" training and test error $E_{\text{RMS}}$ vs. order of the polynomial $M$ (where $M$ corresponds to **capacity** here)
 
+### Learning Curve Diagnostics
+
+- training error converges to true error for $N\to\infty$, **if data points are i.i.d.**
+- see [Learning Curve Diagnostics and Solutions](https://rstudio-conf-2020.github.io/dl-keras-tf/notebooks/learning-curve-diagnostics.nb.html)
+    - original version, but slightly less content: [Jason Brownlee "How to use Learning Curves to Diagnose Machine Learning Model Performance"](https://machinelearningmastery.com/learning-curves-for-diagnosing-machine-learning-model-performance/)
+
 ### Learning Rate
 
 - [Goodfellow_2016](#Goodfellow_2016)
@@ -504,11 +511,15 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 
 ###### Robert A. Jacobs' method (delta-bar-delta algorithm)
 
+- **idea**: a change of gradient sign indicates that the last update was too big and that the algorithm has jumped over a local minimum
 - designed for full batch learning
     - use large minibatch
         - ensures that changes of sign are **not** due to sampling error of a minibatch, but due to really going to the other side of the ravine
 - **global** learning rate multiplied by a **local gain per weight**
     - ensures that big gains decay rapidly when oscillations across a ravine start
+- **Note**: unlike Rprop this method uses
+    - the gradient magnitude
+    - an additive increase (in Rprop: multiplicative increase)
 - [Robert A. Jacobs, 1988](https://www.sciencedirect.com/science/article/pii/0893608088900032)
     - **delta-bar-delta** algorithm
 
@@ -548,12 +559,16 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 
 ###### RMSprop
 
+- Hinton 2012
 - **global** learning rate
 - eigentlich eine Verbesserung von AdaGrad:
     - Zaheer, Shaziya, "A Study of the Optimization Algorithms in Deep Learning":
         - RMSProp changes ~~the~~ adagrad in a way how the gradient is accumulated. 
             - Gradients are accumulated into an exponentially weighted average. 
             - RMSProp **discards the history** and **maintains only recent gradient information**.
+- Goodfellow_2016
+    - RMSProp uses an **exponentially decaying average** to **discard history from the extreme past** so that it can converge rapidly after finding a convex bowl, as if it were an instance of the AdaGrad algorithm initialized within that bowl.
+    - Compared to AdaGrad, the use of the moving average **introduces a new hyperparameter**, $\rho$, that controls the **length scale of the moving average**.
 - Andrew Ng, Oscillation sketch:
     - **Richtung** für jede Dimension/Achse $w_{ij}$ wird über **sign** of gradient gegeben.
     - **Betrag** für jede Dimension wird über EMA gegeben (global learning rate kann sich ja nicht ändern!), weshalb oszillierende Dimensionen gedämpft werden und nicht oszillierende Dimensionen gleich bleiben bzw. sich etwas verzögert an Änderungen anpassen.
@@ -577,8 +592,17 @@ source: [Goodfellow_2016](#Goodfellow_2016)
             - can be combined with **adaptive learning rates for each connection**
                 - Hinton: "That needs more investigation. I just do not know how helpful that will be."
 
-![RMSprop](/assets/images/goodfellow_ml/RMSprop.png)
+![RMSprop](/home/assets/images/goodfellow_ml/RMSprop.png)
 [source: Goodfellow_2016](#Goodfellow_2016)
+
+###### RMSProp with Nesterov Momentum
+
+###### Adam
+
+- Kingma, Ba 2014
+- Goodfellow_2016
+    - The name "Adam" derives from the phrase "adaptive moments." 
+    - In the context of the earlier algorithms, it is perhaps best seen as a variant on the combination of **RMSProp and momentum** [s.o] with a few important distinctions.
 
 ### Learning rate schedules
 
@@ -590,17 +614,29 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - **momentum**
     - There are many different learning rate schedules but the most common are **time-based**, **step-based** and **exponential**.
 
-### The Condition Number of the Hessian
+### Saddle Points and Local Minima
 
+#### Hessian (2nd derivative test)
+
+- When the Hessian is positive definite (all its eigenvalues are positive), the point is a **local minimum**.
+- when the Hessian is negative definite (all its eigenvalues are negative), the point is a **local maximum**.
+- In multiple dimensions, it is actually possible to find positive evidence of **saddle points** in some cases. 
+    - When at least one eigenvalue is positive and at least one eigenvalue is negative, we know that $x$ is a local maximum on one cross section of $f$ but a local minimum on another cross section.
+- The test is **inconclusive whenever** all of the non-zero eigenvalues have the same sign, but at least one eigenvalue is zero.
+
+#### The Condition Number of the Hessian
+
+- tool, um "long canyon" Probleme (i.e. "krümmungsbasierte" Konvergenzprobleme) zu messen
+![long_canyon.png](/home/assets/images/ML_part2/long_canyon.png)
 - [Goodfellow_2016](#Goodfellow_2016):
     - "In multiple dimensions, there is a different second derivative for each direction at a single point. The **condition number** of the Hessian at this point **measures how much the second derivatives differ from each other**." 
-        - "When the Hessian has a poor condition number, **gradient descent performs poorly**." 
-            - "This is because in one direction, the derivative increases rapidly, while in another direction, it increases slowly. **Gradient descent is unaware of this change in the derivative**" 
+        - <mark>"When the Hessian has a poor condition number, **gradient descent performs poorly**."</mark> 
+            - "This is because in one direction, the derivative increases rapidly, while in another direction, it increases slowly. **Gradient descent is unaware of this change in the derivative**" ["unaware", weil "change in the derivative" mit Hessian gemessen wird und GD Hessian nicht benutzt]
                 - information about the **change in the function** is contained in **1st derivative** 
                 - information about the **change in the derivative** is contained in the **2nd derivative!** 
             - "so it does not know that it needs to explore preferentially in the direction where the derivative remains negative for longer."
 
-### The proliferation of saddle points in higher dimensions
+#### The proliferation of saddle points in higher dimensions
 
 - Goodfellow_2016:
     - At a saddle point, the **Hessian matrix** [important tool for analyzing critical points, e.g. determine Eigenvalues to check, if it is a saddle point, a local minimum or a maximum] has both positive and negative eigenvalues.
@@ -647,22 +683,32 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - Points lying along eigenvectors associated with positive eigenvalues have greater cost than the saddle point, while points lying along negative eigenvalues have lower value. 
     - We can think of a saddle point as being a local minimum along one cross-section [sozusagen als würde man mit einer Ebene senkrecht durch den Graph schneiden] of the cost function and a local maximum along another cross-section. See figure 4.5 for an illustration.
 
-### Shuffling the Examples
+### Shuffling/Ordering/Emphasizing Schemes
 
+#### Shuffling
+
+- irrelevant for full batch learning
 - **Example**: Within the training set, the images are ordered in such a way that all the dog images come first and all the cat images come after. The classes are balanced.
     - **Effect**: The optimization is much harder with mini-batch gradient descent because the loss function moves by a lot when going from the one type of image to another.
     - **Solution**: Shuffle before training
+
+#### Ordering
+
 - Müller, Montavon:
     - Networks learn the fastest from the most unexpected sample. Therefore, it is advisable to <mark>**choose a sample at each iteration that is the most unfamiliar to the system**</mark>. 
         - Note, this applies only to stochastic learning since the **order** of input presentation **is irrelevant for batch**. 
-        - Of course, there is no simple way to know **which inputs are information rich**, 
-            - however, a very simple **trick** that crudely implements this idea is to simply **choose successive examples that are from different classes** since training examples belonging to the same class will most likely contain similar information. 
-    - Another heuristic for judging how much new information a training example contains is to **examine the error between the network output and the target value** when this input is presented. 
+    - [Method 1 for "choose a sample at each iteration that is the most unfamiliar to the system":] Of course, there is no simple way to know **which inputs are information rich**, 
+        - however, a very simple **trick** that crudely implements this idea is to simply **<mark>choose successive examples that are from different classes</mark>** since training examples belonging to the same class will most likely contain similar information. 
+
+#### Emphasizing Schemes
+
+- Müller, Montavon:
+    - [Method 2 for "choose a sample at each iteration that is the most unfamiliar to the system":] Another heuristic for judging how much new information a training example contains is to **<mark>examine the error between the network output and the target value</mark>** when this input is presented. 
         - A **large error indicates that this input has not been learned** by the network and so contains a lot of new information. 
-        - Therefore, it makes sense to **present this input more frequently**. 
+        - Therefore, it makes sense to **<mark>present this input more frequently</mark>**. 
         - Of course, by "large" we mean relative to all of the other training examples. 
         - As the network trains, these relative errors will change and so should the **frequency of presentation** for a particular input pattern. 
-        - A method that modifies the probability of appearance of each pattern is called an <mark>**emphasizing scheme**</mark>. 
+        - A method that modifies the **probability of appearance of each pattern** is called an <mark>**emphasizing scheme**</mark>. 
     - However, **one must be careful when perturbing the normal frequencies of input examples** because this changes the relative importance that the network places on different examples. This may or may not be desirable. 
         - For example, this technique applied to data containing **outliers** can be disastrous because outliers can produce large errors yet should not be presented frequently. 
         - On the other hand, this technique can be particularly beneficial for **boosting the performance for infrequently occurring inputs**, e.g. /z/ in phoneme recognition.
@@ -885,13 +931,19 @@ source: [Goodfellow_2016](#Goodfellow_2016)
 - **Solutions**:
     - use LeCun tanh with Glorot/He initialization
     - use ReLU with He initialization
-    - **for RNNs**: more complex hidden units (e.g. LSTM, GRU)
+    - **for RNNs**: 
+        - more complex hidden units (e.g. LSTM, GRU)
+        - initialize $\mathbf{W}_{hh}$ with identity matrix and use ReLU 
+            - Le, Hinton 2015:
+                - The identity initialization has the very desirable property that when the error derivatives for the hidden units are backpropagated through time they remain constant provided no extra error-derivatives are added. This is the same behavior as LSTMs when their forget gates are set so that there is no decay and it makes it easy to learn very long-range temporal dependencies.
 
 ##### RNNs
 
 - [Goodfellow_2016](#Goodfellow_2016):
     - **for RNNs**: gradients through such a [RNN] graph are also scaled according to $\text{diag}(\vec{\lambda})^t$ 
     - **Vanishing gradients** make it difficult to know which direction the parameters should move to improve the cost function, while **exploding gradients** can make learning unstable. 
+- **effect**: long-range dependencies are not learned by the RNN 
+    - i.e. words from timesteps far away are not taken into consideration when predicting the next word
 
 #### Xavier Glorot Initialization
 
@@ -925,6 +977,7 @@ source: [Goodfellow_2016](#Goodfellow_2016)
             - pro: avoids stuck-at-zero units
             - pro: weaker offset bias
             - **con**: does not have the **non-informative deactivation states** property (cf. below) like ReLU, i.e. inactive Leaky ReLU units carry information because the gradient is not zero for negative inputs!
+        - PReLU: same as Leaky ReLU, but $\beta$ is a **learnable** parameter
         - ELU: $e^a-1$ for $a \leq 0$
             - **pro**: <mark>no offset bias</mark> ("bias" means that ReLUs have an average activation $\gt 0$ which increases the chances of internal covariate shift)
                 - [[source](https://paperswithcode.com/method/elu)] 
@@ -933,7 +986,7 @@ source: [Goodfellow_2016](#Goodfellow_2016)
                 - [[source](https://numpy-ml.readthedocs.io/en/latest/numpy_ml.neural_nets.activations.html)] 
                     - ELUs are intended to address the fact that **ReLUs** are strictly nonnegative and thus have an average activation $\gt 0$, **increasing the chances of internal covariate shift** and slowing down learning. ELU units address this by 
                         - (1) allowing negative values when $x\lt0$, which 
-                        - (2) are bounded by a value −α. 
+                        - (2) are bounded by a value $-\alpha$. 
                     - **Similar to LeakyReLU**, the negative activation values help to push the average unit activation towards 0. 
                         - **Unlike LeakyReLU**, however, the boundedness of the negative activation allows for greater robustness in the face of large negative values, allowing the function to **avoid** conveying the degree of “absence” (negative activation) in the input. 
                             - "degree of absence" soll heißen, wir wollen **nicht** quantifizieren wie stark negativ die activation ist! Wir wollen möglichst nur die positiven activations propagieren. Die "nicht aktiven" units sollen möglichst keine Information propagieren! Es ist also gut, dass ReLUs zero gradient haben für negative inputs. Leaky ReLUs haben das nicht! (diese Eigenschaft "non-informative deactivation states" ist nützlich in Anwendungen, s. Hochreiter paper)
@@ -951,11 +1004,11 @@ source: [Goodfellow_2016](#Goodfellow_2016)
         - We define Internal Covariate Shift as the change in the distribution of network activations due to the change in network parameters during training
 - source of the following: **all** Andrew Ng videos about BN
 
-#### Steps
+#### BN Steps
 
-- Done 
-    - **in each layer** 
-    - after $\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$, but before the nonlinearity
+- Done ...
+    - ... **in each layer** 
+    - ... after $\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$, but before the nonlinearity
 - Steps:
     1. normalize: $z^{[l]}_{norm}=\frac{z^{[l]}-\mu}{\sqrt{\sigma^2+\epsilon}}$ (where $z^{[l]}=\mathbf{W}^{[l]}a^{[l]}+b^{[l]}$)
     2. learn scaling of $\mu$ and $\sigma^2$: $\tilde{z}^{[l]}=\gamma z^{[l]}_{norm}+\beta$

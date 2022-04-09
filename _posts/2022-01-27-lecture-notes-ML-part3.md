@@ -23,7 +23,11 @@ toc_label: "Contents"
 
 ---
 
-# CNN
+# CNN Concept
+
+## Good Overviews
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Convolutional_neural_network#Receptive_field)
 
 ## Why do CNNs work?
 
@@ -32,7 +36,9 @@ toc_label: "Contents"
 - as opposed to **Full** Connectivity
 - [Goodfellow_2016](#Goodfellow_2016):
     - Convolutional networks, however, typically have **sparse interactions** (also referred to as **sparse connectivity** or **sparse weights**). This is accomplished by making the kernel smaller than the input.
-        - This means that we need to store fewer parameters, which both reduces the **memory requirements** of the model and improves its **statistical efficiency**. 
+        - This means that we need to store fewer parameters, which both 
+            - reduces the **memory requirements** of the model and 
+            - improves its **statistical efficiency**. 
         - It also means that computing the output requires **fewer operations**. 
         - These improvements in efficiency are usually quite large.
 
@@ -102,9 +108,16 @@ toc_label: "Contents"
 
 #### How to set size of pools?
 
-- larger pooling region $\Rightarrow$ more invariant to translation
+- larger pooling region $\Rightarrow$ more invariant to translation, but poorer generalization
     - notice, units in the deeper layers may indirectly interact with a larger portion of the input
 - in practice, best to pool slowly (via few stacks of conv-pooling layers)
+- [Mouton, Myburgh, Davel 2020](https://link.springer.com/chapter/10.1007%2F978-3-030-66151-9_17):
+    - CNNs are not invariant to translation! Reason:
+        - This lack of invariance is attributed to 
+            - the **use of stride** which subsamples the input, resulting in a **loss of information**, 
+            - and **fully connected layers** which lack spatial reasoning.
+    - "**local homogeneity**" (dataset-specific characteristic):
+        - determines relationship between **pooling kernel size** and **stride** required for translation invariance
 
 #### Learning Invariance to other Transformations
 
@@ -147,15 +160,23 @@ toc_label: "Contents"
 
 ## Conv Layer properties
 
-- key points of Karpathy slide below:
-    - output size: $(\frac{W-F+2P}{S}+1) \times (\frac{H-F+2P}{S}+1) \times K$
-    - number of parameters: $(F\cdot F\cdot D_{input})\cdot K$
+- key points:
+    - output size: $\text{Floor}(\frac{W-F+2P}{S}+1) \times \text{Floor}(\frac{H-F+2P}{S}+1) \times K$
+    - number of parameters: $(F\cdot F\cdot D_{input}+1)\cdot K$
+        - **Note**: for FC layers: number of parameters: $(c \cdot p)+c$ 
+            - where
+                - current layer neurons $c$
+                - previous layer neurons $p$
+- $\text{RF}_i=(\text{RF}_{i-1}-1)S_i+F_i$
+    - $F_i$: Kernel size
+    - $S_i$: Stride
 - Ranzato slides:
-    - computational cost: $(F\cdot F\cdot D_{input})\cdot K\cdot (\frac{W-F+2P}{S}+1) \times (\frac{H-F+2P}{S}+1)$ 
+    - computational cost per conv layer: $(F\cdot F\cdot D_{input}+1)\cdot (\frac{W-F+2P}{S}+1)\cdot (\frac{H-F+2P}{S}+1)\cdot K$ 
         - [das ist **nicht** "output size" mal "number of parameters"! Sonst wäre $K$ doppelt, weil $K$ in beiden enthalten ist!]
+            - [cost für EINEN Kernel: $(F\cdot F\cdot D_{input}+1)\cdot (\frac{W-F+2P}{S}+1)\cdot (\frac{H-F+2P}{S}+1)$]
     ![conv_layer_params_cs231n_karpathy.png](/assets/images/conv_layer_params_cs231n_karpathy.png)
 
-## How many feature maps?
+## How many feature maps (per conv layer)?
 
 - Ranzato slides:
     - Usually, there are more output feature maps than input feature maps.
@@ -164,13 +185,17 @@ toc_label: "Contents"
 ## What's the size of the filters?
 
 - The size of the filters has to match the size/scale of the patterns we want to detect (task dependent)
+- Why is the size of $F$ always an odd number?
+    - usually $1$, $3$, $5$, $7$ and sometimes $11$
+    - you can use filters with even numbers, but it is not common
+    - the lowest people use is $3$, mainly for convenience
+        - you want to apply the filter around a well-defined position that "exists" in the input volume (see traditional image processing)
 
-## Why is the size of $F$ always an odd number?
+## What's the receptive field of a filter?
 
-- usually $1$, $3$, $5$, $7$ and sometimes $11$
-- you can use filters with even numbers, but it is not common
-- the lowest people use is $3$, mainly for convenience
-    - you want to apply the filter around a well-defined position that "exists" in the input volume (see traditional image processing)
+- $\text{RF}_i=(\text{RF}_{i-1}-1)S_i+F_i$
+    - $F_i$: Kernel size
+    - $S_i$: Stride
 
 ## Padding
 
@@ -230,6 +255,8 @@ toc_label: "Contents"
     - If **no**, then explain that we want to test on real data only. 
     - If **yes**, then explain in which situation doing data augmentation on test set might make sense (e.g. as an ensemble approach in image classifiers).
  
+# CNN Datasets
+
 ## ImageNet Dataset vs PASCAL Dataset
 
 - **PASCAL**: classify "bird", "cat", ... etc.
@@ -237,6 +264,8 @@ toc_label: "Contents"
     - e.g. 
         - instead of "bird" you have to classify "flamingo", "cock", "ruffed grouse", "quail", ... etc.
         - instead of "cat" you have to classify "Egyptian cat", "Persian cat", "Siamese cat", "tabby", ... etc.
+
+# CNN Architectures
 
 ## AlexNet vs LeNet
 
@@ -298,6 +327,9 @@ toc_label: "Contents"
 - roughly twice as many parameters (most parameters in later FC layers)
 - try to **maintain a constant level of compute through layers** [Leibe Part 17 Folie 23: "same complexity per layer"]: 
     - downsample spatially and simultaneously increase depth as you go deeper
+        - Leibe: 
+            - **Heuristic**: double the $\text{\#}(\text{filter channels})$ whenever **pooling** halves the dimensions
+                - saves computation by working on smaller input
 - similar training procedure as AlexNet
 - no local response normalization
 - ensembling (like AlexNet)
@@ -313,26 +345,37 @@ toc_label: "Contents"
     - fewer parameters (12x less than AlexNet)
     - computationally more efficient
 - use of "local network topology" aka "network within a network" aka **inception module**
+    - **idea**: filters with different sizes, will handle better multiple object scales
     - applying several different kinds of filter operations in parallel
         - 1x1, 
         - 3x3, 
         - 5x5,
-        - pooling 3x3
+        - 3x3 max pooling  (to summarize the content of the previous layer)
+            - **Note**: this max pooling layer uses SAME padding (i.e. input size=output size), so that the concatenation with the other outputs is possible
     - concatenate all outputs depth-wise
 - use of **bottleneck layers** aka "one-by-one convolutions"
     - project feature maps to lower (depth) dimension before convolutional operations
     - compared to an inception module **without** bottleneck layers:
         - reduces total number of ops (i.e. computational complexity) 
         - prevents depth from blowing up after each inception module
+        - less parameters
+        - more nonlinearities
 - architecture: 
     - stem network (similar to AlexNet)
         - Conv - MaxPool - LocalRespNorm - Conv - Conv - LocalRespNorm - MaxPool
-    - multiple inception modules all stacked on top of each other
+    - 9 inception modules all stacked on top of each other
     - extra stems
         - auxiliary classification outputs for training the lower layers
             - inject additional gradients/signal at earlier layers (in deeper NNs early layers get smaller gradients)
             - GoogleNet paper:
-                - Given the relatively large depth of the network, the ability to propagate gradients back through all the layers in an effective manner was a concern. One interesting insight is that the strong performance of relatively shallower networks on this task suggests that the features produced by the layers in the middle of the network should be very discriminative. **By adding auxiliary classifiers** connected to these intermediate layers, we would expect to encourage discrimination in the lower stages in the classifier, increase the gradient signal that gets propagated back, and provide additional regularization. These classifiers take the form of smaller convolutional networks put on top of the output of the Inception (4a) and (4d) modules. **During training, their loss gets added to the total loss of the network with a discount weight** (the losses of the auxiliary classifiers were weighted by 0.3). **At inference time, these auxiliary networks are discarded.**
+                - Given the relatively large depth of the network, the ability to propagate gradients back through all the layers in an effective manner was a concern. One interesting insight is that the strong performance of relatively shallower networks on this task suggests that the features produced by the layers in the middle of the network should be very discriminative. 
+                - **By adding auxiliary classifiers** connected to these intermediate layers, we would expect 
+                    - to encourage discrimination in the lower stages in the classifier, 
+                    - increase the gradient signal that gets propagated back, and 
+                    - provide additional regularization. 
+                - These classifiers take the form of smaller convolutional networks put on top of the output of the Inception (4a) and (4d) modules. 
+                - **<mark>During training</mark>, their loss gets added to the total loss of the network with a discount weight** (the losses of the auxiliary classifiers were weighted by 0.3). 
+                - **<mark>At inference time</mark>, these auxiliary networks are discarded.**
     - Average Pooling
         - GoogleNet paper:
             - The use of average pooling before the classifier is based on [12], although our implementation differs in that we use an extra linear layer. This **enables adapting and fine-tuning our networks for other label sets easily**, but it is mostly convenience and we do not expect it to have a major effect. **It was found that a move from fully connected layers to average pooling improved the top-1 accuracy by about 0.6%**, however the use of dropout remained essential even after removing the fully connected layers.
@@ -357,29 +400,31 @@ toc_label: "Contents"
 
 ### He et al
 
-- Plain nets: stacking $3\times 3$ Conv layers
-    - 56-layer net has higher **training** error than 20-layer net
-        - not caused by overfitting
-            - when you are overfitting you would expect to have a very low training error rate and just bad test error
-        - unlikely to be caused by vanishing gradients
-            - plain nets are trained with BN, which ensures that forward propageted signals have non-zero variances
-                - i.e. forward signals do not vanish!
-            - He et al verify that the gradients exhibit healthy norms
-                - i.e. backward signals do not vanish!
-        - the solver works to some extent
-            - "In fact, the 34-layer plain net is still able to achieve competitive accuracy (Table 3), suggesting that **the solver works** to some extent."
-        - deeper model has a richer solution space which should allow it to find better solutions (i.e. it should perform at least as well as a shallower model)
-            - **solution by construction**:
-                - copy the original layers from the shallower model and just set the extra layers as identity mappings
-                    - this model should be at least as well as the shallower model
-                - this motivates the ResNet design: 
-                    - fit a residual mapping instead of a direct mapping, so that it is **easier for the deep NN to learn an identity mapping on unused layers** ("learn some Delta/residual" instead of "learn an arbitrary mapping")
-                        - Why is learning a residual easier than learning the direct mapping?
-                            - This is not proven. It's just He's hypothesis.
-                    - so we can get something close to this "**solution by construction**" that we had earlier
-        - **reason**: optimization difficulties
-            - "deep plain nets may have **exponentially low convergence rates**"
-                - d.h. der Solver funktioniert, aber er braucht einfach nur so lange, dass es so aussieht als würde er nicht konvergieren
+#### Plain nets: stacking $3\times 3$ Conv layers
+
+- **problem**: 56-layer net has higher **training** error than 20-layer net
+- **not** the reason:
+    - not caused by overfitting
+        - when you are overfitting you would expect to have a very low training error rate and just bad test error
+    - unlikely to be caused by vanishing gradients
+        - plain nets are trained with BN, which ensures that forward propageted signals have non-zero variances
+            - i.e. forward signals do not vanish!
+        - He et al verify that the gradients exhibit healthy norms
+            - i.e. backward signals do not vanish!
+    - the solver works to some extent
+        - "In fact, the 34-layer plain net is still able to achieve competitive accuracy (Table 3), suggesting that **the solver works** to some extent."
+- **reason**: optimization difficulties
+    - "deep plain nets may have **exponentially low convergence rates**"
+        - d.h. der Solver funktioniert, aber er braucht einfach nur so lange, dass es so aussieht als würde er nicht konvergieren
+- **idea**: deeper model has a richer solution space which should allow it to find better solutions (i.e. it should perform at least as well as a shallower model)
+    - **solution by construction**:
+        - copy the original layers from the shallower model and just set the extra layers as identity mappings
+            - this model should be at least as well as the shallower model
+        - this motivates the ResNet design: 
+            - fit a residual mapping instead of a direct mapping, so that it is **easier for the deep NN to learn an identity mapping on unused layers** ("learn some Delta/residual" instead of "learn an arbitrary mapping")
+                - Why is learning a residual easier than learning the direct mapping?
+                    - This is not proven. It's just He's hypothesis.
+            - so we can get something close to this "**solution by construction**" that we had earlier
 
 ### Veit et al
 
@@ -433,6 +478,8 @@ toc_label: "Contents"
             - however, deleting connections using **Dropout can improve the performance of ResNet**
     - excluding longer paths does not negatively affect the results
 
+# CNN Training
+
 ## Transfer learning
 
 - This is often done in medical imaging and **in situations where there is very little training data available**.
@@ -465,6 +512,8 @@ toc_label: "Contents"
             - if you train on ImageNet and 
             - then you use that network for your data set 
             - you're going to get better performance on your data set if you can also change the network. 
+
+# CNN Tasks
 
 ## Classification & Localization
 
@@ -716,7 +765,7 @@ toc_label: "Contents"
     - e.g. "cow 1" and "cow 2" are just "cow"
 - **instance** segmentation does
 
-### Idea: Sliding Window approach
+### Naive Idea 1: Sliding Window approach
 
 - extract patch, run patch through AlexNet and classify center pixel
 - in theory, this would work
@@ -724,7 +773,7 @@ toc_label: "Contents"
     - no reuse of shared features between overlapping patches
 - does not scale with input size
 
-### Idea: FCN which preserves the input size
+### Naive Idea 2: FCN which preserves the input size
 
 - in order to take into account a large receptive field of the input image while computing features at different NN layers one needs 
     - either **large filters** (<mark>which is done here</mark>)
@@ -758,13 +807,28 @@ toc_label: "Contents"
 - [source](https://ai.stackexchange.com/questions/21810/what-is-a-fully-convolution-network)
     - A **fully convolutional network (FCN)** is a neural network that only performs convolution (and subsampling or upsampling) operations. Equivalently, an FCN is a CNN without fully connected layers.
 
+#### Advantages
+
+- [source](https://www.quora.com/What-are-the-advantages-of-Fully-Convolutional-Networks-over-CNNs)
+    - **Variable input image size**
+        - If you don’t have any fully connected layer in your network, you can apply the network to images of virtually any size. Because only the fully connected layer expects inputs of a certain size, which is why in architectures like AlexNet, you must provide input images of a certain size (224x224). 
+    - **Preserve spatial information**
+        - Fully connected layer generally causes loss of spatial information - because its "fully connected": all output neurons are connected to all input neurons. This kind of architecture can’t be used for segmentation, if you are working in a huge space of possibilities (e.g. unconstrained real images [Long_Shelhamer](#Long_Shelhamer)). 
+            - [**FC layers for segmentation**] Although fully connected layers can still do segmentation if you are restricted to a relatively smaller space e.g. a handful of object categories with limited visual variation, such that the FC activations may act as a sufficient statistic for those images [[Kulkarni_Whitney](#Kulkarni_Whitney), [Dosovitskiy_Springenberg](#Dosovitskiy_Springenberg)]. In the latter case, the FC activations are enough to encode both the object type and its spatial arrangement. Whether one or the other happens depends upon the capacity of the FC layer as well as the loss function.
+- [Long_Shelhamer](#Long_Shelhamer) paper chapter 3.1:
+    - The **spatial output maps** of these convolutionalized models make them a **natural choice for** dense problems like **semantic segmentation**. With ground truth available at every output cell, both the forward and backward passes are straightforward, and both take advantage of the inherent computational efficiency (and aggressive optimization) of convolution. 
+
 #### Convolutionalization
 
 - [Andrew Ng lecture](https://www.youtube.com/watch?v=XdsmlBGOK-k):
     - FCNs can be viewed as performing a sliding-window classification and produce a heatmap of output scores for each class
-    - "**convolutionalization** of FC layers makes FCNs **more efficient than standard CNNs**
+    - "**convolutionalization** of FC layers makes FCNs **more efficient than standard CNNs**<a name="FCN_efficiency"></a> 
         - computations are reused between the sliding windows
-- paper chapter 4.1:
+            - [Long_Shelhamer](#Long_Shelhamer) paper chapter 3.1:
+                - Furthermore, while the resulting maps are equivalent to the evaluation of the original net on particular input patches, the **computation is highly amortized over the overlapping regions** of those patches. 
+                    - For example, while **AlexNet** takes 1.2 ms (on a typical GPU) to infer the classification scores of a 227×227 image, the **fully convolutional net** takes 22 ms to produce a 10×10 grid of outputs from a 500×500 image, which is more than 5 times faster than the naive approach [footnote with technical details]. 
+                    - The corresponding **backward times** for the AlexNet example are 2.4 ms for a single image and 37 ms for a fully convolutional 10 × 10 output map, resulting in a speedup similar to that of the forward pass.
+- [Long_Shelhamer](#Long_Shelhamer) paper chapter 4.1:
     - We begin by convolutionalizing proven classification architectures as in Section 3. 
     - We consider 
         - the AlexNet architecture [19] that won ILSVRC12, 
@@ -805,9 +869,16 @@ toc_label: "Contents"
         - so, adding those skip connections from the lower layers really helps you clean up the boundaries in some cases for these outputs
         - ![effect_of_fcn_skip_connections.png](/home/assets/images/ML_part3/effect_of_fcn_skip_connections.png)
 
-#### Alternative View
+#### Alternative View of FC layers
 
-- can be thought of as performing a sliding-window classification producing a heatmap **per class**
+- [Long_Shelhamer](#Long_Shelhamer) paper chapter 3.1:
+    - Typical recognition nets, including **LeNet** [21], **AlexNet** [20], and its **deeper successors** [31, 32], ostensibly take fixed-sized inputs and **produce non-spatial outputs**. 
+        - The fully connected layers of these nets have fixed dimensions and throw away spatial coordinates. 
+    - However, these **fully connected layers can also be viewed as convolutions with kernels that cover their entire input regions**. Doing so casts them into fully convolutional networks that take input of any size and output classification maps. This transformation is illustrated in Figure 2.
+        - Figure 2: Transforming fully connected layers into convolution layers enables a classification net to **output a heatmap**. Adding layers and a **spatial loss** (as in Figure 1) produces an **efficient** machine for end-to-end dense learning.
+            - [**spatial loss**:] If the loss function is a **sum over the spatial dimensions** of the final layer, $l(\mathbf{x}, \theta) = \sum_{ij}l^\prime(\mathbf{x}_{ij}, \theta)$, its gradient will be a sum over the gradients of each of its spatial components. Thus stochastic gradient descent on $l$ computed on whole images will be the same as stochastic gradient descent on $l^\prime$, taking all of the final layer receptive fields as a minibatch.
+            - [**efficient**:] When these receptive fields overlap significantly, both feedforward computation and backpropagation are much more efficient when computed layer-by-layer over an entire image instead of independently patch-by-patch (cf. [FCN_efficiency](#FCN_efficiency)).
+- [can be thought of as performing a sliding-window classification producing a heatmap **per class**]
 
 ![fcn_heatmap.png](/home/assets/images/ML_part3/fcn_heatmap.png)
 
@@ -839,12 +910,14 @@ toc_label: "Contents"
         - "Instance segmentation is the task of detecting and delineating [einzeichnen] each distinct object of interest appearing in an image."
 - Pipeline approaches that look a bit like Object Detection methods
  
-## N-gram model
+## Embeddings in Vision and Siamese Networks
+
+### Digression: N-gram model
 
 - Number of N-grams in a sentence with X words: $X-(N-1)$
 - text and speech data: "corpora"
 
-### Word Probability (Markov Assumption)
+#### Word Probability (Markov Assumption)
 
 - probability of word $W_T$ given the history of **all** previous words (Chain rule): 
     - $P(W_T\vert W_1,\ldots,W_{T-1})=\frac{P(W_1,\ldots,W_T)}{P(W_1,\ldots,W_{T-1})}$
@@ -855,7 +928,7 @@ toc_label: "Contents"
             - $P(W_T\vert W_1,\ldots,W_{T-1})\approx P(W_T\vert W_{k-N+1},\ldots,W_{T-1})$
                 - d.h. nur die $k-N+1$ letzten Wörter benutzen, z.B. für $N=2$ (bigram): $P(W_k\vert W_{k-1},\ldots,W_1)\approx P(W_k\vert W_{k-1})$
 
-### Problems
+#### Problems
 
 - problem 1: **scalability**: 
     - possible combinations and thus also the required data increases **exponentially**
@@ -865,7 +938,7 @@ toc_label: "Contents"
             - see [katz_smoothing](#katz_smoothing)
         - Solution 2: use [smoothing](#smoothing) (compensate for uneven sampling frequencies)
 
-### Smoothing Methods<a name="smoothing"></a>
+#### Smoothing Methods<a name="smoothing"></a>
 
 - add-one smoothing
     - Laplace's, Lidstone's and Jeffreys-Perks' laws
@@ -882,13 +955,13 @@ toc_label: "Contents"
 - Kneser-Ney smoothing
     - Wiki: "It is widely considered the most effective method of smoothing due to its use of absolute discounting by subtracting a fixed value from the probability's lower order terms to omit n-grams with lower frequencies. This approach has been considered equally effective for both higher and lower order n-grams."
 
-## Word Embeddings and NPLM
+### Digression: Word Embeddings and NPLM
 
 - watch:
     - [Word Representation](https://www.youtube.com/watch?v=jQTuRnjJzBU)
     - [Learning word embeddings](https://www.youtube.com/watch?v=yXV_Torwzyc)
 
-### Neural Probabilistic Language Model (Bengio 2003)
+#### Neural Probabilistic Language Model (Bengio 2003)
 
 - Neural Probabilistic Language Model (Bengio 2003)
     - [aka NPLM, NNLM]
@@ -901,7 +974,7 @@ toc_label: "Contents"
         - one extra refinement that makes it work better is to use **skip-layer connections** that go straight from the input words to the output words because the individual input words are individually quite informative about what the output words might be.
         - Bengio's model initially performed only slightly worse than n-gram models, but combined with a tri-gram model it performed much better.
 
-#### Learning a Word Embedding
+##### Learning a Word Embedding
 
 - Ways to **learn a word embedding**:
     - word2vec [Mikolov, Jeffrey Dean (Google) 2013]
@@ -927,7 +1000,7 @@ toc_label: "Contents"
                     - Since the more **distant words are usually less related to the current word** than those close to it, we give less weight to the distant words by sampling less from those words in our training examples.
     - GloVe
 
-#### Analogy Questions
+##### Analogy Questions
 
 - Analogy questions:
     - Vektordifferenz $\mathbf{a}-\mathbf{b}$ geht "zu $\mathbf{a}$ hin"
@@ -942,7 +1015,7 @@ toc_label: "Contents"
             - great - greater $\approx$ tough - tougher
             - Switzerland - Swiss $\approx$ Cambodia - Cambodian
 
-#### Implementation
+##### Implementation
 
 - **problem**: calculating the denominator of the softmax activation is very expensive
     - **reason**:
@@ -960,7 +1033,7 @@ toc_label: "Contents"
             - The basic idea is to form a hierarchical description of a word as a sequence of $\mathcal{O}(\log \vert V\vert)$ decisions, and to learn to take these probabilistic decisions instead of directly predicting each word's probability. [$\vert V\vert$ is the number of words in the vocabulary $V$]
     - **Solution 2**: use **negative sampling**
 
-#### NPLM/NNLM problems
+##### NPLM/NNLM problems
 
 - **problem**: Hinton: [last hidden layer must not be too big or too small, it's hard to find a compromise]
     - each unit in the last hidden layer has 100k outgoing weights
@@ -969,7 +1042,7 @@ toc_label: "Contents"
         - we could make the last hidden layer small, but then it's hard to get the 100k probabilities right [**hidden unit Anzahl vermindern**]
             - the small probabilities are often relevant
 
-## Embeddings in Vision and Siamese Networks
+### Siamese Networks
 
 - **Siamese networks** (aka Triplet Loss NN)
     - similar idea to word embeddings
@@ -1049,6 +1122,7 @@ toc_label: "Contents"
 
 - [Le, Hinton 2015](https://arxiv.org/pdf/1504.00941.pdf):
     - **At first sight, ReLUs seem inappropriate for RNNs** because they can have very large outputs so they might be expected to be **far more likely to explode** than units that have bounded values
+    - In this paper, we demonstrate that, with the **right initialization of the weights**, RNNs composed of [ReLUs] rectified linear units are relatively easy to train and are good at modeling long-range dependencies.
 
 ## Vanishing Gradient Problem
 
@@ -1152,3 +1226,17 @@ toc_label: "Contents"
 - typical learned behaviors (cf. "**GRU circuit**" visualization)
     - units with **short-term** dependencies often have an active reset gate $r_t=1$
     - units with **long-term** dependencies often have an inactive update gate $z_t=0$
+
+# REFERENCES
+
+- <a name="Bishop_2006"></a> [Bishop, Christopher M., *Pattern Recognition and Machine Learning (Information Science and Statistics)* (2006), Springer-Verlag, Berlin, Heidelberg, 0387310738.][1]
+- <a name="Goodfellow_2016"></a> [Ian J. Goodfellow and Yoshua Bengio and Aaron Courville, *Deep Learning* (2016), MIT Press, Cambridge, MA, USA][2]
+- <a name="Long_Shelhamer"></a> [Long, Shelhamer, *FCN for semantic segmentation*][3]
+- <a name="Kulkarni_Whitney"></a> [Tejas D. Kulkarni, William F. Whitney, Pushmeet Kohli, Joshua B. Tenenbaum, *Deep Convolutional Inverse Graphics Network*][4]
+- <a name="Dosovitskiy_Springenberg"></a> [Alexey Dosovitskiy, Jost Tobias Springenberg, Maxim Tatarchenko, Thomas Brox, *Learning to Generate Chairs, Tables and Cars with Convolutional Networks*][5]
+
+[1]: https://www.amazon.de/Pattern-Recognition-Learning-Information-Statistics/dp/0387310738
+[2]: http://www.deeplearningbook.org
+[3]: https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf
+[4]: http://papers.nips.cc/paper/5851-deep-convolutional-inverse-graphics-network.pdf
+[5]: https://www.semanticscholar.org/paper/Learning-to-Generate-Chairs-Tables-and-Cars-with-Dosovitskiy-Springenberg/e47e988e6d96b876bcab8ca8e2275a6d73a3f7e8/pdf
