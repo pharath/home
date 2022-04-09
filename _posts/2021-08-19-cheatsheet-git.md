@@ -45,12 +45,58 @@ git remote show [remote-name] command | get more details about a particular remo
 git remote show origin | get more details about the current remote
 git remote update origin --prune | To update the local list of remote branches
 
+## pull vs fetch vs update
+
+[source](https://stackoverflow.com/a/17712553):
+
+- `git remote update` will update all of your branches set to track remote ones, but not merge any changes in.
+- `git fetch` will update only the branch you're on, but not merge any changes in.
+- `git pull` will update and merge any remote changes of the current branch you're on. This would be the one you use to update a local branch.
+
 # Reset/undo changes
 
 | command | description |
 | :---: | :---: |
 git reflog | get SHA-1 list of previous states
 git reset --hard *SHA-1* | reset to a previous state (**Warning**: All changes will be lost.)
+
+# git rebase vs git merge
+
+- [Explanation 1](https://poanchen.github.io/blog/2020/09/19/what-to-do-when-git-branch-has-diverged)
+- [Explanation 2](https://www.atlassian.com/git/tutorials/merging-vs-rebasing):
+    - The first thing to understand about `git rebase` is that it solves the same problem as `git merge`. Both of these commands are designed to integrate changes from one branch into another branch - they just do it in very different ways.
+
+**Problem:** 
+
+e.g.
+
+```bash
+Your branch and 'origin/master' have diverged,
+and have 2 and 1 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+```
+
+**Solution:**
+
+| command | description |
+| :---: | :---: |
+git merge main | advantage: non-destructive operation; disadvantage: non-linear git history
+git rebase main | advantage: linear project history; disadvantage: destructive operation (remember ["Golden Rule of git rebase"](#golden_rule))
+git rebase -i main | interactive rebasing
+
+## Golden Rule of git rebase<a name="golden_rule"></a>
+
+The **golden rule of git rebase** is to never use it on *public* branches.
+- d.h. Branches auf denen andere Leute arbeiten.
+- [https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing)
+
+# git stash
+
+- way to pull, but make sure that the local files are not overwritten by the remote
+- [Explanation](https://stackoverflow.com/questions/19216411/how-do-i-pull-files-from-remote-without-overwriting-local-files)
+    - (1) `git stash`
+    - (2) `git pull`
+    - (3) `git stash pop`
 
 # Checkout another branch after modifying files in current branch
 
