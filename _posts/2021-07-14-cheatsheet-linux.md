@@ -207,10 +207,6 @@ dive | for docker image dependencies tree (see [github repo](https://github.com/
 
 barrier | share keyboard and mouse between multiple computers (client-server model) [**Note:** uncheck "enable SSL" box in barrier "Menu" -> "Change Settings" (on all devices)]
 
-<hr>
-
-backgroundremover | `pip install backgroundremover` and then download `u2net.pth` from `https://drive.google.com/uc?id=1ao1ovG1Qtx4b7EoskHXmi2E9rp5CHLcZ` (or `https://drive.google.com/file/d/1ao1ovG1Qtx4b7EoskHXmi2E9rp5CHLcZ/view`) and save it as `/home/bra-ket/.u2net/u2net.pth`
-
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -304,18 +300,9 @@ sudo apt-mark auto $PACKAGES | mark $PACKAGES as "automatically installed", if a
 
 ## apt
 
-### Install
-
 | command | description |
 | :---: | :---: |
 sudo apt install ./name.deb | install a .deb file
-
-### Uninstall
-
-| command | description |
-| :---: | :---: |
-sudo apt purge ... | Removing packages with `sudo apt purge ...` or `sudo apt --purge remove ...` will remove them and all their global (i.e., systemwide) configuration files. This is usually what people mean when they talk about completely removing a package. **This does not remove packages that were installed as dependencies**, when you installed the package you're now removing. Assuming those packages aren't dependencies of any other packages, and that you haven't marked them as manually installed, you can remove the dependencies with `sudo apt autoremove` or (if you want to delete their systemwide configuration files too) `sudo apt --purge autoremove`.
-sudo apt --purge remove ... | see `sudo apt purge ...`
 
 ## dpkg
 
@@ -523,14 +510,6 @@ docker image tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/g
 docker tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | see `docker image tag`
 docker push registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | push image to Gitlab Container Registry
 
-## Check GUI
-
-```bash
-sudo apt update
-sudo apt install x11-utils
-xmessage -center hello!
-```
-
 # bash
 
 ## terminal shortcuts
@@ -678,29 +657,18 @@ diskutil info /dev/disk2s2 |
 
 <hr>
 
-| command | description |
-| :---: | :---: |
 sudo diskutil mountDisk /dev/disk2s2 | (Partitionsname disk2s2 steht in rechter Spalte bei diskutil list; /dev/disk2 mounted alle Unterpartitionen)
 sudo diskutil umountDisk /dev/disk2s2 |
 mount_ntfs -o r “/Volumes/Volume node” | (r für read-only; rw für read-write (NICHT MACHEN! Es gibt einen Grund warum das bei Mac per default nicht geht!)
 
 <hr>
 
-| command | description |
-| :---: | :---: |
 df		|		zeige alle Laufwerke, ganz rechts steht die Location mit dem Inhalt des Datenträgers (zB /media/bra-ket/UBUNTU 20_0)
 sudo fdisk -l	|	wie df, aber mehr Details
 lsusb |
 lsblk |
 
 # System information:
-
-| command | description |
-| :---: | :---: |
-`du -sh *` | 
-`du -sh * | sort -h` | 
-`du -sh * .[^.]*` | 
-`du -sh * .[^.]* | sort -h` | 
 
 | command | description |
 | :---: | :---: |
@@ -718,29 +686,23 @@ sudo fdisk -l |
 mount \| column -t |
 free -m |
 
-| command | description |
-| :---: | :---: |
+<hr>
+
 sudo dmidecode -t processor |
 sudo dmidecode -t memory |
 sudo dmidecode -t bios |
 
-| command | description |
-| :---: | :---: |
+<hr>
+
 cat /proc/cpuinfo |
 cat /proc/meminfo |
 cat /proc/version |
 cat /proc/scsi/scsi |
 cat /proc/partitions |
 
-| command | description |
-| :---: | :---: |
+<hr>
+
 sudo hdparm -i /dev/sda |
-
-## Webcam
-
-| command | description |
-| :---: | :---: |
-`vlc v4l2:///dev/video0` | check, if device `/dev/video0` is the webcam
 
 # Retrieval commands curl und wget:
 
@@ -821,17 +783,6 @@ rsync -a *source* *destination* | copy directory (**Warning**: -r tag does not c
 `rsync -a --exclude="SomeDirForPythonInstall"` | exclude directory "SomeDirForPythonInstall"
 `rsync -a --exclude=".*"` | excludes hidden files and directories
 `rsync -a --exclude=".*/"` | exclude hidden directories only
-
-### Resume partially scp-transferred files using Rsync
-
-[source](https://ostechnix.com/how-to-resume-partially-downloaded-or-transferred-files-using-rsync/)
-
-| command | description |
-| :---: | :---: |
-`rsync -P -rsh=ssh ubuntu.iso sk@192.168.225.22:/home/sk/` | resume partially transferred file `ubuntu.iso`
-`rsync --partial -rsh=ssh ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
-`rsync -avP ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
-`rsync -av --partial ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
 
 # GPU
 

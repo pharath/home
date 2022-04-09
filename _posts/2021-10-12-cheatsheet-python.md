@@ -45,8 +45,6 @@ curl https://pyenv.run | bash
 # pip
 
 - use `pipenv` (see subsection below) instead of `venv` and `pip`
-- pip caches downloaded packages, so that you can resume downloads and installations by running `pip install` again, if e.g. 
-    - the installation is aborted because there was no space left on the device
 
 | command | description |
 | :---: | :---: |
@@ -107,14 +105,6 @@ Vorinstallierte modules: [List](https://docs.anaconda.com/anaconda/packages/py3.
 | command | description |
 | :---: | :---: |
 conda config --set auto_activate_base False | conda base environment nicht mit shell starten
-conda env list |
-conda info --envs |
-conda create --name myenv |
-conda env create -f environment.yml | 
-conda activate myenv |
-conda install --file requirements.txt |
-conda deactivate |
-conda remove --name myenv --all |
 
 # repl
 

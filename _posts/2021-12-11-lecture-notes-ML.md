@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning (Part 1)"
+title: "Machine Learning"
 excerpt: "Notes on Machine Learning theory. Based on C. M. Bishop, \"Pattern Recognition and Machine Learning\" (2011) and Goodfellow, Bengio, Courville, \"Deep Learning\"."
 classes: wide
 header:
@@ -33,10 +33,6 @@ toc_label: "Contents"
 
 TODO
 
-## Effects
- 
-- larger $\mathbf{w}$ magnitudes
-
 ## Paradoxes (related to the overfitting problem)
 
 ![sine-taylor](/assets/images/sine-taylor.png)
@@ -62,10 +58,8 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 
 ## Possible Solutions (to the overfitting problem)
 
-- **Note**: "**regularization**", broadly speaking, means "constraining the universe of possible model functions"
-- reduce number of model parameters (a form of **regularization**)
+- reduce number of model parameters
 - increase number of data points $N$
-    - i.e. **reducing** number of data points $N$ **increases** overfitting!
 - increase regularization parameter $\lambda$ (in statistics: shrinkage methods)
     - **Note: Do not include the bias term $w_0$ in the penalty term! Otherwise the procedure would depend on the origin chosen for the target.**
         > Note that often the coefficient $w_0$ is omitted from the regularizer because its inclusion causes the results to depend on the choice of origin for the target variable (Hastie et al., 2001), or it may be included but with its own regularization coefficient - [Bishop_2006](#Bishop_2006)
@@ -131,9 +125,6 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 ## Why important?
 
 - <mark>**[Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference):**</mark> We have to understand the concepts of **posterior** and **prior** probabilities, as well as **likelihood** because e.g. both generative and discriminative linear models model the posterior probabilities $P(C_k\vert\mathbf{x})$ of the classes $C_k$ given the input $\mathbf{x}$. 
-    - when we **minimize the error/loss function** of a model, we are actually **maximizing the likelihood**
-        - thus, e.g. **Logistic Regression is a maximum likelihood method**
-            - **Note:** SVMs are **non-probabilistic** classifiers (have to use **Platt scaling/calibration** to make it probabilistic)
 
     > "Bayesian inference is a method of statistical inference in which Bayes' theorem is used to update the probability for a hypothesis as more evidence or information becomes available." - [Wikipedia](https://en.wikipedia.org/wiki/Bayesian_inference)
 
@@ -227,19 +218,12 @@ confidence
 
 ## The Gaussian Distribution
 
-### Entropy
-
 > "Of all probability distributions over the reals with a specified mean $\mu$ and variance $\sigma^2$, the normal distribution $N(\mu,\sigma^2)$ is the one with **maximum entropy**." - [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Maximum_entropy)
 
 - this also holds for the **multivariate** Gaussian (i.e. the multivariate distribution with maximum entropy, for a given mean and covariance, is a Gaussian)
     - Proof: 
         - maximize the (differential) entropy of a distribution $p(x)$ $H[x]$ over all distributions $p(x)$ (likelihoods) subject to the constraints that $p(x)$ be normalized and that it has a specific mean and covariance
         - the maximum likelihood distribution is given by the multivariate Gaussian
-- information (aka self-information, information content, **self-entropy**): $h_X(x)=-\log(p_X(x))$
-- entropy
-    - **discrete**: Shannon entropy $H(X)=-\sum p_X(x)\log p_X(x)$
-        - equal to the expected information content of measurement of $X$: $\text{E}[h_X(x)]$
-    - **continuous**: differential entropy $H(X)=-\int p_X(x)\log p_X(x)\text{dx}$
 
 ### Central Limit Theorem (CLT)
 
@@ -286,22 +270,15 @@ $x_1,\ldots,x_N\sim \mathcal{U}[0,1]\xrightarrow[]{N \to \infty} \frac{1}{N}(x_1
     i.e. in the EV coordinate system the joint PDF factorizes into $D$ independent **univariate** Gaussians! The integral is then $\int{p(\mathbf{y})d\mathbf{y}}=1$, which shows that the multivariate Gaussian is normalized.
 - **1st order and 2nd order moments**:
     - Note: 2nd order moment (i.e. $\mu\mu^T+\Sigma$) $\neq$ covariance of $\mathbf{x}$ (i.e. $\Sigma$)
-
-### Number of Parameters of Gaussian Models
-
 - **Number of independent parameters**: $\Sigma$ has in general $D(D+1)/2$ independent parameters
     > - $D^2-D$ non-diagonal elements of which $(D^2-D)/2$ are unique
     > - $D$ diagonal elements
     > - i.e. in total $(D^2-D)/2+D=D(D+1)/2$ independent parameters in $\Sigma$
     - <mark style="color: white; background-color: red; opacity: 1">grows quadratically with $D$</mark> $\Rightarrow$ manipulating/inverting $\Sigma$ can become computationally infeasible for large $D$
     - $\Sigma$ and $\mu$ together have $D(D+3)/2$ independent parameters
-- **special cases of covariance matrices** (also counting $\mu$):
+- **special cases of covariance matrices**:
     - general $\qquad\qquad\qquad\qquad\Rightarrow D(D+3)/2$ independent parameters (shape: hyperellipsoids)
     - diagonal $\Sigma=\mathop{\mathrm{diag}}(\sigma_i)$ $\qquad\Rightarrow 2D$ independent parameters (shape: axis-aligned hyperellipsoids)
-        - $\Leftrightarrow \text{cov}(X,Y)=0$ for all non-diagonal elements 
-        - $\Leftrightarrow$ Random Variables uncorrelated 
-        - $\Leftrightarrow$ Random Variables independent
-        - **Warning**: The words uncorrelated and independent may be used interchangeably in English, but they are not synonyms in mathematics. Independent random variables are uncorrelated, but uncorrelated random variables are not always independent. [source](https://www.themathcitadel.com/uncorrelated-and-independent-related-but-not-equivalent/)
     - isotropic $\Sigma=\sigma^2\mathbf{I}$ $\qquad\qquad\Rightarrow D+1$ independent parameters (shape: hyperspheres)
 
 ### Conditionals and Marginals of Gaussians
@@ -373,8 +350,6 @@ see [[proof-Gaussian-cov-symmetric-wlog](https://github.com/pharath/home/blob/ma
             - **problem 3**: "**identifiability**": $K!$ equivalent solutions
                 - important issue when we want to interpret the parameter values
                 - however, not relevant for density estimation
-            - **problem 4**: number of mixture components fixed in advance
-                - **solution**: variational inference (see below)
     - Bayesian:
         - Variational Inference
             - little additional computation compared with EM algorithm
@@ -384,7 +359,7 @@ see [[proof-Gaussian-cov-symmetric-wlog](https://github.com/pharath/home/blob/ma
     - standard formulation
     - latent variable formulation [[9.10-12]](/home/assets/images/equations/eq_9_10_to_12.png) (see section [[MoG_latent_var](#MoG_latent_var)])
         - **why useful?**
-            - for ancestral sampling (siehe Zettel)
+            - for ancestral sampling
             - **simplifications of the ML solution of MoG**<a name="MoG_ML_lat_var_form"></a>: we can work with the joint distribution $P(\mathbf{x},\mathbf{z})$ instead of the marginal $P(\mathbf{x})$ $\Rightarrow$ we can write the **complete-data** log-likelihood in the form [[9.35]](/home/assets/images/equations/eq_9_35.png)
                 - simplifies maximum likelihood solution of MoG
                     - using latent variables the complete-data log-likelihood can be written as [[9.35]](/home/assets/images/equations/eq_9_35.png), which is basically $p(\mathbf{X},\mathbf{Z})=\prod_{n=1}^N p(\mathbf{z}_n)p(\mathbf{x}_n\vert\mathbf{z}_n)$ (recall: there is one $\mathbf{z}_n$ for each $\mathbf{x}_n$)
@@ -420,13 +395,10 @@ see [[proof-Gaussian-cov-symmetric-wlog](https://github.com/pharath/home/blob/ma
         - anything that cannot be explained by this model will be labeled as foreground, i.e. the object to be tracked
         - Note: in order to adapt to e.g. lighting changes the MoG can be updated over time
 
-## Non-parametric Models
+## Non-parametric methods
 
-### Proof: Convergence of the KNN and KDE Estimates
-
-- **problem**: Why is the **approximation** $p=\frac{K}{NV}$ justified?
 - Aus [Bishop_2006](#Bishop_2006): 
-    - "It can be shown that both the K-nearest-neighbour density estimator and the kernel density estimator converge to the true probability density in the limit $N\to\infty$ (provided $V$ shrinks suitably with $N$, and $K$ grows with $N$)"
+    - "It can be shown that both the K-nearest-neighbour density estimator and the kernel density estimator converge to the true probability density in the limit $N\to\infty$"
         - Aus [Duda, Hart 1973](): 
             - $p_n$ ist das n-th estimate für die wahre PDF $p$
                 - $\mathcal{R}_n$ ist eine Folge von Regionen, die das $\mathbf{x}$ enthalten
@@ -508,8 +480,8 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 ### Issues in practice
 
 - may converge to a local rather than global minimum (like the EM algorithm)
-- the final result **depends on initialization**
-- E step may be slow $\mathcal{O}(KN)$ ($K$: number of means, $N$: number of data points) because it requires computing all distances
+    - i.e. the final result **depends on initialization**
+- E step may be slow because it requires computing all distances
     - **solution**: speed up by
         - precompute a data structure (e.g. a tree, where nearby points are in same subtree)
         - avoid unnecessary distance calculations (e.g. using the triangle inequality)
@@ -525,10 +497,9 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 ### K-medoids algorithm
 
-- uses other dissimilarity measure $\mathcal{V}$
-    - hence, its M step is potentially more complex 
+- uses other dissimilarity measure $J$
+    - hence, its M step is potentially more complex
         - **solution**: restrict each cluster prototype to be equal to one of the $\mathbf{x}_n$ assigned to that cluster
-            - in this case: $\mathcal{O}(N_k^2)$ evaluations of $\mathcal{V}(.,.)$ ($N_k$: number of points assigned to cluster k)
 - **advantages compared to K-means**:
     - cluster means are more robust to outliers
     - limits the data types that can be considered
@@ -542,7 +513,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 ### Elliptical K-means
 
 - **idea**: EM gives an estimate for $\Sigma$, however, standard K-means (which is a special case of an EM algorithm) does not estimate $\Sigma$
-    - $\Rightarrow$ hard assignments with general $\Sigma$ instead of isotropic $\Sigma=\epsilon\mathbf{I}$ for $\epsilon\to 0$ (Sung, Poggio, 1994)
+    - $\Rightarrow$ hard assignments with general $\Sigma$ instead of $\Sigma=\epsilon\mathbf{I}$ for $\epsilon\to 0$ (Sung, Poggio, 1994)
 
 ### Applications of K-means
 
@@ -569,9 +540,6 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 ## EM algorithm
 
 - **goal**: find maximum likelihood solutions for <mark>models having latent variables</mark>
-
-### Applications
-
 - use cases:
     - find MAP solutions for models in which a prior $P(\mathbf{\vec{\theta}})$ is defined
     - **Handling missing values**: the EM algorithm can also be applied when the unobserved variables $\mathbf{z}$ correspond to missing values in the data set
@@ -630,25 +598,22 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 # Linear models for classification
 
-## Linear Models vs MLPs
-
 **Difference to DNNs/MLPs**: linear models use **fixed** basis functions, whereas DNNs/MLPs use **learned** basis functions [via hidden layers]
 
-## Linear Models vs Generalized Linear Models
-
-- linear models (i.e. <mark>WITHOUT</mark> activation function) 
-    - these models are linear in the parameters! 
-    - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
-        - ($D-1$-dimenstional hyperplanes) 
-- generalized linear models (i.e. <mark>WITH</mark> activation function)
-    - these models are **not** linear in the parameters! 
-        - (in cotrast to the linear models for regression discussed in [Bishop_2006](#Bishop_2006))
-    - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
-        - ($D-1$-dimenstional hyperplanes) 
-        - because decision surfaces correspond to $y(\mathbf{x})=\text{const}$, which implies $\mathbf{w}^\top\mathbf{x}+w_0=\text{const}$
-    - Open Questions: 
-        - lecture slides: if the activation function is not monotonous, the decision surface is not a linear function of $\mathbf{x}$, why?
-    - why decision surface**s** plural and not singular?
+> Note:
+> - linear models (i.e. <mark>WITHOUT</mark> activation function) 
+>     - these models are linear in the parameters! 
+>     - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
+>         - ($D-1$-dimenstional hyperplanes) 
+> - generalized linear models (i.e. <mark>WITH</mark> activation function)
+>     - these models are **not** linear in the parameters! 
+>         - (in cotrast to the linear models for regression discussed in [Bishop_2006](#Bishop_2006))
+>     - the decision surfaces are **linear** functions of the input vector $\mathbf{x}$ (or of the feature vector $\pmb{\phi}(\mathbf{x})$, see [LBFs](#LBF))
+>         - ($D-1$-dimenstional hyperplanes) 
+>         - because decision surfaces correspond to $y(\mathbf{x})=\text{const}$, which implies $\mathbf{w}^\top\mathbf{x}+w_0=\text{const}$
+>     - Open Questions: 
+>         - lecture slides: if the activation function is not monotonous, the decision surface is not a linear function of $\mathbf{x}$, why?
+>     - why decision surface**s** plural and not singular?
 
 ## discriminant functions
 
@@ -669,16 +634,13 @@ Generative and discriminative models use this "two stage" approach. Discriminant
                 - $\Rightarrow$ decision regions are also singly connected 
 - learning the parameters
     - least squares<a name="least_squares_discriminant"></a>
-        - (see [Bishop_2006](#Bishop_2006), 1.2.5)
-            - wrong tool for binary (i.e. 1-of-K coded) targets because binary targets do not have a Gaussian distribution and least squares (1.67) corresponds to ML under the assumption of a "Gaussian conditional distribution for $t$ given $x$ given by (1.60)" [quote from Fig. 1.16 Bishop_2006] $p(t\vert x)$ 
+        - wrong tool for binary (i.e. 1-of-K coded) targets because binary targets do not have a Gaussian distribution and least squares corresponds to ML under the assumption of a Gaussian target distribution (see [Bishop_2006](#Bishop_2006), 1.2.5)
     - Fisher's linear discriminant
     - perceptron algorithm, i.e. Gradient Descent
     - Gradient Descent
 
 ## probabilistic generative models (indirect modeling of posterior)
 
-[source](https://shuaili8.github.io/Teaching/VE445/L12_gmm.pdf)
-![GenerativeModels.png](/home/assets/images/ML_part1/GenerativeModels.png)
 - Examples:
     - MoGs
 - $P(C_k\vert\mathbf{x})$ can be written as logistic sigmoid [4.57](/home/assets/images/equations/eq_4_57.png)
@@ -693,7 +655,7 @@ Generative and discriminative models use this "two stage" approach. Discriminant
                 - priors enter only through $w_0$ [4.67](/home/assets/images/equations/eq_4_67.png)
                     - i.e. priors shift the decision boundary parallelly (vgl. [4.65](/home/assets/images/equations/eq_4_65.png) mit distance from the origin to the decision surface [4.5](/home/assets/images/equations/eq_4_5.png))
                     - i.e. priors shift the parallel contours of constant posterior probability
-                - the argument of the sigmoid (2 classes) or <mark>the $a_k(\mathbf{x})$ of the softmax ($K\geq2$ classes) are linear functions of the inputs</mark> $\mathbf{x}\Leftrightarrow$ <mark>class conditionals $P(\mathbf{x}\vert C_k)$ are members of the exponential family</mark>
+                - the argument of the sigmoid (2 classes) or the $a_k(\mathbf{x})$ of the softmax ($K\geq2$ classes) are linear functions of the inputs $\mathbf{x}$
                 - Note: if the classes do **not** share the same $\pmb{\Sigma}$, the decision boundaries will be **quadratic**, i.e. the $P(C_k\vert\mathbf{x})$ are **not** governed by a generalized linear model!
         - **Discrete Inputs**: (Bernoulli distribution)
             - model $P(\mathbf{x}\vert C_k)$ as [Bernoulli naive Bayes](#https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Bernoulli_na%C3%AFve_Bayes) model $P(\mathbf{x}\vert C_k)=\prod_{i=1}^Dp_{ki}^{x_i}(1-p_{ki})^{(1-x_i)}$ $\Rightarrow$ posterior $P(C_k\vert\mathbf{x})$ a logistic sigmoid (2 classses) or the softmax [4.62]() ($K\geq2$ classes) where $a_k$ is given by [4.82](), i.e. again a **generalized linear model**
@@ -707,8 +669,6 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 ## probabilistic discriminative models (direct modeling of posterior)
 
-[source](https://shuaili8.github.io/Teaching/VE445/L12_gmm.pdf)
-![DiscriminativeModels.png](/home/assets/images/ML_part1/DiscriminativeModels.png)
 - maximize likelihood function defined through $P(C_k\vert\mathbf{x})$
     - fewer adaptive parameters to be determined than for generative models
         - zB. $M$ parameters for logistic regression vs. $M (M + 5) / 2 + 1$ for Gaussian generative model approach as described above, which grows quadratically with $M$ 
@@ -719,22 +679,11 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 ## generative vs discriminative models
 
-- Generative methods model the joint probability distribution over observation and label sequences, whereas discriminative methods directly model the decision boundary
-- Wikipedia "Generative model":
-    - Terminology is inconsistent, but three major types can be distinguished, following Jebara (2004):
-        1. A **generative model** is a statistical model of the joint probability distribution $P ( X , Y )$ on given observable variable $X$ and target variable $Y$;
-        2. A **discriminative model** is a model of the conditional probability $P ( Y \vert X = x )$ of the target $Y$, given an observation $x$; and
-        3. Classifiers computed without using a probability model are also referred to loosely as "discriminative".
 - Generative models:
     - can deal naturally with missing data
     - can handle sequences of varying length (hidden Markov models)
-    - examples:
-        - Linear discriminant analysis (LDA) (a generalization of Fisher's linear discriminant)
-        - naive Bayes classifier
 - Discriminative models:
     - generally give better performance on discriminative tasks than generative models
-    - examples:
-        - logistic regression
 - Combining both: 
     - using kernels: [Bishop_2006](#Bishop_2006) (6.28) ff.
         1. use generative model to define a kernel
@@ -757,42 +706,13 @@ Generative and discriminative models use this "two stage" approach. Discriminant
 
 - see [chapter 3.1-3.2](https://www.cs.princeton.edu/courses/archive/fall18/cos597G/lecnotes/lecture3.pdf)
 
-# Delta rule
-
-- **Rule**: $\frac{\partial E_n}{\partial \mathbf{w}}=$ 'error' (aka Delta) $y_n-t_n$ times the feature vector $\vec{\phi}_n$
-    - $E_n$: contribution to the error function from a data point $\mathbf{x}_n$
-- can be used e.g. for
-    - **linear regression model** with a Gaussian noise distribution and the sum-of-squares error function
-    - **logistic regression model** with the sigmoid activation function and the cross-entropy error function
-    - **softmax regression model** with softmax activation function and the multiclass cross-entropy error function
-- Bishop_2006:
-    - this [Delta rule] is a general result of assuming a <mark>conditional distribution for the target variable</mark> from the **exponential family**, along with a corresponding choice for the <mark>activation function</mark> known as the **canonical link function**.
-
-## Canonical link functions of the exponential family
-
-![exponential_family_canon_link.png](/home/assets/images/ML_part1/exponential_family_canon_link.png)
-
 # Newton's method (Newton-Raphson gradient descent)
 
 ## Update Formula
 
 $\mathbf{w}^{\tau+1}=\mathbf{w}^{\tau}-\eta\mathbf{H}^{-1}\vec{\nabla}E(\mathbf{w})\vert_{\mathbf{w}^\tau}\text{, where }\mathbf{H}=\nabla\nabla E(\mathbf{w})$
 
-## Pros
-
-- faster convergence than standard GD
-
-## Cons
-
-- Newton's method is designed to solve for a point where the gradient is zero
-    - **problem**: 
-        - proliferation of saddle points in higher dimensions
-            - optimization can jump to a saddle point
-- calculating $\mathbf{H}^{-1}$ can be very expensive
-    - use **Quasi-Newton** methods (i.e. approximate $\mathbf{H}$ and avoid matrix inversion)
-- for Newton's method the cost function we use must be differentiable **twice** (for GD: only once)
-
-## Local Quadratic Approximation
+## "local quadratic approximation"
 
 ... weil die Newton update Formel $w^{(\tau+1)}=w^{(\tau)}-\ldots$ sich aus der 2nd order Taylor expansion (AKA quadratic approximation) am Punkt $w^\tau$ ergibt, wenn man den 2nd order Polynom nimmt (mit Entwicklungspunkt $w^\tau$), diesen nach $x$ ableitet, $f'(x)=0$ setzt und nach $x$ auflöst. In anderen Worten: Wir suchen die Minimalstelle des 2nd order Taylor Polynoms am Entwicklungspunkt $w^\tau$.
 
@@ -809,6 +729,12 @@ Die 2nd order Taylor expansion ist ein Polynom zweiten Grades am Punkt wtau (Par
 
 ## GD vs Newton-Raphson
 
+- Newton's method fails to converge on problems that have **non-differentiable** kinks.  [[Wiki: subgradient methods]](https://en.wikipedia.org/wiki/Subgradient_method)
+- For non-differentiable functions use subgradient methods. (see below)
+- for Newton's method the cost function we use must be differentiable twice
+
+### Description of Newton&#8217;s Method
+
 source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method](https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descent#newtons-method)
 
 <div class="bd-anchor" id="1-description-of-newtons-method"></div>
@@ -823,8 +749,6 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 # Subgradient Methods
 
-- Newton's method fails to converge on problems that have **non-differentiable** kinks.  [[Wiki: subgradient methods]](https://en.wikipedia.org/wiki/Subgradient_method)
-- For non-differentiable functions use subgradient methods. 
 - "subgradient methods are convergent when applied even to a **non-differentiable** objective function." [Wiki:Subgradient method](https://en.wikipedia.org/wiki/Subgradient_method)
 - Examples:
     - Stochastic Subgradient Descent
@@ -833,73 +757,29 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 # Kernel functions
 
-## Properties
-
 - $k(\mathbf{x},\mathbf{x}^\prime)=\pmb{\phi}(\mathbf{x})^\top\pmb{\phi}(\mathbf{x}^\prime)$
 - symmetric function of its arguments $k(\mathbf{x},\mathbf{x}^\prime)=k(\mathbf{x}^\prime,\mathbf{x})$
-
-## Kernel Method
-
-- Wikipedia "Kernel method":
-    - In machine learning, kernel machines are a class of algorithms for pattern analysis, whose best known member is the **support-vector machine (SVM)**. 
-    - The general task of **pattern analysis** is to find and study general types of **relations** (for example **clusters**, **rankings**, **principal components**, **correlations**, **classifications**) in datasets. 
-    - <mark>["Kernel function statt nonlinear basis function"]</mark> For many algorithms that solve these tasks, the data in raw representation have to be explicitly transformed into feature vector representations via a **user-specified feature map**: in contrast, **kernel methods** require only a **user-specified kernel**, i.e., a **similarity function** over pairs of data points in raw representation.
-    - Kernel methods owe their name to the use of **kernel functions**, which enable them to operate in a high-dimensional, implicit feature space without ever computing the coordinates of the data in that space, but rather by simply computing the inner products between the images of all pairs of data in the feature space. 
-    - This operation is often <mark>computationally cheaper</mark> than the explicit computation of the coordinates. 
-    - This approach is called the "**kernel trick**". 
-    - Kernel functions have been introduced for 
-        - sequence data, 
-        - graphs, 
-        - text, 
-        - images, 
-        - as well as vectors.  
-    - **Algorithms** capable of **operating with kernels** include 
-        - the kernel perceptron, 
-        - support-vector machines (SVM), 
-        - Gaussian processes, 
-        - principal components analysis (PCA), 
-        - canonical correlation analysis, 
-        - ridge regression, 
-        - spectral clustering, 
-        - linear adaptive filters 
-        - and many others.
-
-## Examples
-
-- **linear kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\mathbf{x}^\top\mathbf{x}^\prime$
-- **polynomial kernels** $k(\mathbf{x},\mathbf{x}^\prime)=(\mathbf{x}^\top\mathbf{x}^\prime+c)^M$
-- **stationary kernels** $k(\mathbf{x},\mathbf{x}^\prime)=k(\mathbf{x}-\mathbf{x}^\prime)$
-    - function only of the difference between the arguments
-    - invariant to translations (hence, "stationary")
-    - Examples:
-        - **homogeneous kernels** (= **radial basis functions**) $k(\mathbf{x},\mathbf{x}^\prime)=k(\lVert\mathbf{x}-\mathbf{x}^\prime\rVert)$
-            - Wikipedia: A radial basis function (RBF) is a real-valued function whose value depends only on the distance between the input and some fixed point
-            - Examples:
-                - **Gaussian kernels/RBF kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\exp(-\lVert\mathbf{x}-\mathbf{x}^\prime\rVert^2/2\sigma^2)$
-                    - the feature vector $\pmb{\phi}(\mathbf{x})$ corresponding to the Gaussian kernel has infinite dimensionality!
-                    - not restricted to the use of Euclidean distance
-- **sigmoidal kernel/hyperbolic tangent kernel** $k(\mathbf{x},\mathbf{x}^\prime)=\tanh(a\mathbf{x}^\top\mathbf{x}^\prime+b)$
-    - **<mark>not a valid kernel!</mark>** 
-        - Gramian in general is not positive semidefinite. 
-    - However, it has been used in practice (Vapnik, 1995).
-
-## Idea
-
+- Examples:
+    - **linear kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\mathbf{x}^\top\mathbf{x}^\prime$
+    - **polynomial kernels** $k(\mathbf{x},\mathbf{x}^\prime)=(\mathbf{x}^\top\mathbf{x}^\prime+c)^M$
+    - **stationary kernels** $k(\mathbf{x},\mathbf{x}^\prime)=k(\mathbf{x}-\mathbf{x}^\prime)$
+        - function only of the difference between the arguments
+        - invariant to translations (hence, "stationary")
+        - Examples:
+            - **homogeneous kernels** = **radial basis functions** $k(\mathbf{x},\mathbf{x}^\prime)=k(\lVert\mathbf{x}-\mathbf{x}^\prime\rVert)$
+                - depend only on the magnitude of the distance
+                - Examples:
+                    - **Gaussian kernels** $k(\mathbf{x},\mathbf{x}^\prime)=\exp(-\lVert\mathbf{x}-\mathbf{x}^\prime\rVert^2/2\sigma^2)$
+                        - the feature vector $\pmb{\phi}(\mathbf{x})$ corresponding to the Gaussian kernel has infinite dimensionality!
+                        - not restricted to the use of Euclidean distance
+    - **sigmoidal kernel/hyperbolic tangent kernel** $k(\mathbf{x},\mathbf{x}^\prime)=\tanh(a\mathbf{x}^\top\mathbf{x}^\prime+b)$
+        - **<mark>not a valid kernel!</mark>** 
+            - Gramian in general is not positive semidefinite. 
+        - However, it has been used in practice (Vapnik, 1995).
 - **idea**: if an algorithm is formulated in such a way that the input vector only enters through scalar products, then this scalar product can be replaced with some (other) kernel.
-
-## Mercer's theorem
-
-- Bishop_2006:
-    - **necessary and sufficient condition for $k$ to be a valid kernel**: Gram matrix with elements $k(\mathbf{x}_n,\mathbf{x}_m)$ must be positive semidefinite (and symmetric) for all possible choices of the set $\{\mathbf{x}_n\}$
-        - Note: positive semidefinite $\Leftrightarrow$ matrix is symmetric **and** all eigenvalues are real and nonnegative
-        - Note: Not only the Gram matrix but also the kernel itself can be positive-definite, see [Wikipedia](https://en.wikipedia.org/wiki/Positive-definite_kernel)
-
-## Constructing new kernels
-
+- **necessary and sufficient condition for $k$ to be a valid kernel**: Gram matrix with elements $k(\mathbf{x}_n,\mathbf{x}_m)$ must be positive semidefinite for all possible choices of the set $\{\mathbf{x}_n\}$
+    - Note: Not only the Gram matrix but also the kernel itself can be positive-definite, see [Wikipedia](https://en.wikipedia.org/wiki/Positive-definite_kernel)
 - one can **construct new kernels** by building them out of simpler kernels, see [Bishop_2006](#Bishop_2006), kernel combination rules (6.13)-(6.22)
-
-## Apps
-
 - kernel functions can be defined over:
     - graphs
     - sets
@@ -921,8 +801,6 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 # SVMs
 
-## Motivation
-
 - **motivation 1**: 
     - **Problem**: 
         - kernel-based algorithms must evaluate the kernel function for all possible pairs of data points
@@ -938,7 +816,7 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
                 - which one has the **best generalization performance** ?
     - **Solution**:
         - it can be shown that <mark>"the larger the classifier's margin the lower its VC dimension (= capacity for overfitting)"</mark> 
-            - $\Rightarrow$ the classifier that has the **maximal margin** will find the desired decision boundary that has the **best generalization performance**
+            - $\Rightarrow$ the classifier that has the maximal margin will find the desired decision boundary that has the best generalization performance
                 - $\Rightarrow$ the SVM will find the decision boundary with the best generalization performance
 - hence, SVMs are robust to "too correct" points !
 
@@ -1023,6 +901,309 @@ source: [https://www.baeldung.com/cs/gradient-descent-vs-newtons-gradient-descen
 
 - Note: $y_i\in\{-1,+1\}$ and $h_t\in\{-1,+1\}$
 
+# Neural Networks
+
+## Perceptrons (Rosenblatt 1962)
+
+- perceptrons are **generalized linear models** ("generalized" because of the activation function)
+    - **BUT**: Deep Neural Networks are **nonlinear parametric models**.
+- more specifically: perceptrons are **generalized linear discriminants** (because they map the input **x** directly to a class label t in {-1,+1} [see above: "Linear models for classification": approach 1.])
+- original version: 
+    - 2-class linear discriminant 
+    - with fixed [i.e. not learned!] nonlinear transformation $\vec{\phi}(\pmb{x})$
+    - activation function: step function
+    - learned via minimization of "**perceptron criterion**" $\Rightarrow$ SGD
+    - exact solution guaranteed for linearly separable data set (**Perceptron Convergence Theorem**)
+        - **BUT:** in practice, convergence can be slow
+            - it's hard to decide, if a problem is not linearly separable or just slowly converging!
+
+## Terminology
+
+- **Input layer** is a layer, it's not wrong to say that. [source](https://datascience.stackexchange.com/a/14033/115254)
+
+- However, when calculating the **depth** of a deep neural network, we only consider the layers that have tunable weights. [source](https://datascience.stackexchange.com/a/14033/115254)
+
+## Automatic Differentiation
+
+### Forward-mode vs Reverse-mode differentiation
+
+- read [Olah](https://colah.github.io/posts/2015-08-Backprop/)
+
+> **Forward-mode differentiation** starts at an input to the graph and moves towards the end. At every node, it sums all the paths feeding in. Each of those paths represents one way in which the input affects that node. By adding them up, we get the total way in which the node is affected by the input, it’s derivative. [...]
+
+> **Reverse-mode differentiation**, on the other hand, starts at an output of the graph and moves towards the beginning. At each node, it merges all paths which originated at that node. [...]
+
+> When I say that reverse-mode differentiation gives us the derivative of e with respect to every node, I really do mean **every node**. We get both $\frac{\partial e}{\partial a}$ and $\frac{\partial e}{\partial b}$, the derivatives of $e$ with respect to both inputs. Forward-mode differentiation gave us the derivative of our output with respect to a single input, but reverse-mode differentiation gives us all of them. [...] 
+
+> When training neural networks, we think of the cost (a value describing how bad a neural network performs) as a function of the parameters (numbers describing how the network behaves). We want to calculate the derivatives of the **cost with respect to all the parameters**, for use in gradient descent. Now, there’s often millions, or even tens of millions of parameters in a neural network. So, **reverse-mode differentiation, <mark>called</mark> backpropagation** [[more precise: reverse_mode_accumulation](#reverse_mode_accumulation)] in the context of neural networks, gives us a massive speed up!
+
+> (Are there any cases **where forward-mode differentiation makes more sense**? Yes, there are! Where the reverse-mode gives the derivatives of one output with respect to all inputs, the forward-mode gives us the derivatives of all outputs with respect to one input. If one has a function with lots of outputs, forward-mode differentiation can be much, much, much faster.) 
+
+- both are algorithms for efficiently computing the sum by factoring the paths. Instead of summing over all of the paths explicitly, they compute the same sum more efficiently by <mark>**merging paths back together at every node**</mark>. In fact, **both** algorithms touch each edge exactly once!
+    - At each node, reverse-mode differentiation merges all paths which **originated** at that node (starting at an output of the graph and moving towards the beginning)
+    - At each node, forward-mode differentiation sums all the paths **feeding into** that node (starting at the beginning and moving towards an output of the graph)
+- forward-mode: apply operator $\frac{\partial}{\partial X}$ 
+- reverse-mode: apply operator $\frac{\partial Z}{\partial}$
+- if we have e.g. a hundred inputs, but only one output, reverse-mode differentiation gives a speed up in $\mathcal{O}(\text{\# Inputs})$ compared to forward-mode differentiation
+
+### PyTorch autograd
+
+[source: Justin Johnson](https://pytorch.org/tutorials/beginner/pytorch_with_examples.html) 
+
+- In the above examples, we had to **manually** implement both the forward and backward passes of our neural network. Manually implementing the backward pass is not a big deal for a small two-layer (?: siehe Stichpunkt) network, but can quickly get very hairy for large complex networks.
+    - ?: Why "two-layer": 
+        - The previous polynomial regression examples correspond to a **single** layer perceptron with a fixed nonlinear transformation of the inputs (here: using polynomial basis functions), so why does Johnson say **two**-layer perceptron?
+            - What Johnson probably means here is that, basically, implementing backprop **manually** (like in the previous polynomial regression examples) for a two-layer NN would be possible without autograd. This "two-layer network", however, does not refer to the previous polynomial regression models!
+- `autograd` computes **all** gradients with only one line `loss.backward()`.
+    - in polynomial regression example **without** `autograd`:
+        ```python
+        grad_a = grad_y_pred.sum()
+        grad_b = (grad_y_pred * x).sum()
+        grad_c = (grad_y_pred * x ** 2).sum()
+        grad_d = (grad_y_pred * x ** 3).sum()
+        ```
+    - the same **with** `autograd`:
+        ```python
+        loss.backward()
+        ```
+        where all parameter tensors must have `requires_grad = True` (otherwise `autograd` does not know wrt which parameters `loss` must be differentiated).
+- Thankfully, we can use **automatic differentiation** to automate the computation of backward passes in neural networks. The **autograd** package in PyTorch provides exactly this functionality. When using autograd, the forward pass of your network will define a **computational graph**; nodes in the graph will be Tensors, and edges will be functions that produce output Tensors from input Tensors. Backpropagating through this graph then allows you to easily compute gradients.
+	- auf Folie:
+		1. Convert NN to a computational graph 
+			- explanations:
+				- [PyTorch 101, Part 1: Understanding Graphs, Automatic Differentiation and Autograd](https://blog.paperspace.com/pytorch-101-understanding-graphs-and-automatic-differentiation/)
+					- [important points from this blog post](/pytorch/machine_learning/notes-pytorch/#how-does-pytorch-create-a-computational-graph)
+				- [Computational graphs in PyTorch and TensorFlow](https://towardsdatascience.com/computational-graphs-in-pytorch-and-tensorflow-c25cc40bdcd1)
+		2. Each new layer/module specifies how it affects the forward and backward passes 
+			- auf nächster Folie: "Each module is defined by
+				- `module.fprop(`$x$`)`
+				- `module.bprop(`$\frac{\partial E}{\partial y}$`)`
+					- computes the gradients of the cost wrt. the inputs $x$ given the gradient wrt. the outputs $y$
+					- `module.bprop()` ist in PyTorch wegen dem Autograd System nicht notwendig (vgl. [aus PyTorch Doc](/pytorch/machine_learning/notes-pytorch/#modules))
+			- e.g. `torch.nn.Linear` specifies that it will apply a linear transformation $y=xA^T+b$ to the incoming data during the forward pass (each module has a `forward()` method, see e.g. [source nn.Linear](https://pytorch.org/docs/stable/_modules/torch/nn/modules/linear.html#Linear))
+		3. Apply reverse-mode differentiation 
+			- i.e. call `loss.backward()`
+
+- This sounds complicated, it’s pretty simple to use in practice. Each Tensor represents a node in a computational graph. If `x` is a Tensor that has `x.requires_grad=True` then `x.grad` is another Tensor holding the gradient of `x` with respect to some scalar value.
+
+```python
+# -*- coding: utf-8 -*-
+import torch
+import math
+
+
+# Create Tensors to hold input and outputs.
+x = torch.linspace(-math.pi, math.pi, 2000)
+y = torch.sin(x)
+
+# For this example, the output y is a linear function of (x, x^2, x^3), so
+# we can consider it as a linear layer neural network. Let's prepare the
+# tensor (x, x^2, x^3).
+p = torch.tensor([1, 2, 3])
+xx = x.unsqueeze(-1).pow(p)
+
+# In the above code, x.unsqueeze(-1) has shape (2000, 1), and p has shape
+# (3,), for this case, broadcasting semantics will apply to obtain a tensor
+# of shape (2000, 3)
+
+# Use the nn package to define our model as a sequence of layers. nn.Sequential
+# is a Module which contains other Modules, and applies them in sequence to
+# produce its output. The Linear Module computes output from input using a
+# linear function, and holds internal Tensors for its weight and bias.
+# The Flatten layer flatens the output of the linear layer to a 1D tensor,
+# to match the shape of `y`.
+model = torch.nn.Sequential(
+    torch.nn.Linear(3, 1),
+    torch.nn.Flatten(0, 1)
+)
+
+# The nn package also contains definitions of popular loss functions; in this
+# case we will use Mean Squared Error (MSE) as our loss function.
+loss_fn = torch.nn.MSELoss(reduction='sum')
+
+learning_rate = 1e-6
+for t in range(2000):
+
+    # Forward pass: compute predicted y by passing x to the model. Module objects
+    # override the __call__ operator so you can call them like functions. When
+    # doing so you pass a Tensor of input data to the Module and it produces
+    # a Tensor of output data.
+    y_pred = model(xx)
+
+    # Compute and print loss. We pass Tensors containing the predicted and true
+    # values of y, and the loss function returns a Tensor containing the
+    # loss.
+    loss = loss_fn(y_pred, y)
+    if t % 100 == 99:
+        print(t, loss.item())
+
+    # Zero the gradients before running the backward pass.
+    model.zero_grad()
+
+    # Backward pass: compute gradient of the loss with respect to all the learnable
+    # parameters of the model. Internally, the parameters of each Module are stored
+    # in Tensors with requires_grad=True, so this call will compute gradients for
+    # all learnable parameters in the model.
+    loss.backward()
+
+    # Update the weights using gradient descent. Each parameter is a Tensor, so
+    # we can access its gradients like we did before.
+    with torch.no_grad():
+        for param in model.parameters():
+            param -= learning_rate * param.grad
+
+# You can access the first layer of `model` like accessing the first item of a list
+linear_layer = model[0]
+
+# For linear layer, its parameters are stored as `weight` and `bias`.
+print(f'Result: y = {linear_layer.bias.item()} + {linear_layer.weight[:, 0].item()} x + {linear_layer.weight[:, 1].item()} x^2 + {linear_layer.weight[:, 2].item()} x^3')
+```
+
+## Forward Propagation
+
+- inputs:
+	- depth $l$
+	- $l$ weight matrices of the model $\mathbf{W}^{(i)}$
+	- $l$ biases of the model $\mathbf{b}^{(i)}$
+	- input $\mathbf{x}$ (here: only one for simplicity)
+	- target $\mathbf{y}$
+- outputs:
+	- output $\hat{\mathbf{y}}$
+	- cost function $J$
+	- input of unit $j$: $\mathbf{a}_j^{(k)}$ for all $j$
+	- output of unit $j$: $\mathbf{h}_j^{(k)}$ for all $j$
+ 
+## Backprop
+
+- inputs:
+	- depth l
+	- l weight matrices of the model $\mathbf{W}^{(i)}$
+	- l biases of the model $\mathbf{b}^{(i)}$
+	- outputs of Forward Propagation
+- outputs:
+	- gradients w.r.t. all weights and biases $\nabla_{\mathbf{W}^{(k)}}J$ and $\nabla_{\mathbf{b}^{(k)}}J$
+		- also computes all $\nabla_{\mathbf{a}^{(k)}}J$ and $\nabla_{\mathbf{h}^{(k)}}J$ in the process
+			- $\nabla_{\mathbf{a}^{(k)}}J$ can be interpreted as an indication of how each layer’s output should change to reduce error
+				- es gibt ein $\nabla_{\mathbf{a}^{(k)}}J$ pro layer k: jede unit in layer k entspricht einer Komponente von $\nabla_{\mathbf{a}^{(k)}}J$
+
+- refers only to the **method used to compute all necessary gradients**, whereas another algorithm (e.g. SGD) is used to perform **learning** using these gradients!
+	- "however, the term is often used loosely to refer to the entire learning algorithm, including how the gradient is used, such as by stochastic gradient descent" [source](https://en.wikipedia.org/wiki/Backpropagation)
+       	> <a name="reverse_mode_accumulation"></a>"More generally, the field of **automatic differentiation** is concerned with how to compute derivatives algorithmically. The back-propagation algorithm described here is only one approach to automatic differentiation. It is a special case of a broader class of techniques called **reverse mode accumulation**." (Goodfellow, Bengio)
+
+- "layer below builds upon (gradient) result of layer above" (basically, chain rule)
+	- this is why it's called "backprop"
+	- "propagates the gradient backwards through the layers"
+- "performs on the order of one **Jacobian product** per node in the graph" (Goodfellow, Bengio)
+    - This can be seen from the fact that Backprop visits each edge (of the computational graph for this problem) only once 
+- "[...] the amount of computation required for performing the back-propagation **scales linearly with the number of edges** in $\mathcal{G}$, where the computation **for each edge** corresponds to computing 
+    - a partial derivative (of one node with respect to one of its parents) as well as performing 
+    - one multiplication and 
+    - one addition." (Goodfellow, Bengio)
+
+### Computational Graphs
+
+- the following texts from [Goodfellow_2016](#Goodfellow_2016) describe the same graphs as Olah is describing in his [blog post](https://colah.github.io/posts/2015-08-Backprop/)
+    - "That algorithm specifies the **forward propagation** computation, which we could put in a graph $\mathcal{G}$. In order to perform **back-propagation**, we can construct a computational graph that depends on $\mathcal{G}$ and adds to it an extra set of nodes. These form a **subgraph** $\mathcal{B}$ with one node per node of $\mathcal{G}$. Computation in $\mathcal{B}$ proceeds in exactly the reverse of the order of computation in $\mathcal{B}$, and each node of $\mathcal{B}$ computes the derivative $\frac{\partial u^{(n)}}{\partial u^{(i)}}$ associated with the **forward graph** node $u^{(i)}$." (Goodfellow, Bengio)
+    - "The subgraph $\mathcal{B}$ contains exactly one edge for each edge from node $u^{(j)}$ to node $u^{(i)}$ of $\mathcal{G}$." (Goodfellow, Bengio)
+
+### Dynamic Programming
+
+- a computer programming method
+	- though, in literature one often finds the plural form "dynamic programming methods"
+- refers to simplifying a complicated problem by breaking it down into simpler sub-problems in a recursive manner
+	- if this "breaking down" is possible for a problem, then the problem is said to have **optimal substructure**
+
+#### Example: Fibonacci sequence
+
+source: [https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence](https://en.wikipedia.org/wiki/Dynamic_programming#Fibonacci_sequence)
+
+```python
+var m := map(0 → 0, 1 → 1)
+function fib(n)
+    if key n is not in map m
+        m[n] := fib(n − 1) + fib(n − 2)
+    return m[n]
+```
+
+- This technique of saving values that have already been calculated is called **memoization**
+- The function requires only $\mathcal{O}(n)$ time instead of **exponential time** (but requires $\mathcal{O}(n)$ space)
+    - i.e. the number of common subexpressions is reduced **without regard to memory**!
+	- note: sometimes recalculating instead of storing can be a good decision, **if memory is limited**!
+
+#### Relation to Backprop
+
+- Backprop stores the $y_i^{(k-1)}$ during the forward pass and re-uses it during the backward pass to calculate $\frac{\partial E}{\partial w_{ji}^{(k-1)}}=y_i^{(k-1)}\frac{\partial E}{\partial w_{ji}^{(k-1)}}$ (memoization, Dynamic Programming)
+- During the backward pass Backprop visits each edge only once (see above) and gradients that have already been calculated are saved in memory (cf. `grad_table[u[i]]` in Algo 6.2 or `g` in Algo 6.4 Goodfellow, Bengio)! (memoization, Dynamic Programming)
+    - this is analogous to the Fibonacci Sequence Algo's map `m` (see above) which saves the `fib(n − 1) + fib(n − 2)` that have already been calculated in memory
+- (cf. Figure 6.9 in Goodfellow, Bengio) Back-propagation avoids the exponential explosion in **repeated subexpressions** 
+- similar to the Fibonacci example "the back-propagation algorithm is designed to reduce the number of common subexpressions **without regard to memory**." (Goodfellow, Bengio)
+- "When the memory required to store the value of these expressions is low, the back-propagation approach of equation 6.52 ![6.52](/assets/images/goodfellow_ml/Goodf_6_50-6_53.png) is clearly preferable because of its reduced runtime. However, equation 6.53 is also a valid implementation of the chain rule, and is useful **when memory is limited**." (Goodfellow, Bengio)
+
+## Implementing Softmax Correctly
+
+- Problem: Exponentials get very big and can have very different magnitudes
+	- Solution: 
+		- Evaluate $\ln{(\sum_{j=1}^K\exp{(\mathbf{w}_j^\top\mathbf{x})})}$ in the denominator **before** calculating the fraction
+		- since $\text{softmax}(\mathbf{a} + \mathbf{b}) = \text{softmax}(\mathbf{a})$ for all $\mathbf{b}\in\mathbb{R}^D$, one can subtract the largest $\mathbf{w}_j$ from the others
+            - (entspricht $\mathbf{a}=\mathbf{w}_j^\top\mathbf{x}$ und $\mathbf{b}=\mathbf{w}_M^\top\mathbf{x}$ bzw. Kürzen des Bruches mit $\exp{(\mathbf{w}_M^\top\mathbf{x})}$, wobei $\mathbf{w}_M$ das größte weight ist)
+            - (egal, ob $\mathbf{b}$ von $\mathbf{x}$ abhängt oder nicht!)
+
+## MLP in numpy from scratch
+
+- see [here](https://htmlpreview.github.io/?https://github.com/pharath/home/blob/master/_posts_html/notebooks_in_html/Expl_NN_in_numpy_copy.html)
+
+## Stochastic Learning vs Batch Learning
+
+source: LeCun et al. "Efficient BackProp"
+
+### SGD
+
+- Pros:
+	- is usually much faster than batch learning
+		- consider large redundant data set
+			- example: training set of size 1000 is inadvertently composed of 10 identical copies of a set with 100 samples
+	- also often results in better solutions because of the noise in the updates
+		- because the noise present in the updates can result in the weights jumping into the basin of another, possibly deeper, local minimum. This has been demonstrated in certain simplified cases
+	- can be used for tracking changes
+		-  useful when the function being modeled is changing over time
+
+- Cons:
+	- noise also prevents full convergence to the minimum 
+		- Instead of converging to the exact minimum, the convergence stalls out due to the **weight fluctuations** 
+		- size of the fluctuations depend on the degree of noise of the stochastic updates:
+			- The variance of the fluctuations around the local minimum is proportional to the learning rate $\eta$ 
+			- So in order **to reduce the fluctuations** we can either 
+				- decrease (anneal) the learning rate or
+				- have an adaptive batch size.
+
+### Batch GD
+
+- Pros:
+	- Conditions of convergence are well understood.
+	- Many acceleration techniques (e.g. conjugate gradient) only operate in batch learning.
+     	- Theoretical analysis of the weight dynamics and convergence rates are simpler
+	- one is able to use second order methods to speed the learning process 
+		- Second order methods speed learning by estimating not just the gradient but also the curvature of the cost surface. Given the curvature, one can estimate the approximate location of the actual minimum.
+
+- Cons:
+	- redundancy can make batch learning much slower than on-line
+	- often results in worse solutions because of the absence of noise in the updates
+		- will discover the minimum of whatever basin the weights are initially placed
+	- changes go undetected and we obtain rather bad results since we are likely to average over several rules
+
+### Mini-batch GD
+
+- Another method to remove noise [in SGD] is to use “mini-batches”, that is, start with a small batch size and increase the size as training proceeds. 
+	- However, deciding the rate at which to increase the batch size and which inputs to include in the small batches is as difficult as determining the proper learning rate. **Effectively the size of the learning rate in stochastic learning corresponds to the respective size of the mini batch.**
+- Note also that the problem of removing the noise in the data may be less critical than one thinks because of generalization. **Overtraining may occur long before the noise regime is even reached.**
+
+### Shuffling the Examples
+
+- [Expl_NN_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/Expl_NN_in_numpy.ipynb)
+- [MLP_in_numpy](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_in_numpy.ipynb)
+- [MLP_selbst_versucht](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/MLP_selbst_versucht.ipynb)
+- [WofuerIst__name__gut](https://nbviewer.org/github/pharath/home/blob/master/assets/notebooks/WofuerIst__name__gut.ipynb)
+     
 # REFERENCES
 
 - <a name="Bishop_2006"></a> [Bishop, Christopher M., *Pattern Recognition and Machine Learning (Information Science and Statistics)* (2006), Springer-Verlag, Berlin, Heidelberg, 0387310738.][1]
