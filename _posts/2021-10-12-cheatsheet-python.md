@@ -14,6 +14,24 @@ toc_label: "Contents"
 
 ---
 
+# Installing multiple Python Versions
+
+- [source](https://askubuntu.com/a/682875):
+    - `sudo add-apt-repository ppa:deadsnakes/ppa`
+    - `sudo apt-get update`
+    - `sudo apt-get install python3.5`
+    - `sudo apt-get install python3.5-dev`
+        - It will not overwrite your existing `python3.4` which is still symlinked as `python3`.
+        - Instead, to run `python3.5`, run the command `python3.5` (or `python3.X` for any other version of python).
+
+## venv using multiple Python Versions
+
+- install `sudo apt install python3.7-venv` or `sudo apt install python3.x-venv` for **each python version**!
+
+# Uninstalling multiple Python Versions
+
+- `sudo apt purge python3.6 libpython3.6-minimal libpython3.6-stdlib python3.6-minimal`
+
 # python packages and modules
 
 - [source](https://realpython.com/absolute-vs-relative-python-imports/)
@@ -52,6 +70,7 @@ curl https://pyenv.run | bash
 | :---: | :---: |
 pip install pip-autoremove | utility to remove a package plus unused dependencies
 pip show *package* | show location of *package*
+pip-autoremove *package* | remove a package plus unused dependencies (install `pip install pip-autoremove` first)
 
 # venv (python3)
 

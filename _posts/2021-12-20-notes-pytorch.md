@@ -81,3 +81,8 @@ last_modified_at: 2021-09-23T16:00:52-04:00
 
 - lies den Abschnitt im Post !
 
+# Weight files
+
+- [source](https://stackoverflow.com/questions/59095824/what-is-the-difference-between-pt-pth-and-pwf-extentions-in-pytorch):
+    - There are no differences between the extensions that were listed: `.pt`, `.pth`, `.pwf`. One can use whatever extension (s)he wants. So, if you're using `torch.save()` for saving models, then it by default uses python pickle (`pickle_module=pickle`) to save the objects and some metadata. Thus, you have the liberty to choose the extension you want, as long as it doesn't cause collisions with any other standardized extensions.
+    - Having said that, it is however not recommended to use `.pth` extension when checkpointing models because it collides with Python path (`.pth`) configuration files. Because of this, I myself use `.pth.tar` or `.pt` but not `.pth`, or any other extensions.

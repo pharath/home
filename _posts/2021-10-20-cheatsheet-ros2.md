@@ -17,9 +17,11 @@ toc_sticky: true
 1. Über `apt install` installieren (wie [hier](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html) beschrieben) 
 2. Dann, wie in [binary installation](https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Binary.html) unter 
 - "Installing and initializing rosdep" und 
+    - bei älteren EOL distros geht `rosdep install --from-paths /opt/ros/eloquent/share` nur, wenn `rosdep update --include-eol-distros` ausgeführt wurde
 - "Installing the missing dependencies" 
 
 beschrieben, die restlichen dependencies installieren (ohne 2. funktioniert ROS2 nicht!).
+3. colcon installieren: `sudo apt install python3-colcon-common-extensions`
 
 # Uninstall
 
@@ -108,17 +110,34 @@ $ ros2 run turtlesim turtlesim_node
 
 # rosdep
 
-Packages declare their dependencies in the **package.xml** file. This command walks through those declarations and installs the ones that are missing. 
+- Packages declare their dependencies in the **package.xml** file. This command walks through those declarations and installs the ones that are missing. 
+    - **Best practice**: check for dependencies every time you clone: 
+        - From the root of your workspace (`dev_ws`), run the following command: `rosdep install -i --from-path src --rosdistro eloquent -y`
+- `rosdep update`
+- `rosdep install`
+    - `rosdep install --from-paths /opt/ros/eloquent/share --ignore-src --rosdistro eloquent -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 osrf_testing_tools_cpp poco_vendor rmw_connext_cpp rosidl_typesupport_connext_c rosidl_typesupport_connext_cpp rti-connext-dds-5.3.1 tinyxml_vendor tinyxml2_vendor urdfdom urdfdom_headers"`
 
 # colcon
+
+## Installation
+
+- `sudo apt install python3-colcon-common-extensions`
 
 ## build
 
 ### arguments
 
 - `--packages-up-to` builds the package you want, plus all its dependencies, but not the whole workspace (saves time)
-- `--symlink-install` saves you from having to rebuild every time you tweak python scripts
+- `--symlink-install` [doc](https://design.ros2.org/articles/ament.html#optional-symlinked-install)
+    - praktisch für development, reduziert das ständige Recompiling
+    - This enables the developer to change the resources in the source space and skipping the installation step in many situations.
+        - C++: For CMake packages this is achieved by optionally overriding the CMake `install()` function. 
+        - Python: For Python packages the **development mode** is used to install the package.
+    - "saves you from having to rebuild every time you tweak python scripts"
 - `--event-handlers console_direct+` shows console output while building (can otherwise be found in the log directory)
+- `--cmake-args -DCMAKE_BUILD_TYPE=Release`
+- `--parallel-workers NUMBER` [doc](https://colcon.readthedocs.io/en/released/reference/executor-arguments.html)
+    - The maximum number of jobs to process in parallel. The default value is the number of logical CPU cores as reported by `os.cpu_count()`.
 
 # ros2 pkg
 
@@ -136,6 +155,13 @@ Packages declare their dependencies in the **package.xml** file. This command wa
 from: [source](https://stackoverflow.com/a/60554760/12282296)
 
 A real life example can be a scenario of a waiter and a kitchen to wash dishes. Suppose the costumers ends its meals and the waiter takes their dirty dishes to wash in the kitchen. He puts in a table. Whenever the dishwasher can, he goes to table and gets dishes and take to wash. In normal operation the table is never filled. But if someone else give another task to the dishwasher guy, the table will start to get full. Until some time the waiter can't place dishes anymore and leave tables dirty (problem in the system). But if table is artificially large there (let's say 1000 square units) the waiter will likely fulfill its job even if dishwasher is busy, considering that after some time he will be able to return to clean dishes.
+
+# ros2 param
+
+## Pass Parameter via command line
+
+- `ros2 run package_name executable_name --ros-args -p param_name:=param_value`
+    - e.g. `ros2 run demo_nodes_cpp parameter_blackboard --ros-args -p some_int:=42 -p "a_string:=Hello world" -p "some_lists.some_integers:=[1, 2, 3, 4]" -p "some_lists.some_doubles:=[3.14, 2.718]"`
 
 # Gazebo
 

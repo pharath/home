@@ -257,6 +257,10 @@ toc_label: "Contents"
  
 # CNN Datasets
 
+## MNIST
+
+- There are 60,000 images in the training dataset and 10,000 images in the validation dataset, one class per digit so a total of 10 classes, with 7,000 images (6,000 train images and 1,000 test images) per class.
+
 ## ImageNet Dataset vs PASCAL Dataset
 
 - **PASCAL**: classify "bird", "cat", ... etc.

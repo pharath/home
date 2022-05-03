@@ -15,17 +15,18 @@ tags:
   - cheatsheet
 ---
 
-# Apps:
+# Apps
 
 | command | description |
 | :---: | :---: |
-htop |				activity monitor (sieht besser aus als “top”)
+htop |				activity monitor (sieht besser aus als "top")
 hardinfo	|		hardware info
 
 <hr>
 
 ffmpeg | mp4 to mp3 converter
 ffmpeg -i foo.mp4 bar.mp3 | convert foo.mp4 to bar.mp3
+ffmpeg -i source.mp4 -ss 00:00:00 -t 00:00:00 -vcodec copy -acodec copy outsplice.mp4 | crop source.mp4 from start time `-ss` to time `-t`
 
 <hr>
 
@@ -211,6 +212,10 @@ barrier | share keyboard and mouse between multiple computers (client-server mod
 
 backgroundremover | `pip install backgroundremover` and then download `u2net.pth` from `https://drive.google.com/uc?id=1ao1ovG1Qtx4b7EoskHXmi2E9rp5CHLcZ` (or `https://drive.google.com/file/d/1ao1ovG1Qtx4b7EoskHXmi2E9rp5CHLcZ/view`) and save it as `/home/bra-ket/.u2net/u2net.pth`
 
+<hr>
+
+v4l2-ctl | for setting webcam powerline frequency (see below)
+
 # My aliases
 
 `alias listssids='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport'`
@@ -281,6 +286,10 @@ readlink -f foo.bar | get path to file "foo.bar" (like `pwd` + foo.bar)
 ls \| wc -l | count files in a directory
 history \| tail -n 30 | show last 30 commands
 
+# Check installed libraries
+
+- `ldconfig -p | grep libnvinfer_plugin.so`
+
 # apt, apt-get, snap, dpkg, pkg-config
 
 ## Difference between apt and apt-get + apt-cache:
@@ -309,6 +318,7 @@ sudo apt-mark auto $PACKAGES | mark $PACKAGES as "automatically installed", if a
 | command | description |
 | :---: | :---: |
 sudo apt install ./name.deb | install a .deb file
+`sudo apt-get install <package name>=<version>` | install a specific version
 
 ### Uninstall
 
@@ -316,6 +326,18 @@ sudo apt install ./name.deb | install a .deb file
 | :---: | :---: |
 sudo apt purge ... | Removing packages with `sudo apt purge ...` or `sudo apt --purge remove ...` will remove them and all their global (i.e., systemwide) configuration files. This is usually what people mean when they talk about completely removing a package. **This does not remove packages that were installed as dependencies**, when you installed the package you're now removing. Assuming those packages aren't dependencies of any other packages, and that you haven't marked them as manually installed, you can remove the dependencies with `sudo apt autoremove` or (if you want to delete their systemwide configuration files too) `sudo apt --purge autoremove`.
 sudo apt --purge remove ... | see `sudo apt purge ...`
+
+### Check
+
+| command | description |
+| :---: | :---: |
+`apt-cache policy <package name>` | shows installed package version and also all the available versions in the repository according to the version of Ubuntu in which you are running
+
+### apt-mark
+
+| command | description |
+| :---: | :---: |
+`sudo apt-mark unhold package_name` | unhold "held" packages (i.e. packages which cannot be upgraded, removed or modified)
 
 ## dpkg
 
@@ -410,126 +432,6 @@ getent group docker |		list all members of group docker
 sudo groupadd docker |		add new group docker
 sudo usermod -aG docker $USER |	add my user to the docker group
 newgrp docker |			log out and log back in so that group membership is re-evaluated (nach group Änderungen); wenn das nicht geht, reboot
-
-# docker
-
-| command | description |
-| :---: | :---: |
-sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
-sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
-
-<hr>
-
-| :---: | :---: |
-xhost +local:root |	enable GUI for docker
-docker login registry.git.rwth-aachen.de |
-docker pull |
-
-<hr>
-
-| :---: | :---: |
-sudo docker ps -a | -a flag: Show all containers (default shows just running)
-sudo docker images | show all images
-sudo docker system df | Show docker disk usage (size of all images together)
-
-<hr>
-
-| :---: | :---: |
-sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554), i.e. `docker commit CONTAINER_ID NEW_IMAGE_NAME`
-docker commit -m "added test file" eloquent_lehmann | commit with commit message
-docker history \<image hash\> | view commit messages
-
-<hr>
-
-| :---: | :---: |
-sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104 
-sudo docker rmi 1ff0175b5104 | alias for `docker image rm` [source](https://stackoverflow.com/a/63035352), see also [doc](http://manpages.ubuntu.com/manpages/bionic/man1/docker-rmi.1.html)
-
-<hr>
-
-| :---: | :---: |
-sudo docker container ls -a |
-sudo docker container stop 1ff0175b5104 | stoppt den container nur (dh. container Status: "Exited"), aber "docker ps -a" zeigt den container noch
-sudo docker container rm 1ff0175b5104 | entfernt den container, dh. "docker ps -a" zeigt den container nicht mehr
-sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `docker container stop`: see [here](https://stackoverflow.com/a/66736836): "So ideally we always stop a container with the `docker stop` command in order to get the running process inside of it a little bit of time to shut itself down, otherwise if it feels like the container has locked up and it's not responding to the docker stop command then we could issue `docker kill` instead.")
-
-<hr>
-
-| :---: | :---: |
-sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
-sudo docker run --rm ... | Automatically remove the container when it exits
-docker run --name test -it *image_name* | This example runs a container named test using the image *image_name*. The `-it` instructs Docker to allocate a pseudo-TTY connected to the container's stdin; creating an interactive bash shell in the container.
-docker run --rm --name ubuntu_phth -it --entrypoint=/bin/bash deep_braket:v4 | start deep_braket:v4 in bash shell instead of starting in Jupyter Lab.
-docker run -e "TERM=xterm-256color" ... | enable color output in docker bash terminal
-
-<hr>
-
-| :---: | :---: |
-sudo docker exec -it 6b594d9d60cc bash | start bash in container 6b594d9d60cc 
-
-<hr>
-
-| :---: | :---: |
-sudo docker build --no-cache -t deep\_braket:v1 . | `-t`: REPO name and TAG name of image; `--no-cache`: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!); `.`: location of Dockerfile
-
-<hr>
-
-| :---: | :---: |
-sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594d9d60cc 
-
-<hr>
-
-| :---: | :---: |
-docker attach *double-tab* | attach to running container (double-tab shows names of running containers or use container id)
-ctrl-p ctrl-q | detach from container
-
-<hr>
-
-| :---: | :---: |
-[docker volume overview](https://www.baeldung.com/ops/docker-volumes) | 
-docker volume create data_volume_name |
-docker volume ls |
-docker volume inspect volume_hash |
-docker volume rm data_volume_name | remove one or more volumes individually
-docker volume prune | remove all the unused volumes
-docker run -v data-volume:/var/opt/project bash:latest bash -c "ls /var/opt/project" | start a container with a volume using the -v option. The -v option contains three components, separated by colons: 1. Source directory or volume name, 2. Mount point within the container, 3. (Optional) *ro* if the mount is to be read-only
-
-## Remove dangling images
-
-- **Dangling images** entstehen, wenn man ein neues image committet, das den Namen eines bereits existierenden images hat.
-In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY als auch TAG) [source](https://stackoverflow.com/a/40791752)
-
-| command | description |
-| :---: | :---: |
-docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
-docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
-
-## container
-
-**tensorflow/tensorflow**
-
-Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/tensorflow/) or [tensorflow.org examples](https://www.tensorflow.org/install/docker)
-
-| command | description |
-| :---: | :---: |
-`sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket` | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
-
-## Gitlab Container Registry
-
-| command | description |
-| :---: | :---: |
-docker login registry.git.rwth-aachen.de | login to Container Registry
-docker image tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | tag local image "galaxis_simulation:phth-8" (Note: the tag registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 must have this form!)
-docker tag galaxis_simulation:phth-8 registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | see `docker image tag`
-docker push registry.git.rwth-aachen.de/pharath/gitlab_backups/galaxis_simulation:phth-8 | push image to Gitlab Container Registry
-
-## Check GUI
-
-```bash
-sudo apt update
-sudo apt install x11-utils
-xmessage -center hello!
-```
 
 # bash
 
@@ -693,14 +595,9 @@ sudo fdisk -l	|	wie df, aber mehr Details
 lsusb |
 lsblk |
 
-# System information:
+# System information
 
-| command | description |
-| :---: | :---: |
-`du -sh *` | 
-`du -sh * | sort -h` | 
-`du -sh * .[^.]*` | 
-`du -sh * .[^.]* | sort -h` | 
+## Hardware
 
 | command | description |
 | :---: | :---: |
@@ -732,15 +629,36 @@ cat /proc/version |
 cat /proc/scsi/scsi |
 cat /proc/partitions |
 
+## Hard disk
+
 | command | description |
 | :---: | :---: |
 sudo hdparm -i /dev/sda |
+
+## Disk Usage
+
+| command | description |
+| :---: | :---: |
+`du -sh *` | 
+`du -sh * | sort -h` | 
+`du -sh * .[^.]*` | 
+`du -sh * .[^.]* | sort -h` | 
 
 ## Webcam
 
 | command | description |
 | :---: | :---: |
 `vlc v4l2:///dev/video0` | check, if device `/dev/video0` is the webcam
+`v4l2-ctl --list-devices` | list cameras
+`v4l2-ctl -L -d /dev/videoN` | list available settings of camera `/dev/videoN`
+`v4l2-ctl --set-ctrl power_line_frequency=0 -d /dev/videoN` | set powerline frequency (50Hz vs 60Hz) of camera `/dev/videoN`
+
+# GPU information
+
+| command | description |
+| :---: | :---: |
+nvidia-smi -q -d temperature | temperature info including critical temperature values, shutdown temperature etc.
+nvidia-smi --query-gpu=name --format=csv | get GPU name
 
 # Retrieval commands curl und wget:
 
@@ -832,13 +750,6 @@ rsync -a *source* *destination* | copy directory (**Warning**: -r tag does not c
 `rsync --partial -rsh=ssh ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
 `rsync -avP ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
 `rsync -av --partial ubuntu.iso sk@192.168.225.22:/home/sk/` | see above
-
-# GPU
-
-| command | description |
-| :---: | :---: |
-nvidia-smi -q -d temperature | temperature info including critical temperature values, shutdown temperature etc.
-nvidia-smi --query-gpu=name --format=csv | get GPU name
 
 # tree
 

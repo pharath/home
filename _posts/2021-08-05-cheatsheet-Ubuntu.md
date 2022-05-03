@@ -139,6 +139,13 @@ There should be a new line `x-scheme-handler/mailto=mailspring_mailspring.deskto
 
 ## pptx (or ppt) to pdf
 
-```bash
-libreoffice --headless --invisible --convert-to pdf *.ppt
-```
+- `libreoffice --headless --invisible --convert-to pdf *.ppt`
+
+# Webcam
+
+## Troubleshooting
+
+### Flickering
+
+- caused by 50Hz vs 60Hz powerline frequency differences (see [source](https://blog.christophersmart.com/2017/02/07/fixing-webcam-flicker-in-linux-with-udev/))
+    - **solution**: try `v4l2-ctl --set-ctrl power_line_frequency=0` or `v4l2-ctl --set-ctrl power_line_frequency=1`

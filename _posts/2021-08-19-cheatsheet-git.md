@@ -57,6 +57,7 @@ git remote update origin --prune | To update the local list of remote branches
 
 | command | description |
 | :---: | :---: |
+git reset | undo `git add`
 git reflog | get SHA-1 list of previous states
 git reset --hard *SHA-1* | reset to a previous state (**Warning**: All changes will be lost.)
 
@@ -170,6 +171,13 @@ git push -u origin main
 git remote add origin https://github.com/pharath/documentation.git
 git branch -M main
 git push -u origin main
+```
+
+# Push to a fork
+
+```bash
+git remote add myforkedrepo https://github.com/my/forked/repo/tfrecord-viewer.git
+git push myforkedrepo master 
 ```
 
 # submodules
