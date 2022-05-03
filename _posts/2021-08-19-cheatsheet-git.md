@@ -121,10 +121,12 @@ git commit -m “message for saving my solution to exercise 2” #	commit added 
 
 # git diff
 
-## Compare code files
+## Compare files on disk
 
 ```bash
 git diff origin/exercise/4_ros_node_cpp..origin/solution/4_ros_node_cpp
+# compare two arbitrary files on disk
+git diff --no-index file1.txt file2.txt
 ```
 
 ## Compare commits
