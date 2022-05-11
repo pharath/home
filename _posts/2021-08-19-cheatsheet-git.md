@@ -26,6 +26,8 @@ tags:
 git clone --recurse-submodules repo \<Ziel directory\> | 
 git branch -a | show/list all branches (local and remote)
 git branch -r | show/list all branches (only remote)
+git branch -d *local_branch* | delete local branch *local_branch*
+git push origin --delete *remote/branch* | delete remote branch *remote/branch*
 git show-branch -a | show/list all branches **and commits** (local and remote)
 git show-branch -r | show/list all branches **and commits** (only remote)
 git checkout \<existing\_branch\> | switch to an existing branch (or: git switch *branch*)
@@ -59,7 +61,10 @@ git remote update origin --prune | To update the local list of remote branches
 | :---: | :---: |
 git reset | undo `git add`
 git reflog | get SHA-1 list of previous states
-git reset --hard *SHA-1* | reset to a previous state (**Warning**: All changes will be lost.)
+git reset --soft HEAD~ | undo last commit (`--soft`: safe way)
+git reset --soft HEAD~1 | HEAD~ and HEAD~1 are the same
+git reset --soft *SHA-1* | reset to a previous state (`--soft`: safe way)
+git reset --hard *SHA-1* | reset to a previous state (**Warning**: `--hard`: All changes will be lost.)
 
 # git rebase vs git merge
 
@@ -99,9 +104,13 @@ The **golden rule of git rebase** is to never use it on *public* branches.
     - (2) `git pull`
     - (3) `git stash pop`
 
-# Checkout another branch after modifying files in current branch
+# git checkout
 
-When files modified wrt how you checked them out, you will not be able to `git checkout` another branch. 
+- **Remember**: Commits save your changes to the **local** repository only!
+
+## Checkout another branch after modifying files in current branch
+
+- When files modified wrt how you checked them out, you will not be able to `git checkout` another branch. 
 Therefore, either discard via
 
 ```bash
@@ -116,7 +125,21 @@ git status        # see which files are modified
 git add -A        # add all new files
 git add file1 file2	# add specific files (hier: file1, file2)
 git status 		# should show added files in green (green = files are added)
-git commit -m “message for saving my solution to exercise 2” #	commit added files to your local “exercise/2_foundations”
+git commit -m "message for saving my solution to exercise 2" #	commit added files to your local “exercise/2_foundations”
+```
+
+## Untracked Files / Files in .gitignore
+
+- **Remember**: Commits save your changes to the **local** repository only!
+- If you do not commit **all** files of branchA before switching to branchB (e.g. because some files are in `.gitignore`) and you `git checkout branchB`, the files which were not committed to branchA will show up in branchB. To avoid this:
+
+```bash
+git checkout branchA
+git add -f .; git commit -m 'WIP' # stash untracked .gitignore files in branch A ("Work In Progress")
+git checkout branchB # now the untracked files will NOT show up in branchB (which is exactly what we wanted)
+# do s.th. in branchB
+git checkout branchA
+git reset --soft HEAD~; git reset # get all stashed untracked .gitignore files back to branchA
 ```
 
 # git diff
@@ -177,9 +200,16 @@ git push -u origin main
 
 # Push to a fork
 
+## After working (accidentally) on original Repo
+
 ```bash
-git remote add myforkedrepo https://github.com/my/forked/repo/tfrecord-viewer.git
-git push myforkedrepo master 
+git remote rename origin old-origin # rename old remote
+git remote add origin https://github.com/pharath/TSR_PyTorch.git # add new remote
+git fetch origin
+git switch -c local/origin/main origin/main # create a new LOCAL branch tracking the newly added remote https://github.com/pharath/TSR_PyTorch.git
+# Notation:
+git switch -c origin/main origin/main # notation: "local/" is usually not written
+git push origin HEAD:main
 ```
 
 # submodules

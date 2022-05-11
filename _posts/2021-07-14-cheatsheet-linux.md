@@ -286,9 +286,10 @@ readlink -f foo.bar | get path to file "foo.bar" (like `pwd` + foo.bar)
 ls \| wc -l | count files in a directory
 history \| tail -n 30 | show last 30 commands
 
-# Check installed libraries
+# Checks
 
-- `ldconfig -p | grep libnvinfer_plugin.so`
+- Check current shell type: `echo $0`
+- Check installed library: `ldconfig -p | grep libnvinfer_plugin.so`
 
 # apt, apt-get, snap, dpkg, pkg-config
 
@@ -337,7 +338,8 @@ sudo apt --purge remove ... | see `sudo apt purge ...`
 
 | command | description |
 | :---: | :---: |
-`sudo apt-mark unhold package_name` | unhold "held" packages (i.e. packages which cannot be upgraded, removed or modified)
+`sudo apt-mark hold package_name` | hold packages (i.e. do not upgrade, remove or modify `package_name`)
+`sudo apt-mark unhold package_name` | unhold "held" packages 
 
 ## dpkg
 
@@ -364,6 +366,8 @@ vim /var/log/apt/history.log | view apt history
 <hr>
 
 sudo dpkg -i package_file.deb |	install package_file.deb (alternative: `sudo apt install ./name.deb`)
+sudo dpkg -P *some_package* | purge *some_package*
+sudo dpkg -r *some_package* | remove *some_package*
 sudo apt remove package |		uninstall package_file.deb
 
 <hr>
@@ -554,6 +558,7 @@ cp -iv |
 
 echo "blabla" >> *filename* | write output to file *filename*
 echo "blabla" \| tee *filename* | write output to file *filename*
+tee | read from standard input and write to both standard output **and** files [doc](http://manpages.ubuntu.com/manpages/bionic/man1/tee.1.html) (name derived from "T-junction", since `tee` is usually used in pipes)
 
 <hr>
 
@@ -648,7 +653,9 @@ sudo hdparm -i /dev/sda |
 
 | command | description |
 | :---: | :---: |
+`mpv /dev/video0` | check, if device `/dev/video0` is the webcam
 `vlc v4l2:///dev/video0` | check, if device `/dev/video0` is the webcam
+`mplayer tv://device=/dev/video0` | check, if device `/dev/video0` is the webcam
 `v4l2-ctl --list-devices` | list cameras
 `v4l2-ctl -L -d /dev/videoN` | list available settings of camera `/dev/videoN`
 `v4l2-ctl --set-ctrl power_line_frequency=0 -d /dev/videoN` | set powerline frequency (50Hz vs 60Hz) of camera `/dev/videoN`

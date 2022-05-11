@@ -163,6 +163,15 @@ A real life example can be a scenario of a waiter and a kitchen to wash dishes. 
 - `ros2 run package_name executable_name --ros-args -p param_name:=param_value`
     - e.g. `ros2 run demo_nodes_cpp parameter_blackboard --ros-args -p some_int:=42 -p "a_string:=Hello world" -p "some_lists.some_integers:=[1, 2, 3, 4]" -p "some_lists.some_doubles:=[3.14, 2.718]"`
 
+# Passing ROS2 Arguments via cmd line
+
+- [ros doc](https://docs.ros.org/en/foxy/How-To-Guides/Node-arguments.html#parameters)
+
+## set log-level debug / show debug information
+
+- [ros doc](https://docs.ros.org/en/foxy/Tutorials/Logging-and-logger-configuration.html)
+    - `ros2 run logging_demo logging_demo_main --ros-args --log-level debug`
+
 # Gazebo
 
 ## reopen the GUI window
