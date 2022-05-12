@@ -11,40 +11,46 @@ tags:
 
 # docker
 
+## Location on System
+
 | command | description |
 | :---: | :---: |
 sudo ls /var/lib/docker/overlay2 | hier ist der Großteil aller docker image Daten
 sudo du -sh $(ls /var/lib/docker/) | list size of all files and dirs in /var/lib/docker/
 
-<hr>
+## X11 Forwarding
 
 | :---: | :---: |
+xhost + | enable GUI for docker
 xhost +local:root |	enable GUI for docker
+
+## docker login
+
 docker login registry.git.rwth-aachen.de |
 docker pull |
 
-<hr>
+## Images/Storage Info
 
 | :---: | :---: |
 sudo docker ps -a | -a flag: Show all containers (default shows just running)
 sudo docker images | show all images
 sudo docker system df | Show docker disk usage (size of all images together)
 
-<hr>
+## docker commit
 
 | :---: | :---: |
 sudo docker commit 308aeb468339 tensorflow/tensorflow:latest-gpu-jupyter_braket | [Schritte](https://stackoverflow.com/a/64532554), i.e. `docker commit CONTAINER_ID NEW_IMAGE_NAME`
 docker commit -m "added test file" eloquent_lehmann | commit with commit message
 docker history \<image hash\> | view commit messages
 
-<hr>
+## remove
 
 | :---: | :---: |
 sudo docker image rm 1ff0175b5104 | remove image with id 1ff0175b5104 
 sudo docker rmi 1ff0175b5104 | alias for `docker image rm` [source](https://stackoverflow.com/a/63035352), see also [doc](http://manpages.ubuntu.com/manpages/bionic/man1/docker-rmi.1.html)
 sudo docker rmi "image with more than 1 tag" | If your image is tagged with more than one tag, then `docker rmi` will remove the tag, but not the image.
 
-<hr>
+## container
 
 | :---: | :---: |
 sudo docker container ls -a |
@@ -52,7 +58,7 @@ sudo docker container stop 1ff0175b5104 | stoppt den container nur (dh. containe
 sudo docker container rm 1ff0175b5104 | entfernt den container, dh. "docker ps -a" zeigt den container nicht mehr
 sudo docker container kill 1ff0175b5104 | killt den container (Unterschied zu `docker container stop`: see [here](https://stackoverflow.com/a/66736836): "So ideally we always stop a container with the `docker stop` command in order to get the running process inside of it a little bit of time to shut itself down, otherwise if it feels like the container has locked up and it's not responding to the docker stop command then we could issue `docker kill` instead.")
 
-<hr>
+## run
 
 | :---: | :---: |
 sudo docker run -d ... | start a container in detached mode [docs](https://docs.docker.com/engine/reference/run/#detached--d)
@@ -61,28 +67,28 @@ docker run --name test -it *image_name* | This example runs a container named te
 docker run --rm --name ubuntu_phth -it --entrypoint=/bin/bash deep_braket:v4 | start deep_braket:v4 in bash shell instead of starting in Jupyter Lab.
 docker run -e "TERM=xterm-256color" ... | enable color output in docker bash terminal
 
-<hr>
+## exec
 
 | :---: | :---: |
 sudo docker exec -it 6b594d9d60cc bash | start bash in container 6b594d9d60cc 
 
-<hr>
+## build
 
 | :---: | :---: |
 sudo docker build --no-cache -t deep\_braket:v1 . | `-t`: REPO name and TAG name of image; `--no-cache`: [explanation](https://stackoverflow.com/a/35595021), ohne diesen flag wird Layer Caching benutzt (image updated die alte image-Version sozusagen nur und hat dependencies zur alten image-Version; die alte image-Version kann also nicht gelöscht werden!); `.`: location of Dockerfile
 
-<hr>
+## top
 
 | :---: | :---: |
 sudo docker top 6b594d9d60cc | see all processes (incl. pids) in container 6b594d9d60cc 
 
-<hr>
+## attach/detach
 
 | :---: | :---: |
 docker attach *double-tab* | attach to running container (double-tab shows names of running containers or use container id)
 ctrl-p ctrl-q | detach from container
 
-<hr>
+## volume
 
 | :---: | :---: |
 [docker volume overview](https://www.baeldung.com/ops/docker-volumes) | 
@@ -101,17 +107,7 @@ In `docker images` wird das alte image dann \<none\> genannt (sowohl REPOSITORY 
 | command | description |
 | :---: | :---: |
 docker images --filter dangling=true | lists all images that are dangling and has no pointer to it
-docker rmi \`docker images --filter dangling=true -q\` | Removes all those images.
-
-## container
-
-**tensorflow/tensorflow**
-
-Quickstart: [examples for using the tags](https://hub.docker.com/r/tensorflow/tensorflow/) or [tensorflow.org examples](https://www.tensorflow.org/install/docker)
-
-| command | description |
-| :---: | :---: |
-`sudo docker run -it --rm --runtime=nvidia -v $(realpath ~/notebooks):/tf/notebooks -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter_braket` | mit jupyter, GPU support und mit meinen zusätzlichen (über apt installierten) packages
+docker rmi `` `docker images --filter dangling=true -q` `` | Removes all those images.
 
 ## Gitlab Container Registry
 
