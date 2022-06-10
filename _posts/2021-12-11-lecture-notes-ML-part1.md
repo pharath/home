@@ -67,7 +67,7 @@ Aus 1. und 2. folgt, dass das Ergebnis mit jedem weiteren höheren x-Term **prin
 - increase number of data points $N$
     - i.e. **reducing** number of data points $N$ **increases** overfitting!
 - increase regularization parameter $\lambda$ (in statistics: shrinkage methods)
-    - **Note: Do not include the bias term $w_0$ in the penalty term! Otherwise the procedure would depend on the origin chosen for the target.**
+    - **Note: Do not include the bias term** $w_0$ **in the penalty term! Otherwise the procedure would depend on the origin chosen for the target.**
         > Note that often the coefficient $w_0$ is omitted from the regularizer because its inclusion causes the results to depend on the choice of origin for the target variable (Hastie et al., 2001), or it may be included but with its own regularization coefficient - [Bishop_2006](#Bishop_2006)
         - see also [here](https://stats.stackexchange.com/a/161689)
     - $q=2$ in 3.29: quadratic regularization: 
