@@ -90,7 +90,7 @@ tags:
 | :---: | :---: |
 a |				gehe in INSERT modus
 |shift + z q	|	wie :q!
-|ctrl + w, q	|	wie `:q` (ohne `!`), schließe aktiven split window
+|ctrl + w q	|	wie `:q` (ohne `!`), schließe aktiven split window
 |shift + z z	|	wie :x ( dasselbe wie :wq, aber :wq überschreibt auch wenn keine modification [nur wichtig, falls modification times matter] )
 1. ctrl + z     |        pause and switch to terminal
 2. in terminal: fg |   go back to vim
@@ -108,6 +108,7 @@ ctrl + g | show current file name
 :tabe *file* | open *file* in a new Tab
 :4gt | switch to Tab number 4
 :tab ter | open terminal in new Tab
+ctrl + w N | scroll in a terminal tab
 
 ### Re-open closed Tab
 

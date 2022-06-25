@@ -119,13 +119,25 @@ gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
 ```
 # Default Applications
 
-## "Open with ..." and set default app
+## Config files
+
+- `/usr/share/applications/defaults.list` (root)
+- `/etc/gnome/defaults.list` (root)
+- `~/.config/mimeapps.list` (local user)
+
+## Change default app
 
 ```bash
-mimeopen -d myfile.pdf
+xdg-mime default some_app some_filetype
 ```
 
-will give you a list of applications that can open the file, and (the `-d` flag) will also update the default application for you.
+E.g. 
+
+```bash
+xdg-mime default org.kde.okular.desktop application/pdf
+```
+
+creates an entry in the local MIME database `~/.config/mimeapps.list`.
 
 ## Change default mail client
 
@@ -142,6 +154,14 @@ update-desktop-database ~/.local/share/applications
 ```
 
 There should be a new line `x-scheme-handler/mailto=mailspring_mailspring.desktop` in `~/.config/mimeapps.list` now.
+
+## "Open with ..." and set default app for a given file
+
+```bash
+mimeopen -d myfile.pdf
+```
+
+will give you a list of applications that can open the file, and (the `-d` flag) will also update the default application for you. *Note*: After running this command the default works for `mimeopen myfile.pdf` only. `xdg-open myfile.pdf` and `nautilus` defaults need to be specified via `xdg-mime default some_app some_filetype` (see above)!
 
 # Converter
 
