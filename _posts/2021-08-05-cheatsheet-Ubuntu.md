@@ -119,6 +119,14 @@ gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
 ```
 # Default Applications
 
+## "Open with ..." and set default app
+
+```bash
+mimeopen -d myfile.pdf
+```
+
+will give you a list of applications that can open the file, and (the `-d` flag) will also update the default application for you.
+
 ## Change default mail client
 
 If not already present, add
